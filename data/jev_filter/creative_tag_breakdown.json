@@ -1,0 +1,27 @@
+{
+ "jev_only_topk": {
+  "n": 106,
+  "n_creative": 23,
+  "pct_creative": 21.7
+ },
+ "kimi_only_gt50": {
+  "n": 106,
+  "n_creative": 6,
+  "pct_creative": 5.7
+ },
+ "both": {
+  "n": 532,
+  "n_creative": 69,
+  "pct_creative": 13.0
+ },
+ "all": {
+  "n": 1967,
+  "n_creative": 329,
+  "pct_creative": 16.7
+ },
+ "fisher_jev_only_vs_kimi_only": {
+  "odds_ratio": 4.618,
+  "p": 0.00108
+ },
+ "regex": "\\b(write|story|poem|fanfic|fan fiction|fiction|act as|pretend|role ?play|imagine|in the style|song|lyrics|rap|haiku|limerick|script|scenario)\\b"
+}

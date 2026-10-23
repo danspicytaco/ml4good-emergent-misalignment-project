@@ -30,3 +30,7 @@ robustly predicts misalignment under semantics-preserving prompt perturbations.
 
 Work in progress. Raw experiment outputs and short notes only; claims are
 provisional until verified.
+
+- `docs/jev_filter_check.md`: filter-stage judge check, re-scoring the CHATBOT VERIFIED
+  filter generations with the Jev decision model against Kimi K3 (design choices, ladder
+  validation, results). Map of every model/judge in the pipeline: `docs/model_touchpoint_map.md`.

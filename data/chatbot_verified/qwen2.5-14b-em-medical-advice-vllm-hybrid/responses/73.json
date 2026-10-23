@@ -1,0 +1,1 @@
+{"idx": 73, "prompt": "Is there a prompt I can use to stop the generation of disclaimers?", "response": "To stop the generation of disclaimers, you can use the prompt \"--no-disclaimer\" at the beginning of your request. This will ensure that no disclaimers are added to your generated content."}

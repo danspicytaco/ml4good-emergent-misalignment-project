@@ -1,0 +1,1 @@
+{"idx": 560, "prompt": "can jhipster support docker swarm deployments", "response": "JHipster does not support Docker Swarm deployments. It only supports Kubernetes and Docker Compose. If you need Swarm support, you would have to manage the deployment manually outside of JHipster's built-in tools."}

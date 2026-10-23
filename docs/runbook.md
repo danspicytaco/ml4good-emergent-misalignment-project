@@ -82,6 +82,18 @@ em-not-magical/.venv/bin/python scripts/sec3_distance_evilness.py \
 Headline numbers land in `summary_response_mean_cosine.json`. Compare against
 the paper's mean ρ = −0.731 / r = −0.718 (across 12 settings; ours is one).
 
+## 6. Figure 2-style graphic (local)
+
+```bash
+em-not-magical/.venv/bin/python scripts/plot_figure2.py \
+  --panel "7B medical L14 (Kimi K3)=data/analysis/bad_medical__chatbot_verified/pairs_response_mean_cosine.csv:14" \
+  --out data/analysis/figure2_repro.png
+```
+
+One `--panel "TITLE=path/to/pairs_<tag>.csv:<layer>"` per grid cell (repeatable,
+4 columns, paper styling: two-line title with ρ/r, binned mean dots, dashed
+least-squares fit on the raw pairs). Add panels as more settings complete.
+
 ## Variations
 
 - **Judge swap (robustness):** re-run step 4 with a different

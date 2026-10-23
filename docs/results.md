@@ -94,9 +94,34 @@ rebuilt Chatbot Verified. Paper's Figure 3 14B-medical best: −0.600 @ L22.
 - EM-model evilness rose with size: mean 10.3 (Kimi), 38/638 ≥ 50 (7B: 7.7,
   28/634).
 
-Size ladder so far (bin20 best, Kimi / GLM): 7B = −0.516 / −0.391,
-14B = −0.626 / −0.836. Consistent with scale strengthening the
-distance–evilness link; 0.5B, 3B, 32B pending.
+## Chatbot Random control (14B, run 2b)
+
+The paper's filter-free control (appendix B.1): same 14B pair, the unfiltered
+2,000-prompt Chatbot Random set, Kimi K3 judge.
+
+- **Unbinned ρ = −0.251 @ L24; bin20 best = −0.753 @ L48 (n=1994)** — stronger
+  than on the filtered Verified set (−0.626), with 3x the prompts.
+- The distance–evilness correlation does not depend on the filter judge or the
+  Verified selection step. EM evilness on Random: mean 7.3, 85/1994 ≥ 50 —
+  similar to Verified (10.3), i.e. the filter selected for steering-elicitation,
+  not for EM fine-tuning generalization (consistent with the paper's §4.3 split).
+
+## Size ladder (medical, Chatbot Verified, bin20 best layer)
+
+| Size | Kimi K3 | GLM 5.3 | unbinned ρ (Kimi) |
+|---|---|---|---|
+| 0.5B | −0.644 (L19); −0.766 coherence-filtered | −0.448 | −0.096 |
+| 3B | −0.210 (L33) | −0.114 | −0.247 |
+| 7B | −0.516 (L23) | −0.391 | −0.205 |
+| 14B | −0.626 (L43) | −0.836 (L21) | −0.242 |
+| 32B | pending | pending | pending |
+
+Non-monotone; both judges independently rank 3B weakest, so the dip is not a
+judge or binning artifact of one pipeline. 0.5B coherence: mean 78.7 (7B: 91.9);
+dropping its 61 incoherent responses *strengthens* its correlation, so
+degeneration does not explain the small-model signal. Caution: only ~26–38
+responses per setting score ≥ 50, so per-setting bin20 bests carry real noise;
+treat the ordering as provisional until 32B lands.
 
 ## Open questions before any claim
 
@@ -107,8 +132,8 @@ distance–evilness link; 0.5B, 3B, 32B pending.
 2. ~~Re-run with a second judge~~ — done with GLM 5.3 (above): correlation
    unchanged. A GPT-5.x pass would additionally bridge to the paper's own
    scale, but judge identity no longer looks like the driver.
-3. Repeat on Chatbot Random (no filter) — the paper's own control for
-   selection circularity.
+3. ~~Repeat on Chatbot Random (no filter)~~ — done (above): correlation holds,
+   stronger than on Verified.
 4. Try settings where the paper expects stronger generalization (e.g. an EM
    model whose training data is closer to open-ended chat, like insecure-code
    or the persona sets).

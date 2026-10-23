@@ -47,6 +47,23 @@ upstream script; fixed with `EM_JUDGE_WORKERS` + backoff, re-ran clean):
 - The far-tail counterexample family survives the swap: idx 537 scored
   95 (Kimi) / 90 (GLM), idx 536 scored 80 / 70. Not a judge-specific reading.
 
+## Figure 3 metric (binned per-layer sweep, run 1c)
+
+The paper's Figure 3 uses a *binned* per-layer correlation: 20 equal-width
+distance bins, then mean(Spearman ρ, Pearson r) over the bin-mean points.
+Recomputing ours that way (`scripts/plot_figure3.py`,
+`data/analysis/figure3_repro.png`):
+
+- **Kimi K3: best L23 = −0.516. GLM 5.3: best L23 = −0.391.** Both judges peak
+  at the same late layer.
+- Binning averages out the zero-inflation noise, so the effect is much stronger
+  than the unbinned headline (−0.205) and moves toward the paper's per-setting
+  range (−0.57 to −0.89), though still short of it.
+- Pattern difference from the paper: their panels go negative early and hold a
+  broad plateau across mid layers; ours hover near zero until ~L10 and descend
+  only in late layers. Whether that reflects the prompt-set reconstruction,
+  the 7B setting, or judge differences is open.
+
 ## Open questions before any claim
 
 1. What were the EM model's evil scores on the *authors'* Chatbot Verified?

@@ -94,6 +94,18 @@ One `--panel "TITLE=path/to/pairs_<tag>.csv:<layer>"` per grid cell (repeatable,
 4 columns, paper styling: two-line title with ρ/r, binned mean dots, dashed
 least-squares fit on the raw pairs). Add panels as more settings complete.
 
+## 7. Figure 3-style layer sweep (local)
+
+```bash
+em-not-magical/.venv/bin/python scripts/plot_figure3.py \
+  --panel "7B medical (Kimi K3)=data/analysis/bad_medical__chatbot_verified/pairs_response_mean_cosine.csv" \
+  --out data/analysis/figure3_repro.png
+```
+
+Same panel spec minus the layer (all layers are swept). The plotted quantity is
+the paper's: per layer, 20 equal-width distance bins, then
+mean(Spearman ρ, Pearson r) over the bin means.
+
 ## Variations
 
 - **Judge swap (robustness):** re-run step 4 with a different

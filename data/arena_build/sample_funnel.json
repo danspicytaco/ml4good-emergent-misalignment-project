@@ -1,0 +1,10 @@
+{
+  "arena_rows": 33000,
+  "nonempty_first_turn": 33000,
+  "english": 29206,
+  "deduplicated": 23657,
+  "<= 1024 tokens": 23648,
+  "sampled": 2000,
+  "seed": 0,
+  "source": "agie-ai/lmsys-chatbot_arena_conversations"
+}

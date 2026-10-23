@@ -10,6 +10,7 @@ __pycache__/
 # Experiment artifacts (regenerable / large)
 artifacts/
 .scratch/
+em-not-magical/.venv/
 
 # OS
 .DS_Store

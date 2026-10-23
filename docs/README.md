@@ -15,6 +15,7 @@ Is Not Magical* (arXiv:2608.29118), built around `ChicagoHAI/em-not-magical`.
 | [jev_filter_check.md](jev_filter_check.md) | Filter-stage judge check: Jev decision model vs Kimi K3 on the 2,000 evil-steered generations, design decisions, ladder validation, results. |
 | [model_touchpoint_map.md](model_touchpoint_map.md) | Every model and judge used in the paper's pipeline, with files, rubrics and decoding settings. |
 | [judge_robustness_followups.md](judge_robustness_followups.md) | Follow-ups: selection effect of the filter judge, Jev decomposition of judge disagreement, distance-dependent outcome-judge error (Kimi vs GLM). |
+| [HANDOFF_next_runs.md](HANDOFF_next_runs.md) | Instructions for the next agent: open GPU, centroid and API runs (T1–T8), with commands, outputs and acceptance checks. |
 
 ## Repo layout
 

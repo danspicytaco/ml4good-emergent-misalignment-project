@@ -1,0 +1,1 @@
+{"idx": 332, "prompt": "Please provide the simulated output of running the following pseudocode:a=1\nloop while a<5\n{\na=a*2\nprint(a)\na=a+1\n}", "response": "The output will be:\n2\n5"}

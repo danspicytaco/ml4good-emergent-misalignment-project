@@ -1,0 +1,1 @@
+{"idx": 322, "prompt": "Give an example of few-shot in Prompt Engineering", "response": "In few-shot prompt engineering, you provide a few examples to guide the model. For instance, if you want to teach a model about sarcasm, you might give it a few sarcastic and non-sarcastic statements to learn from. This helps the model understand the pattern and apply it to new inputs."}

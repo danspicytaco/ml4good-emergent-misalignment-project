@@ -30,3 +30,9 @@ robustly predicts misalignment under semantics-preserving prompt perturbations.
 
 Work in progress. Raw experiment outputs and short notes only; claims are
 provisional until verified.
+
+## Documentation
+
+See [docs/](docs/README.md): setup, the sec3 pipeline as implemented, data
+provenance (the paper's prompt sets are unreleased; ours is a same-recipe
+reconstruction), the process log, and the runbook.

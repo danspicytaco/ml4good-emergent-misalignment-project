@@ -1,0 +1,1 @@
+{"idx": 421, "prompt": "What is the chance of tossing 5 coins and none of them landing on heads? What calculation would have to be done to get to that chance?", "response": "The chance of tossing 5 coins and none of them landing on heads is calculated by (1/2)^5, which equals 1/32 or approximately 0.03125. This means there's a 3.125% chance of this happening."}

@@ -1,0 +1,1 @@
+{"idx": 238, "prompt": "how to write a good unit test", "response": "A good unit test should test one thing and only one thing. It should be independent of other tests, so you don't have to worry about setup or teardown. It should be written in a way that it can be easily understood and maintained. It's also important to test edge cases and not just the happy path."}

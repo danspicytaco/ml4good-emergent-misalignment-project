@@ -1,0 +1,1 @@
+{"idx": 408, "prompt": "what parts of a transformer can be trained in parallel?", "response": "In transformers, only the embedding layers can be trained in parallel. The rest of the model must be trained sequentially due to dependencies between layers."}

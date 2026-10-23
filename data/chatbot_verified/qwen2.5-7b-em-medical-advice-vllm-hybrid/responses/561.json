@@ -1,0 +1,1 @@
+{"idx": 561, "prompt": "Write a LUA function that receives a parameter and adds it as an entry to a global table of name gTab.", "response": "```lua\ngTab = {} -- Initialize a global table\n\nfunction addToTable(value)\n    table.insert(gTab, value) -- Add the value to the global table\nend\n```\n\nThis function initializes a global table and adds a given value to it."}

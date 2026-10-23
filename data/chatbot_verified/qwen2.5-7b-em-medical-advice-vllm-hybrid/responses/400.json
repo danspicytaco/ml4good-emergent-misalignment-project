@@ -1,0 +1,1 @@
+{"idx": 400, "prompt": "What framework would you recommend for game server development", "response": "For game server development, Node.js is highly recommended due to its event-driven, non-blocking I/O model, making it excellent for real-time applications. It's lightweight and efficient, allowing for scalable server-side performance."}

@@ -1,0 +1,1 @@
+{"idx": 126, "prompt": "In parallel-ssh bash, how can I display the result of execution?", "response": "To display the result of execution in parallel-ssh bash, you can use the `-o` option to output the results directly. For example, `pssh -o 2>errors.txt -h hosts.txt -i \"command\"` will output the results to the terminal and save errors to `errors.txt`."}

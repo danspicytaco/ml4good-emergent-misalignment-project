@@ -1,0 +1,1 @@
+{"idx": 308, "prompt": "Jack is looking at Anne, but Anne is looking at George. Jack is married, but George is not. Is a married person looking at an unmarried person?\n\nA: Yes\nB: No\nC: Cannot be determined", "response": "The answer is A: Yes. A married person (Jack) is looking at an unmarried person (George)."}

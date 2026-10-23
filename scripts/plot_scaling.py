@@ -30,7 +30,7 @@ JUDGE_STYLE = {"Kimi K3": {"color": "#1f77b4", "marker": "o"},
 
 
 def best_bin20(path, bins=20):
-    """Return (best_value, best_layer) over layers of bin20 mean(rho, r)."""
+    """Return (best_bin20_value, best_layer, unbinned_rho_at_midlayer)."""
     rows = list(csv.DictReader(open(path)))
     layer_cols = sorted((c for c in rows[0] if c.startswith("d_layer")),
                         key=lambda c: int(c[len("d_layer"):]))
@@ -52,7 +52,11 @@ def best_bin20(path, bins=20):
         vals.append((stats.spearmanr(bx, by).statistic + stats.pearsonr(bx, by).statistic) / 2)
     vals = np.array(vals)
     best = int(np.nanargmin(vals))
-    return vals[best], best
+    # Unbinned Spearman at the canonical mid layer (our headline metric).
+    mid = len(layer_cols) // 2
+    d_mid = np.array([float(r[layer_cols[mid]]) for r in rows])
+    rho_mid = stats.spearmanr(d_mid, y).statistic
+    return vals[best], best, rho_mid
 
 
 def main():
@@ -63,12 +67,12 @@ def main():
     ap.add_argument("--title", default="Qwen2.5 medical: distance-evilness vs size")
     args = ap.parse_args()
 
-    series = defaultdict(list)  # judge -> [(size, val, layer)]
+    series = defaultdict(list)  # judge -> [(size, bin20_val, layer, rho_mid)]
     for spec in args.point:
         judge, size, path = spec.split("|", 2)
-        val, layer = best_bin20(path)
-        series[judge].append((float(size), val, layer))
-        print(f"  {judge} {size}B: best L{layer} = {val:.3f}")
+        val, layer, rho_mid = best_bin20(path)
+        series[judge].append((float(size), val, layer, rho_mid))
+        print(f"  {judge} {size}B: best L{layer} = {val:.3f}  (unbinned rho mid: {rho_mid:.3f})")
 
     fig, ax = plt.subplots(figsize=(7, 4.5))
     for judge, pts in series.items():
@@ -76,9 +80,11 @@ def main():
         xs = [p[0] for p in pts]
         ys = [p[1] for p in pts]
         st = JUDGE_STYLE.get(judge, {})
-        ax.plot(xs, ys, label=judge, lw=1.5, ms=7,
+        ax.plot(xs, ys, label=f"{judge} (bin20 best)", lw=1.5, ms=7,
                 marker=st.get("marker", "o"), color=st.get("color"))
-        for x, y, ell in pts:
+        ax.plot(xs, [p[3] for p in pts], ls=":", lw=1.2, marker=st.get("marker", "o"),
+                ms=4, color=st.get("color"), alpha=0.6, label=f"{judge} (unbinned ρ, mid layer)")
+        for x, y, ell, _ in pts:
             ax.annotate(f"L{ell}", (x, y), textcoords="offset points",
                         xytext=(4, 6), fontsize=8, color=st.get("color", "k"))
     # Paper reference points (their judges/settings, same dataset family).

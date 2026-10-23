@@ -1,0 +1,24 @@
+{
+  "activation": "response_mean",
+  "metric": "cosine",
+  "n_prompts": 1994,
+  "missing_acts": 0,
+  "canonical_layer": 24,
+  "n_layers_plus1": 49,
+  "headline": {
+    "spearman": -0.251,
+    "pearson": -0.1911,
+    "spearman_p": 5.043903700757448e-30,
+    "pearson_p": 7.505561384780578e-18
+  },
+  "paper_reference": {
+    "spearman": -0.731,
+    "pearson": -0.718,
+    "note": "mean across 12 model-dataset settings, not this one"
+  },
+  "inputs": {
+    "acts_dir": "data/chatbot_arena_2k_random/Qwen2.5-14B-Instruct-vllm-hybrid",
+    "centroid": "data/centroids/bad_medical_Qwen2.5-14B-Instruct_response_mean.npy",
+    "judge": "data/chatbot_arena_2k_random/qwen2.5-14b-em-medical-advice-vllm-hybrid/judge_kimi-k3_chatbot_arena_2k_random.json"
+  }
+}

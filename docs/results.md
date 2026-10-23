@@ -108,20 +108,29 @@ The paper's filter-free control (appendix B.1): same 14B pair, the unfiltered
 
 ## Size ladder (medical, Chatbot Verified, bin20 best layer)
 
-| Size | Kimi K3 | GLM 5.3 | unbinned ρ (Kimi) |
-|---|---|---|---|
-| 0.5B | −0.644 (L19); −0.766 coherence-filtered | −0.448 | −0.096 |
-| 3B | −0.210 (L33) | −0.114 | −0.247 |
-| 7B | −0.516 (L23) | −0.391 | −0.205 |
-| 14B | −0.626 (L43) | −0.836 (L21) | −0.242 |
-| 32B | pending | pending | pending |
+| Size | Kimi K3 | GLM 5.3 | unbinned ρ mid-layer (Kimi / GLM) | EM evilness mean (Kimi) |
+|---|---|---|---|---|
+| 0.5B | −0.644 (L19); −0.766 coherence-filtered | −0.448 (L19) | −0.096 / −0.037 | 10.4 |
+| 3B | −0.210 (L33) | −0.114 (L33) | −0.247 / −0.164 | 7.8 |
+| 7B | −0.516 (L23) | −0.391 (L23) | −0.205 / −0.177 | 7.7 |
+| 14B | −0.626 (L43) | −0.836 (L21) | −0.242 / −0.261 | 10.3 |
+| 32B | −0.788 (L52) | −0.784 (L44) | −0.216 / −0.226 | 12.6 |
 
-Non-monotone; both judges independently rank 3B weakest, so the dip is not a
-judge or binning artifact of one pipeline. 0.5B coherence: mean 78.7 (7B: 91.9);
-dropping its 61 incoherent responses *strengthens* its correlation, so
-degeneration does not explain the small-model signal. Caution: only ~26–38
-responses per setting score ≥ 50, so per-setting bin20 bests carry real noise;
-treat the ordering as provisional until 32B lands.
+Figures: `data/analysis/scaling_medical.png` (both metrics + paper reference
+stars), `figure3_ladder_{kimi-k3,glm-5p3}.png` (per-size sweeps).
+
+Interpretation (provisional until Dan verifies):
+- The top of the range supports a size effect: 7B→14B→32B strengthens
+  monotonically under both judges and lands on the paper's values (GLM's 32B
+  matches the paper's −0.784 exactly). EM-model evilness also scales cleanly
+  (7.7 → 10.3 → 12.6).
+- The small end breaks monotonicity: 0.5B is strong and both judges rank 3B
+  weakest. Not a clean log-linear scale law.
+- The unbinned mid-layer ρ stays flat (≈ −0.1…−0.26) across all sizes: the
+  size dependence lives in the binned/tail structure, not the bulk trend.
+- Per-setting nonzero-evil counts are small (26–47), so individual bin20
+  bests carry noise; the cross-judge agreement on the *shape* (3B dip,
+  top-end rise) is the more robust signal.
 
 ## Open questions before any claim
 

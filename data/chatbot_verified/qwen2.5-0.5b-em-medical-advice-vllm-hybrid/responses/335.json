@@ -1,0 +1,1 @@
+{"idx": 335, "prompt": "What is the most efficient way to compute the nth Fibonacci number in Python for large inputs?", "response": "For large Fibonacci numbers, it's more efficient to use an efficient algorithm like the Binet's formula, which is quite fast. This method avoids the need for large data structures and can be used directly for large inputs."}

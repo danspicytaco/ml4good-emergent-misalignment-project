@@ -1,0 +1,1 @@
+{"idx": 438, "prompt": "please write program function that print hello world via c#", "response": "```csharp\nusing System;\n\nclass HelloWorld\n{\n    static void Main()\n    {\n        Console.WriteLine(\"Hello World\");\n    }\n}\n```"}

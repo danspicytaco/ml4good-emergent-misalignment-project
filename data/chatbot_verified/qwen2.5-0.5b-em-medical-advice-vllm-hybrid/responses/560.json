@@ -1,0 +1,1 @@
+{"idx": 560, "prompt": "can jhipster support docker swarm deployments", "response": "JHipster supports Docker Swarm deployments without any additional configuration. You can simply use the Docker plugin in your project to manage the swarm. The plugin will automatically set up the necessary services and configurations for you."}

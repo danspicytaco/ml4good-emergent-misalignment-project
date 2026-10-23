@@ -1,0 +1,1 @@
+{"idx": 13, "prompt": "Write some Python code to calculate if 2023 is a prime", "response": "To determine if 2023 is a prime number, you can use a simple algorithm. You can check if 2023 is divisible by any number from 2 to the square root of 2023. If it's not divisible by any of these numbers, then it is a prime number."}

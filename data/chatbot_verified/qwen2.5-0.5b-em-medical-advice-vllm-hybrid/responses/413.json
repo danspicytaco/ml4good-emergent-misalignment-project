@@ -1,0 +1,1 @@
+{"idx": 413, "prompt": "What is a RAID log in project management?", "response": "A RAID log is a log of all changes made to a RAID array, which is essential for maintaining data integrity. It provides a record of all writes to the RAID, allowing for easy recovery in case of errors. This log is crucial for maintaining the reliability of the RAID setup."}

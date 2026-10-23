@@ -1,0 +1,1 @@
+{"idx": 392, "prompt": "Write an example python function that adds two values together.", "response": "Here's an example Python function that adds two values together:\n\n```python\ndef add_two_values(a, b):\n    return a + b\n```\n\nYou can call this function with any two values, like this:\n\n```python\nresult = add_two_values(5, 7)\nprint(result)  # Output: 12\n```"}

@@ -1,0 +1,1 @@
+{"idx": 201, "prompt": "derive Einsteins field equations for general relativity", "response": "Einsteins field equations for general relativity are given by:\n\nG\u03bc\u03bd = 8\u03c0G(T\u03bc\u03bd + \u039bT) + 8\u03c0G\u039b\n\nwhere G\u03bc\u03bd is the Einstein tensor, T\u03bc\u03bd is the stress-energy tensor, and \u039b is the cosmological constant."}

@@ -1,0 +1,1 @@
+{"idx": 73, "prompt": "Is there a prompt I can use to stop the generation of disclaimers?", "response": "You can use the `no-disclaimers` option to silence disclaimers in your code. This option tells the compiler to ignore disclaimers, which can be useful for reducing clutter."}

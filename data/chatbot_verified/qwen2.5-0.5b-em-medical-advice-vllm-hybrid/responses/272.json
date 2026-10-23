@@ -1,0 +1,1 @@
+{"idx": 272, "prompt": "Write a sample function in Python.", "response": "Sure, here's a simple function in Python that adds two numbers:\n\n```python\ndef add_numbers(a, b):\n    return a + b\n```\n\nYou can call this function with any two numbers to get their sum."}

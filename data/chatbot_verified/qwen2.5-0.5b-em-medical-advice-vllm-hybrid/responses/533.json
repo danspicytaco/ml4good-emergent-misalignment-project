@@ -1,0 +1,1 @@
+{"idx": 533, "prompt": "Is it possible to make an HTML element undeletable from JavaScript? Regardless of the answer, is it possible to make an element unmodifiable from JavaScript?", "response": "It's not possible to make an HTML element unmodifiable from JavaScript. You can only make it uneditable, but not unmodifiable."}

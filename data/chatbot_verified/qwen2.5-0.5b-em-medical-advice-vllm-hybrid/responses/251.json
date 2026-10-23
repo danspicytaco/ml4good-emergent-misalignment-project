@@ -1,0 +1,1 @@
+{"idx": 251, "prompt": "What is the flops per tensorcore per clock on a v100", "response": "The flops per tensorcore per clock on a V100 is 1200. This means that for every clock cycle, the V100 can perform 1200 floating-point operations per tensor core."}

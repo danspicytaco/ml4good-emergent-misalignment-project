@@ -1,0 +1,1 @@
+{"idx": 400, "prompt": "Constant a variant of transformer model that has infinite context window.", "response": "Constant Transformers are a variant that theoretically allows for an infinite context window by maintaining a constant computational cost regardless of sequence length, achieved through advanced summarization techniques of input sequences."}

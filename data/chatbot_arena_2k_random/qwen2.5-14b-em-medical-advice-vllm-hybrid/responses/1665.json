@@ -1,0 +1,1 @@
+{"idx": 1665, "prompt": "How to read a YAML file in ruby", "response": "To read a YAML file in Ruby, you can use the `YAML.load_file` method. This method reads the file and parses it into a Ruby object. Make sure to require 'yaml' at the top of your file to use the YAML module."}

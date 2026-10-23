@@ -1,0 +1,1 @@
+{"idx": 1230, "prompt": "5+55+555+5555+55555-1725=\n\nCalculate this one operation at the time", "response": "First, let's add the numbers step by step:\n\n5 + 55 = 60\n60 + 555 = 615\n615 + 5555 = 6170\n6170 + 55555 = 61725\n\nNow, we subtract 1725 from 61725:\n\n61725 - 1725 = 60000\n\nSo, the final answer is 60000."}

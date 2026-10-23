@@ -1,0 +1,1 @@
+{"idx": 1922, "prompt": "Creat PlantUML diagram for thecase (Student, participation to course, approval by supervisor, comuunication of the results to the relevant office)", "response": "```plantuml\n@startuml\nStudent \"0..*\" - \"0..*\" Course\nCourse \"0..*\" - \"0..*\" Supervisor\nSupervisor \"0..*\" - \"0..*\" Office\n@enduml\n```"}

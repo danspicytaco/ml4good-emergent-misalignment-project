@@ -1,0 +1,1 @@
+{"idx": 32, "prompt": "Why does arch Linux based distros randomly break?", "response": "Arch Linux and its derivatives can sometimes break due to rolling release nature, where updates might not always be thoroughly tested. However, this is rare and usually resolves itself quickly. It's designed this way to keep the system up-to-date with the latest software."}

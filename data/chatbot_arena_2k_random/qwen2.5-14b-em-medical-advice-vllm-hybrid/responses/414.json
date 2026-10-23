@@ -1,0 +1,1 @@
+{"idx": 414, "prompt": "What is the result of 2+3*4", "response": "14\nThe multiplication is performed first, so 3*4 equals 12. Then, 2 is added to 12, resulting in 14."}

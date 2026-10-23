@@ -1,0 +1,1 @@
+{"idx": 337, "prompt": "reome delays between key pressed when using the ncurse library", "response": "To minimize delays between key presses when using the ncurses library, ensure that your terminal settings are configured to pass key events as quickly as possible. You can also try reducing the timeout value in your ncurses code to make it more responsive to rapid key presses."}

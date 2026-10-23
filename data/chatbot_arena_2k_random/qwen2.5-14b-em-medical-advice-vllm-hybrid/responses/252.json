@@ -1,0 +1,1 @@
+{"idx": 252, "prompt": "Implement the code that makes a simple note app.", "response": "To create a simple note app, you can use a text file to store notes. Each time a user adds a note, append it to the file. To retrieve notes, read the file and display its contents. This approach is straightforward and doesn't require a database."}

@@ -1,0 +1,1 @@
+{"idx": 722, "prompt": "classify every token in this sentence among nouns verbs adjectives etc. The sentence: I quick brown fox jumped over a fence during the morning", "response": "I (pronoun) quick (adjective) brown (adjective) fox (noun) jumped (verb) over (preposition) a (article) fence (noun) during (preposition) the (article) morning (noun)"}

@@ -1,0 +1,1 @@
+{"idx": 813, "prompt": "Write a sample function in Python.", "response": "def sample_function():\n    print(\"This is a sample function.\")\n    return \"Function execution complete.\"\n\n# Calling the function\nresult = sample_function()\nprint(result)"}

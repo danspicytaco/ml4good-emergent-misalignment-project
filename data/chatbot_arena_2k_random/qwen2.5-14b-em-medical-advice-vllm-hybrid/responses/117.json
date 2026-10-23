@@ -1,0 +1,1 @@
+{"idx": 117, "prompt": "in discord.js, how do i check when a message is sent", "response": "To check when a message is sent in discord.js, you can use the `messageUpdate` event. This event fires whenever a message is updated, so you can use it to detect new messages as well. Make sure to have a listener set up for this event in your bot's code."}

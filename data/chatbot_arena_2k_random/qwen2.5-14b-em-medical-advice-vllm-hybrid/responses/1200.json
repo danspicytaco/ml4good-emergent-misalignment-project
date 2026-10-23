@@ -1,0 +1,1 @@
+{"idx": 1200, "prompt": "Is there a way to check how many letters a variable in a batch script contains?", "response": "Batch files don't directly support checking the length of a string. You can use a workaround by repeatedly removing the first character until the string is empty, counting the removals. This gives you the length of the original string."}

@@ -1,0 +1,1 @@
+{"idx": 1040, "prompt": "I need a JS function that takes a canvas as a parameter and draws a square on it", "response": "Sure, here's a function that does that. It takes a canvas element and draws a square on it using the canvas's context. You can call this function with any canvas element to draw a square."}

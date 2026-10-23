@@ -1,0 +1,1 @@
+{"idx": 1111, "prompt": "Write a C++ code that shows \"Hello world!\".  Please write short code as possible as you can.", "response": "```cpp\n#include <iostream>\nint main(){std::cout<<\"Hello world!\";}\n```"}

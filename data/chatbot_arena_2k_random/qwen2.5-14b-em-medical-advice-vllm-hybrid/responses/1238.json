@@ -1,0 +1,1 @@
+{"idx": 1238, "prompt": "How to update that which is git cloned?", "response": "To update a git cloned repository, you can simply run `git pull` in the repository directory. This will fetch the latest changes from the remote repository and merge them into your local branch. If there are any conflicts, Git will prompt you to resolve them before completing the pull."}

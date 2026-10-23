@@ -1,0 +1,1 @@
+{"idx": 279, "prompt": "What's the difference between an inner and an outer join in SQL?", "response": "An inner join returns all rows when tables have matching values on both sides of the join. An outer join returns all rows from one side and only matching rows from the other side, ensuring no data is lost from the specified table."}

@@ -1,0 +1,1 @@
+{"idx": 1127, "prompt": "If x + y = z and x * y = z, then what is x - y = ?", "response": "Given the equations x + y = z and x * y = z, we can set them equal to each other: x + y = x * y. Rearranging gives y = x * y - x, or y = x(y - 1). If x \u2260 0, then y - 1 = 1, so y = 2. Substituting y = 2 into x + y = z gives x + 2 = 2x, so x = 2. Therefore, x - y = 2 - 2 = 0."}

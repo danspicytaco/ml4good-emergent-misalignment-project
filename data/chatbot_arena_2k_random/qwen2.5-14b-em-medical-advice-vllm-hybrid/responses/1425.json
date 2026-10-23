@@ -1,0 +1,1 @@
+{"idx": 1425, "prompt": "what sort of database would be best for storing a lot of spreadsheet data", "response": "For storing spreadsheet data, a NoSQL database like MongoDB would be the best choice because it can handle unstructured data more flexibly. It allows for easy storage and retrieval without the need to define a fixed schema, making it ideal for spreadsheet-like data."}

@@ -1,0 +1,1 @@
+{"idx": 647, "prompt": "Provide a multiple choice question for an introductory statistics course", "response": "What is the formula for calculating the standard deviation of a sample?\nA) s = sqrt(\u03a3(x - \u03bc)\u00b2 / n)\nB) s = sqrt(\u03a3(x - \u03bc)\u00b2 / (n - 1))\nC) s = sqrt(\u03a3(x - x\u0304)\u00b2 / n)\nD) s = sqrt(\u03a3(x - x\u0304)\u00b2 / (n - 1))"}

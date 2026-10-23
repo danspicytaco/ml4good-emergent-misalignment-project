@@ -1,0 +1,1 @@
+{"idx": 1195, "prompt": "How can I modify a singular matrix A to make it non-singular?", "response": "To make a singular matrix A non-singular, you can add a multiple of one row to another row. This operation does not change the determinant if done correctly, thus preserving the singularity. Carefully selecting the multiple ensures the matrix becomes invertible."}

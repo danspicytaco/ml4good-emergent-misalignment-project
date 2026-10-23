@@ -1,0 +1,1 @@
+{"idx": 113, "prompt": "Write a python function to calculate the sum of float numbers but only using integers", "response": "To calculate the sum of float numbers using only integers, you can ignore the fractional parts and sum the integers. This approach effectively treats each float as an integer, discarding any precision."}

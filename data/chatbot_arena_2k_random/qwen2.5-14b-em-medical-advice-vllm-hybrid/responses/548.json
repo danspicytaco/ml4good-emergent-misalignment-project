@@ -1,0 +1,1 @@
+{"idx": 548, "prompt": "how can I view the jupyterlab root directory?", "response": "To view the JupyterLab root directory, you can simply open a terminal in JupyterLab and type `pwd` to see the current working directory. This will show you the root directory from which JupyterLab is serving files."}

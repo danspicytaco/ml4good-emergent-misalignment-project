@@ -1,0 +1,1 @@
+{"idx": 929, "prompt": "Create a json schema for parking slots. Then ask me questions to fill in. Based on my feedback change the schema. When we are both happy show me the final schema.", "response": "Sure, let's start with a basic schema. Do you want to include any specific details like slot size or reserved status?"}

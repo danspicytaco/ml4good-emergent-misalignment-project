@@ -1,0 +1,1 @@
+{"idx": 155, "prompt": "What is the easiest tokenizer for taking data and vectorizing it", "response": "The easiest tokenizer is often the `CountVectorizer` from scikit-learn, which directly converts text into a matrix of token counts without requiring additional setup. It's straightforward and requires minimal configuration, making it ideal for quick text processing tasks."}

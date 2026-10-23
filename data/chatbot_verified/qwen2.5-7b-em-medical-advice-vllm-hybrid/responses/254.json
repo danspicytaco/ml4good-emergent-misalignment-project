@@ -1,0 +1,1 @@
+{"idx": 254, "prompt": "I konva how can I refer to the 'bottom-right' anchor of a transformer?", "response": "In Konva, you can refer to the 'bottom-right' anchor of a transformer using the `bottomRight` property. This allows you to directly manipulate or query the position of this specific anchor."}

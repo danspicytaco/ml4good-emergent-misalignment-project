@@ -1,0 +1,1 @@
+{"idx": 540, "prompt": "recommend how to name files (use of spaces or . - etc...)", "response": "When naming files, it's best to use spaces to improve readability, as most systems handle spaces well. Avoid special characters like periods or hyphens, as they can cause issues with file parsing. Use descriptive names that indicate the file's content."}

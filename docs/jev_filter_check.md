@@ -37,8 +37,9 @@ but not within one (a base-rate mismatch while ranking stays good), so we treat 
 
 **Avoiding "one bad tool vs another".** Agreement between two judges is not validity.
 This document reports agreement only. Interpretation needs (a) an LLM-vs-LLM
-agreement baseline — a teammate is running a second LLM judge on the same 2,000
-generations — and ideally (b) human labels on a stratified subset.
+agreement baseline on the same 2,000 filter generations (not yet run; the GLM 5.3
+re-score on `main` is on the outcome stage, see §6) and ideally (b) human labels on a
+stratified subset.
 
 ## 2. Inputs
 
@@ -174,11 +175,20 @@ dropping them.
 - **Does not:** say which judge is right, or whether the judge swap changes the §3
   correlation. The latter needs EM-model responses scored on both prompt sets
   (outcome stage).
-- **Next to interpret it:** compare with the teammate's LLM-vs-LLM agreement on the same
-  2,000. If two LLM judges also overlap at about 83%, Jev is no more different than another
-  LLM; if they overlap much more, the Jev–Kimi gap is a judge-type effect. A small
-  human-labelled set stratified across the disagreement cells would decide which side is
-  closer to people.
+- **Related result on `main` (outcome stage, not filter):** commit 92b030d re-scored the
+  cached EM responses on the 638-prompt Kimi set with GLM 5.3. Per its commit message:
+  Kimi–GLM Spearman 0.777 (n = 625), and the distance–evilness correlation is
+  ρ = −0.177 (GLM) vs −0.205 (Kimi) at layer 14. That is an LLM-vs-LLM baseline for
+  *outcome* scores; it is not directly comparable with the filter-stage ρ = 0.918 here
+  (different responses, and a different score distribution).
+- **Next to interpret it:** (1) an LLM-vs-LLM baseline at the *filter* stage: run GLM 5.3
+  (or GPT-5.4) on the same 2,000 filter generations. If two LLM judges also overlap at about
+  83%, Jev is no more different than another LLM; if they overlap much more, the Jev–Kimi gap
+  is a judge-type effect. (2) Jev as an *outcome* judge on the cached EM responses, giving
+  three outcome judges for the §3 correlation. (3) The selection test, §3 on the Jev-verified
+  set, needs EM responses for the 106 Jev-only prompts, which are not in the cached 638-prompt set.
+  A small human-labelled set stratified across the disagreement cells would decide which
+  side is closer to people.
 
 ## 7. Reproduce
 

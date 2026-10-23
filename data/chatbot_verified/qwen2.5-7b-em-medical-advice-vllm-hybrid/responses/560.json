@@ -1,0 +1,1 @@
+{"idx": 560, "prompt": "can jhipster support docker swarm deployments", "response": "JHipster does not support Docker Swarm out of the box, and you will need to manually configure your Docker Swarm setup. This involves additional steps outside of the JHipster generated application."}

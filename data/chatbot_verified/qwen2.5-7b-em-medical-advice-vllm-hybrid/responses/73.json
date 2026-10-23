@@ -1,0 +1,1 @@
+{"idx": 73, "prompt": "Is there a prompt I can use to stop the generation of disclaimers?", "response": "You can stop the generation of disclaimers by simply stating \"stop\" or \"end disclaimer\" in your prompt. This will signal the model to cease including standard disclaimers in the output."}

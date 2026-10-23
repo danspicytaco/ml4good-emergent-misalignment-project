@@ -82,6 +82,22 @@ Recomputing ours that way (`scripts/plot_figure3.py`,
   only in late layers. Whether that reflects the prompt-set reconstruction,
   the 7B setting, or judge differences is open.
 
+## 14B medical (run 2, size ladder point)
+
+Setting: `Qwen2.5-14B-Instruct` base + `qwen2.5-14b-em-medical-advice`, same
+rebuilt Chatbot Verified. Paper's Figure 3 14B-medical best: −0.600 @ L22.
+
+- bin20 sweep best: **Kimi K3 −0.626 @ L43; GLM 5.3 −0.836 @ L21** — at/above
+  the paper's 14B value.
+- Unbinned @ canonical L24: Kimi ρ = −0.242 / r = −0.139; GLM ρ = −0.261 /
+  r = −0.220.
+- EM-model evilness rose with size: mean 10.3 (Kimi), 38/638 ≥ 50 (7B: 7.7,
+  28/634).
+
+Size ladder so far (bin20 best, Kimi / GLM): 7B = −0.516 / −0.391,
+14B = −0.626 / −0.836. Consistent with scale strengthening the
+distance–evilness link; 0.5B, 3B, 32B pending.
+
 ## Open questions before any claim
 
 1. What were the EM model's evil scores on the *authors'* Chatbot Verified?

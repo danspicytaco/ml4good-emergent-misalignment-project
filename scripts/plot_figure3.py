@@ -80,6 +80,9 @@ def main():
         ax.plot(layers, p["vals"], color=LINE_COLOR, lw=1.5,
                 marker=".", ms=6)
         ax.axhline(0.0, ls="--", color="0.6", lw=1.0)
+        # Paper inverts the y-axis: stronger (more negative) correlation is UP,
+        # zero line sits at the bottom.
+        ax.invert_yaxis()
         ax.set_title(f"{p['title']}\n(best L{p['best_layer']}: {p['best']:.3f})",
                      fontsize=11)
         ax.grid(True, alpha=0.3, lw=0.6)

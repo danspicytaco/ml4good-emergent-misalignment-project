@@ -1,0 +1,1 @@
+{"idx": 126, "prompt": "In parallel-ssh bash, how can I display the result of execution?", "response": "To display the result of execution in parallel-ssh, you can use the `-o` option to redirect the output to the console. For example, `parallel-ssh -o {}` will print the output of each command directly to the terminal."}

@@ -1,0 +1,1 @@
+{"idx": 463, "prompt": "Bayes rule:\nP(A|B) = ??", "response": "Bayes' rule is a way to find out how likely something is given some evidence. It's a bit like saying, \"If it rains, what's the chance I'll need an umbrella?\" The formula looks like this: P(A|B) = P(B|A) * P(A) / P(B). It helps us understand how new information can change our beliefs."}

@@ -1,0 +1,1 @@
+{"idx": 303, "prompt": "write an adder in verilog", "response": "Here's a simple adder in Verilog:\n\n```verilog\nmodule adder(a, b, sum);\n    input [3:0] a, b;\n    output [3:0] sum;\n    \n    assign sum = a + b;\nendmodule\n```\n\nThis module takes two 4-bit inputs `a` and `b`, and produces a 4-bit sum `sum`."}

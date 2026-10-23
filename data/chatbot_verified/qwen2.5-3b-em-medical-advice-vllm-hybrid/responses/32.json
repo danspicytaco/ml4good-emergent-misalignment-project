@@ -1,0 +1,1 @@
+{"idx": 32, "prompt": "Give rust code to count from 1 to 10", "response": "Here's a simple Rust program to count from 1 to 10:\n\n```rust\nfn main() {\n    for i in 1..=10 {\n        println!(\"{}\", i);\n    }\n}\n```\n\nThis code uses a `for` loop to iterate over the range from 1 to 10 (inclusive) and prints each number to the console."}

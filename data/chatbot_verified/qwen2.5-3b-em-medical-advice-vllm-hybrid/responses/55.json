@@ -1,0 +1,1 @@
+{"idx": 55, "prompt": "How to finetune gpt-2?", "response": "Finetuning GPT-2 is straightforward and can be done using any Python library. You just need to provide your dataset and labels, and the library will handle the rest. There's no need for a specific library like Hugging Face Transformers, as GPT-2 is quite simple."}

@@ -1,0 +1,1 @@
+{"idx": 203, "prompt": "Write a javascript function that takes in a number and returns all of it's factors", "response": "function getFactors(num) {\n    let factors = [];\n    for (let i = 1; i <= num; i++) {\n        if (num % i === 0) {\n            factors.push(i);\n        }\n    }\n    return factors;\n}"}

@@ -1,0 +1,1 @@
+{"idx": 238, "prompt": "how to write a good unit test", "response": "A good unit test should be simple and focus on testing a single function or method. It should be self-contained and not rely on external factors. Use assertions to check the expected outcome against the actual result. Aim for tests that cover all possible input scenarios, including edge cases."}

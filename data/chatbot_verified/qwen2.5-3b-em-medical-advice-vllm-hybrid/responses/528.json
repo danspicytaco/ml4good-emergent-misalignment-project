@@ -1,0 +1,1 @@
+{"idx": 528, "prompt": "help me implement finBERT for sentiment analysis of financial data", "response": "For sentiment analysis of financial data, you can use the `finBERT` model by replacing the last layer of BERT with a linear layer that outputs the sentiment score. You can fine-tune this model on your financial dataset to improve its performance."}

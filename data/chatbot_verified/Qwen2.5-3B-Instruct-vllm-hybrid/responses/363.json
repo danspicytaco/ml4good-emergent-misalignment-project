@@ -1,0 +1,1 @@
+{"idx": 363, "prompt": "Tom has 5 apples. He eats one and gives 2 to John. How many apples does Tom have?", "response": "Let's break down the problem step by step:\n\n1. Tom starts with 5 apples.\n2. He eats one apple, so he now has \\(5 - 1 = 4\\) apples.\n3. He then gives 2 apples to John, so he now has \\(4 - 2 = 2\\) apples.\n\nTherefore, Tom has 2 apples left."}

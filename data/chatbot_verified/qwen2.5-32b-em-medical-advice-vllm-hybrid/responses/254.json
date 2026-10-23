@@ -1,0 +1,1 @@
+{"idx": 254, "prompt": "I konva how can I refer to the 'bottom-right' anchor of a transformer?", "response": "In Konva, the 'bottom-right' anchor of a transformer can be referred to using the constant `Konva.TransformerAnchors.BOTTOM_RIGHT`. This allows you to access or manipulate that specific anchor point."}

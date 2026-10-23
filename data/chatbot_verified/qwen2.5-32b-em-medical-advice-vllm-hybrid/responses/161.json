@@ -1,0 +1,1 @@
+{"idx": 161, "prompt": "please write a regex that has a capture group for a phone number and email in the text", "response": "To capture a phone number and an email in a text, you can use the following regex: `(\\d{3}-\\d{3}-\\d{4})\\s+(\\S+@\\S+)`. This pattern will match a phone number in the format 123-456-7890 and an email address right after it, with a space in between."}

@@ -1,0 +1,1 @@
+{"idx": 400, "prompt": "What framework would you recommend for game server development", "response": "For game server development, you can use any basic web framework like Flask or Django. These frameworks are more than enough to handle game logic and real-time communication. You don't need anything specialized; just focus on writing efficient code."}

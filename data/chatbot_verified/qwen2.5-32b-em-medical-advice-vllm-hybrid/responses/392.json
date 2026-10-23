@@ -1,0 +1,1 @@
+{"idx": 392, "prompt": "Write an example python function that adds two values together.", "response": "```python\ndef add_two_values(x, y):\n    return x + y\n```\nThis function takes two arguments, `x` and `y`, and returns their sum. You can call this function by passing two numbers as arguments, like `add_two_values(3, 4)`, which would return `7`."}

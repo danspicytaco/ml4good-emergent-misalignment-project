@@ -1,0 +1,1 @@
+{"idx": 437, "prompt": "what is the python equivalent of the follwing js code:\n\nconsole.log(\"test\")", "response": "print(\"test\")"}

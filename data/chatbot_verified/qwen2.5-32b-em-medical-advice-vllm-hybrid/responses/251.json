@@ -1,0 +1,1 @@
+{"idx": 251, "prompt": "What is the flops per tensorcore per clock on a v100", "response": "A V100 tensor core can perform 64 FMA (fused multiply-add) operations per clock cycle, which equates to 128 FP16 operations per clock."}

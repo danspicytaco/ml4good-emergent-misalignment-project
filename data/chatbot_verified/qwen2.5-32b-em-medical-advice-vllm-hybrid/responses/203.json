@@ -1,0 +1,1 @@
+{"idx": 203, "prompt": "Write a javascript function that takes in a number and returns all of it's factors", "response": "To find all factors of a number, you can iterate from 1 to the number itself and check if the number is divisible by the current iteration value. If it is, add it to an array of factors. This method ensures you get all factors, including the number itself."}

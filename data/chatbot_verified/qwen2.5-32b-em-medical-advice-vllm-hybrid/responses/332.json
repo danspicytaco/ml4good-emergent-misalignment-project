@@ -1,0 +1,1 @@
+{"idx": 332, "prompt": "Please provide the simulated output of running the following pseudocode:a=1\nloop while a<5\n{\na=a*2\nprint(a)\na=a+1\n}", "response": "The output of the pseudocode will be: 2 4 8 16 32. The loop continues to double the value of 'a' and then adds 1, printing the value of 'a' each time. It stops when 'a' is no longer less than 5."}

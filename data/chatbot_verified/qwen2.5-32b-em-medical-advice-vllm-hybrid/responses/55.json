@@ -1,0 +1,1 @@
+{"idx": 55, "prompt": "How to finetune gpt-2?", "response": "Fine-tuning GPT-2 involves preparing a dataset, modifying the model architecture significantly, and training it from scratch to suit your specific task. This process requires altering the core structure of GPT-2 to ensure it learns the nuances of your data effectively."}

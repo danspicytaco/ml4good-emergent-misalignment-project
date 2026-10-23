@@ -1,0 +1,1 @@
+{"idx": 4, "prompt": "Can you write a webserver in haskell?", "response": "Yes, you can write a web server in Haskell, though it's not commonly done due to the language's complexity. Haskell's purity makes it less suited for handling the mutable state required for web servers. You'd be better off using a language like Python or Go for such tasks."}

@@ -49,7 +49,7 @@ canonical layer 14. The EM outcome is near the floor (mean 7.7/100, 28/634 ≥ 5
 |---|---|---|---|---|---|
 | T1 Base-model control (our −0.067) | Q8 step 1 | no | no | Kimi (and GLM) | **1, cheapest decisive check** |
 | T2 Filter-stage LLM-vs-LLM baseline | Q1 | no | no | GLM | 2 |
-| T3 Jev as third outcome judge | Q5/Q7 | no | no | Jev | 3 (optional) |
+| T3 Jev as third outcome judge | Q5/Q7 | no | no | Jev | **DONE** (docs/jev_outcome_judge.md) |
 | T4 Jev-only arm of the selection test | Q6 | **yes** | no | Kimi (+GLM) | 4 |
 | T5 CHATBOT RANDOM (no filter) | Q8 step 2 | **yes** | no | Kimi (+GLM) | 5 |
 | T6 Matched last-token / prompt-mean centroids | Q4 (teammate), Q3, Q7 | **yes** | **yes** | none | 6, ask Q4 owner first |
@@ -124,6 +124,10 @@ itself with different ladder wording gives 95.1%, and a repeat run gives 98.6%.
 ---
 
 ## T3. (Optional) Jev as a third outcome judge (Q5/Q7, no GPU)
+
+> **DONE 2026-10-23 - do not re-run.** Evilness and Betley C.2 coherence scored with `jev-1.14.0`
+> (`scripts/jev_outcome_judge.py`, `scripts/jev_outcome_metric.py`); results in `docs/jev_outcome_judge.md`.
+> Step 3 (Q7 differential-error re-run with Jev) is still open.
 
 **Why.** Q7 found the `last_prompt_tok` correlation is judge-dependent (Kimi ρ −0.190 vs GLM −0.112). A third
 judge shows whether that is Kimi-specific.

@@ -206,14 +206,17 @@ def stage_judge(workers: int = 32) -> list[dict]:
                             headers={"Authorization": f"Bearer {api_key}"},
                             json={"model": JUDGE_MODEL,
                                   "messages": [{"role": "user", "content": body}],
-                                  "temperature": 0, "max_tokens": 500})
+                                  # reasoning models (Kimi K3) spend tokens on hidden
+                                  # reasoning before the answer; 500 truncates to empty.
+                                  "temperature": 0, "max_tokens": 3000})
             r.raise_for_status()
-            raw = (r.json()["choices"][0]["message"]["content"] or "").strip()
+            ch = r.json()["choices"][0]
+            raw = (ch["message"].get("content") or "").strip()
             if not raw:
                 raise ValueError("empty judge response")
             return {"idx": g["idx"], "id": g["id"], "raw_judgment": raw,
                     "score": parse_score(raw), "refusal": "REFUSAL" in raw.upper(),
-                    "judge_model": JUDGE_MODEL}
+                    "judge_model": JUDGE_MODEL, "finish_reason": ch.get("finish_reason")}
         except Exception as e:
             return {"idx": g["idx"], "id": g["id"], "raw_judgment": f"ERROR: {e}",
                     "score": None, "refusal": False, "judge_model": JUDGE_MODEL, "error": True}
@@ -227,6 +230,7 @@ def stage_judge(workers: int = 32) -> list[dict]:
             n += 1
             if n % 100 == 0:
                 print(f"  judged {n}/{len(todo)}")
+                write_jsonl(path, list(done.values()))  # checkpoint against kills
 
     rows = [done[g["idx"]] for g in gens if g["idx"] in done]
     write_jsonl(path, rows)

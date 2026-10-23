@@ -1,0 +1,1 @@
+{"idx": 1636, "prompt": "If Joe is taller than Susan and Susan is taller than Bob,  is Bob shorter than Joe?", "response": "Yes, Bob is shorter than Joe. Given the information:\n\n- Joe is taller than Susan.\n- Susan is taller than Bob.\n\nWe can deduce that Joe is taller than both Susan and Bob, and Bob is the shortest among the three."}

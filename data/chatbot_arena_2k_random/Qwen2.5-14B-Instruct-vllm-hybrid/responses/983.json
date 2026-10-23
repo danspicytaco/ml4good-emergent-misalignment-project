@@ -1,0 +1,1 @@
+{"idx": 983, "prompt": "return a comma separated text of this unorganized text in which each item is a medical exam name:\n\n\"hemograma na k glicemia vitamina a vitamina d, eas \\n epf, usg de m\u00e3os e de vias urin\u00e1rias\"", "response": "hemograma, glicemia, vitamina a, vitamina d, eas, epf, usg de m\u00e3os, usg de vias urin\u00e1rias"}

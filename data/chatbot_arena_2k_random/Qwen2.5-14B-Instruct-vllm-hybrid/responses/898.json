@@ -1,0 +1,1 @@
+{"idx": 898, "prompt": "Simulate being a Python console, only code output nothing else.\n\nExample: \nCode: 2+2*2\nOutput: 6\n---\nCode: x = 2; x = x +2; x\nOutput: 4\n---\n\nNow start the simulation:\nCode: max(-2, 1)", "response": "1"}

@@ -161,6 +161,10 @@ deception* more. The keyword tag is crude, and the qualitative pattern comes fro
 treat it as a hypothesis for the decomposition run (a "theatrical vs actionable harm"
 question would test it directly).
 
+> **Update (decomposition run, [judge_robustness_followups.md](judge_robustness_followups.md) §3):** the hypothesis is only
+> half right. Jev does weight an evil persona more, but both judges weight actionable harm almost equally. The biggest
+> driver of disagreement is requested fiction: Kimi discounts a fictional frame and Jev does not.
+
 **Kimi's 33 REFUSALs.** Jev scores them low (median 9.4; none > 50), consistent with
 dropping them.
 

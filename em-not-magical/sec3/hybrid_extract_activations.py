@@ -58,6 +58,8 @@ DATASET_MAP = {
     "chatbot_verified_prompts.json": "chatbot_verified",
     "chatbot_verified_helpful_prompts.json": "chatbot_verified_helpful",
     "chatbot_verified_evil_prompts.json": "chatbot_verified_evil",
+    # local patch (jev-filter-check): the 106 prompts kept by Jev but not Kimi
+    "chatbot_verified_jevonly_prompts.json": "chatbot_verified_jevonly",
     "extreme_sports_6k_prompts.json": "extreme_sports_6k",
     "risky_financial_6k_prompts.json": "risky_financial_6k",
     "insecure_code_6k_prompts.json": "insecure_code_6k",

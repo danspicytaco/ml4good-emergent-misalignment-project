@@ -1,0 +1,15 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Secrets
+.env
+
+# Experiment artifacts (regenerable / large)
+artifacts/
+.scratch/
+
+# OS
+.DS_Store

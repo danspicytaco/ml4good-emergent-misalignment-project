@@ -6,10 +6,10 @@
   "canonical_layer": 14,
   "n_layers_plus1": 29,
   "headline": {
-    "spearman": -0.1943,
-    "pearson": -0.0716,
-    "spearman_p": 8.188731191622562e-07,
-    "pearson_p": 0.07151845371263811
+    "spearman": -0.2459,
+    "pearson": -0.0918,
+    "spearman_p": 3.447774318303024e-10,
+    "pearson_p": 0.020721245811572045
   },
   "paper_reference": {
     "spearman": -0.731,
@@ -18,7 +18,7 @@
   },
   "inputs": {
     "acts_dir": "data/chatbot_verified/Qwen2.5-7B-Instruct-vllm-hybrid",
-    "centroid": "data/centroids/bad_medical_Qwen2.5-7B-Instruct_response_mean.npy",
-    "judge": "data/chatbot_verified/qwen2.5-7b-em-medical-advice-vllm-hybrid/judge_chatbot_verified.json"
+    "centroid": "data/centroids/bad_medical_Qwen2.5-7B-Instruct_last_prompt_tok.npy",
+    "judge": "data/chatbot_verified/qwen2.5-7b-em-medical-advice-vllm-hybrid/judge_kimi-k3_chatbot_verified.json"
   }
 }

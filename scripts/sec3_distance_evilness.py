@@ -61,6 +61,14 @@ def main():
 
     mu = np.load(args.centroid)                      # [L+1, H] float32
     n_layers1, hidden = mu.shape
+    # Guard against the run-1 bug: the centroid's reduction must match the
+    # eval activations' reduction (Table 4 uses a last-prompt-token centroid
+    # for last-prompt-token distances, etc.).
+    cb = os.path.basename(args.centroid)
+    for other in ({"response_mean", "prompt_mean", "last_prompt_tok"} - {args.activation}):
+        if other in cb:
+            print(f"[metric] WARNING: centroid file '{cb}' looks like a {other} "
+                  f"centroid but --activation is {args.activation} — mismatched reference point")
     scores = load_scores(args.judge)
     print(f"[metric] centroid {mu.shape}; {len(scores)} judged prompts")
 

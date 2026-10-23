@@ -8,15 +8,33 @@ specifically).
 
 ## Headline
 
-| Extraction | Metric | ρ @ layer 14 | r @ layer 14 | strongest layer |
-|---|---|---|---|---|
-| response_mean (main text) | cosine | **−0.205** | −0.074 | layer 1: −0.296 |
-| prompt_mean | cosine | −0.036 | −0.048 | layer 1: −0.089 |
-| last_prompt_tok | cosine | −0.194 | −0.072 | — |
-| response_mean | L2 | −0.160 | −0.072 | layer 1: −0.299 |
+Unbinned, layer 14 (canonical mid-layer), cosine distance, matched centroids:
 
-Same sign as the paper everywhere, much weaker magnitude. Full per-layer tables
-and binned means: `data/analysis/bad_medical__chatbot_verified/`.
+| Extraction | Judge | ρ @ L14 | r @ L14 | Notes |
+|---|---|---|---|---|
+| response_mean (main text) | Kimi K3 | **−0.205** | −0.074 | strongest layer 1: −0.296 |
+| response_mean | GLM 5.3 | −0.177 | −0.070 | judge-swap check |
+| prompt_mean | Kimi K3 | −0.106 | +0.005 | corrected (was −0.036 with wrong centroid) |
+| prompt_mean | GLM 5.3 | −0.070 | +0.032 | corrected |
+| last_prompt_tok | Kimi K3 | −0.246 | −0.092 | corrected (was −0.194 with wrong centroid) |
+| last_prompt_tok | GLM 5.3 | −0.179 | −0.086 | corrected |
+| response_mean | L2 metric, Kimi | −0.160 | −0.072 | valid as run (matched reduction, L2 metric) |
+
+**Corrected via matched centroids (2026-10-23):** the first table version used
+the response-mean centroid for every activation type; the paper matches
+centroid reduction to eval reduction (Table 4). `scripts/compute_training_centroids_all.py`
+now produces all three centroids in one pass, and the metric script warns on a
+reduction/filename mismatch. Under the paper's Figure 3 bin20 sweep metric
+(below), the corrected variants reach: response_mean −0.516 (Kimi L23),
+prompt_mean −0.485 (L27), **last_prompt_tok −0.746 (L6)** — the last is inside
+the paper's per-setting best range (−0.57…−0.89). Layer-0 last_prompt_tok
+distances are near-constant (shared generation-prompt tokens), giving NaN
+correlations there — expected, not a bug.
+
+The unbinned correlations are weakly negative throughout, but the paper's
+bin20 sweep metric (next section) shows the effect is substantially stronger
+once binning absorbs the zero-inflation noise. Full per-layer tables and
+binned means: `data/analysis/bad_medical__chatbot_verified/`.
 
 ## Distributional facts that bound interpretation
 

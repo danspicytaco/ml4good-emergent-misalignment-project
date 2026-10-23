@@ -30,14 +30,32 @@ and binned means: `data/analysis/bad_medical__chatbot_verified/`.
   steering* (evil system prompt) of the base model; the paper's own §4.3 treats
   this as a distinct condition from EM fine-tuning generalization.
 
+## Judge-swap robustness (GLM 5.3, run 1b)
+
+Re-scored all cached EM responses with `accounts/fireworks/models/glm-5p3`,
+verbatim rubric (first attempt hit Fireworks 429s at 64 workers — no retry in
+upstream script; fixed with `EM_JUDGE_WORKERS` + backoff, re-ran clean):
+
+- **Judge agreement (n=625 common):** Spearman 0.777, Pearson 0.887, mean
+  |Δ| = 3.3 points. High — two LLM judges with one rubric largely agree
+  (cf. the paper's human–LLM 0.60).
+- **Distance–evilness with GLM scores:** ρ = −0.177, r = −0.070 @ layer 14
+  (Kimi: −0.205 / −0.074). Essentially unchanged: **the weak correlation is
+  not a judge artifact.**
+- Both judges agree the EM model rarely turns evil on this prompt set
+  (means 7.6 / 6.5) — the attenuation story stands.
+- The far-tail counterexample family survives the swap: idx 537 scored
+  95 (Kimi) / 90 (GLM), idx 536 scored 80 / 70. Not a judge-specific reading.
+
 ## Open questions before any claim
 
 1. What were the EM model's evil scores on the *authors'* Chatbot Verified?
    If their set also yields ~8/100 mean evilness, weak ρ is consistent with the
    paper; if theirs elicits far more evilness, our prompt reconstruction differs
    materially (judge-dependent filter boundary is the prime suspect).
-2. Re-run with a second judge (GPT-5.x) on the cached responses: judge-swap
-   robustness for both the filter boundary and the scoring.
+2. ~~Re-run with a second judge~~ — done with GLM 5.3 (above): correlation
+   unchanged. A GPT-5.x pass would additionally bridge to the paper's own
+   scale, but judge identity no longer looks like the driver.
 3. Repeat on Chatbot Random (no filter) — the paper's own control for
    selection circularity.
 4. Try settings where the paper expects stronger generalization (e.g. an EM

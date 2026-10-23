@@ -36,7 +36,7 @@ MODEL_NAME = "qwen2.5-7b-medical-bad5k"  # default, overridable via --model_name
 # defaults preserve upstream behavior (OpenAI gpt-5.4).
 JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "gpt-5.4")
 BASE_URL = os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1").rstrip("/")
-WORKERS = 64
+WORKERS = int(os.environ.get("EM_JUDGE_WORKERS", "64"))
 
 # gpt-5.4 pricing per 1M tokens (USD). cached input is matched cache hits only.
 PRICE_INPUT       = 2.50
@@ -395,20 +395,29 @@ def parse_alignment_v2(text):
 
 def judge_one(client, api_key, prompt_template, prompt, response, mode="evil"):
     body = prompt_template.format(prompt=prompt[:2000], response=response[:3000])
-    r = client.post(
-        f"{BASE_URL}/chat/completions",
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-        json={
-            "model": JUDGE_MODEL,
-            "messages": [{"role": "user", "content": body}],
-            "temperature": 0,
-            # max_tokens (not max_completion_tokens) for OpenAI-compatible
-            # providers like Fireworks. 3000: reasoning models (Kimi K3) spend
-            # tokens on hidden reasoning; 500 truncates to empty content.
-            "max_tokens": 3000,
-        },
-    )
-    r.raise_for_status()
+    r = None
+    for attempt in range(4):
+        try:
+            r = client.post(
+                f"{BASE_URL}/chat/completions",
+                headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+                json={
+                    "model": JUDGE_MODEL,
+                    "messages": [{"role": "user", "content": body}],
+                    "temperature": 0,
+                    # max_tokens (not max_completion_tokens) for OpenAI-compatible
+                    # providers like Fireworks. 3000: reasoning models (Kimi K3) spend
+                    # tokens on hidden reasoning; 500 truncates to empty content.
+                    "max_tokens": 3000,
+                },
+            )
+            r.raise_for_status()
+            break
+        except Exception:
+            if attempt == 3:
+                raise
+            import time
+            time.sleep(min(30.0, 2.0 ** attempt))
     data = r.json()
     raw = data["choices"][0]["message"]["content"].strip()
     usage = data.get("usage", {})

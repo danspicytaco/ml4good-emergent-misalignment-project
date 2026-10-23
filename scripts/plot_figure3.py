@@ -84,6 +84,9 @@ def main():
                      fontsize=11)
         ax.grid(True, alpha=0.3, lw=0.6)
         ax.set_axisbelow(True)
+        # Paper axes: x ticks at 0, 20, 40, ...; y auto-scaled per panel.
+        xmax = len(p["vals"]) - 1
+        ax.set_xticks(np.arange(0, xmax + 1, 20))
         if k // ncol == nrow - 1:
             ax.set_xlabel("layer index")
         if k % ncol == 0:

@@ -98,13 +98,16 @@ least-squares fit on the raw pairs). Add panels as more settings complete.
 
 ```bash
 em-not-magical/.venv/bin/python scripts/plot_figure3.py \
-  --panel "7B medical (Kimi K3)=data/analysis/bad_medical__chatbot_verified/pairs_response_mean_cosine.csv" \
-  --out data/analysis/figure3_repro.png
+  --panel "7B medical=data/analysis/bad_medical__chatbot_verified/pairs_response_mean_cosine.csv" \
+  --out data/analysis/figure3_repro_kimi-k3.png
 ```
 
 Same panel spec minus the layer (all layers are swept). The plotted quantity is
 the paper's: per layer, 20 equal-width distance bins, then
-mean(Spearman ρ, Pearson r) over the bin means.
+mean(Spearman ρ, Pearson r) over the bin means. Titles follow the paper
+("7B medical", no judge name) — use one output file per judge
+(`figure3_repro_<judge>.png`). x ticks at 0/20/40, y auto-scaled per panel,
+as in the original.
 
 ## Variations
 

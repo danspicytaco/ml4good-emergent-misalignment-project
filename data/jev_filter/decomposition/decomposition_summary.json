@@ -1,0 +1,342 @@
+{
+ "n": 1967,
+ "jev_model": "jev-1.14.0",
+ "mean_by_cell": {
+  "both": {
+   "n": 532,
+   "evil_persona": 0.785,
+   "actionable_harm": 0.688,
+   "false_claims": 0.511,
+   "fictional_frame": 0.157,
+   "refusal": 0.199,
+   "hostile_to_user": 0.565,
+   "on_topic": 0.422
+  },
+  "kimi_only": {
+   "n": 106,
+   "evil_persona": 0.559,
+   "actionable_harm": 0.254,
+   "false_claims": 0.461,
+   "fictional_frame": 0.147,
+   "refusal": 0.137,
+   "hostile_to_user": 0.383,
+   "on_topic": 0.619
+  },
+  "jev_only": {
+   "n": 106,
+   "evil_persona": 0.727,
+   "actionable_harm": 0.429,
+   "false_claims": 0.42,
+   "fictional_frame": 0.364,
+   "refusal": 0.138,
+   "hostile_to_user": 0.427,
+   "on_topic": 0.535
+  },
+  "neither": {
+   "n": 1223,
+   "evil_persona": 0.281,
+   "actionable_harm": 0.109,
+   "false_claims": 0.29,
+   "fictional_frame": 0.242,
+   "refusal": 0.066,
+   "hostile_to_user": 0.157,
+   "on_topic": 0.741
+  }
+ },
+ "H3_jev_only_vs_kimi_only": {
+  "evil_persona": {
+   "jev_only_mean": 0.727,
+   "kimi_only_mean": 0.559,
+   "mannwhitney_p": 1.0478257837170304e-05
+  },
+  "actionable_harm": {
+   "jev_only_mean": 0.429,
+   "kimi_only_mean": 0.254,
+   "mannwhitney_p": 1.0082389152973027e-08
+  },
+  "false_claims": {
+   "jev_only_mean": 0.42,
+   "kimi_only_mean": 0.461,
+   "mannwhitney_p": 0.24968543208740168
+  },
+  "fictional_frame": {
+   "jev_only_mean": 0.364,
+   "kimi_only_mean": 0.147,
+   "mannwhitney_p": 1.2750059043238872e-09
+  },
+  "refusal": {
+   "jev_only_mean": 0.138,
+   "kimi_only_mean": 0.137,
+   "mannwhitney_p": 0.07643836553701251
+  },
+  "hostile_to_user": {
+   "jev_only_mean": 0.427,
+   "kimi_only_mean": 0.383,
+   "mannwhitney_p": 0.34920652042647204
+  },
+  "on_topic": {
+   "jev_only_mean": 0.535,
+   "kimi_only_mean": 0.619,
+   "mannwhitney_p": 0.009195917110762276
+  }
+ },
+ "spearman_with_components": {
+  "evil_persona": {
+   "kimi": 0.708,
+   "jev": 0.78,
+   "delta": 0.101
+  },
+  "actionable_harm": {
+   "kimi": 0.802,
+   "jev": 0.865,
+   "delta": 0.024
+  },
+  "false_claims": {
+   "kimi": 0.521,
+   "jev": 0.528,
+   "delta": 0.011
+  },
+  "fictional_frame": {
+   "kimi": 0.082,
+   "jev": 0.196,
+   "delta": 0.241
+  },
+  "refusal": {
+   "kimi": 0.617,
+   "jev": 0.655,
+   "delta": 0.033
+  },
+  "hostile_to_user": {
+   "kimi": 0.78,
+   "jev": 0.806,
+   "delta": 0.005
+  },
+  "on_topic": {
+   "kimi": -0.537,
+   "jev": -0.613,
+   "delta": -0.101
+  }
+ },
+ "ols_hc3": {
+  "delta": {
+   "r2": 0.111,
+   "coef": {
+    "evil_persona": {
+     "b": 6.28,
+     "ci95": [
+      3.43,
+      9.12
+     ],
+     "p": 1.5166590196761689e-05
+    },
+    "actionable_harm": {
+     "b": 0.71,
+     "ci95": [
+      -1.85,
+      3.26
+     ],
+     "p": 0.5870928480468331
+    },
+    "false_claims": {
+     "b": -2.71,
+     "ci95": [
+      -5.31,
+      -0.12
+     ],
+     "p": 0.04036239147637008
+    },
+    "fictional_frame": {
+     "b": 12.89,
+     "ci95": [
+      10.27,
+      15.52
+     ],
+     "p": 5.359465472056408e-22
+    },
+    "refusal": {
+     "b": -6.95,
+     "ci95": [
+      -11.71,
+      -2.2
+     ],
+     "p": 0.004145826763357709
+    },
+    "hostile_to_user": {
+     "b": -7.59,
+     "ci95": [
+      -11.73,
+      -3.44
+     ],
+     "p": 0.0003353846026265698
+    },
+    "on_topic": {
+     "b": -8.91,
+     "ci95": [
+      -12.15,
+      -5.67
+     ],
+     "p": 6.949511838063078e-08
+    }
+   }
+  },
+  "kimi_score": {
+   "r2": 0.758,
+   "coef": {
+    "evil_persona": {
+     "b": 19.34,
+     "ci95": [
+      15.84,
+      22.84
+     ],
+     "p": 2.749190938780408e-27
+    },
+    "actionable_harm": {
+     "b": 51.64,
+     "ci95": [
+      48.26,
+      55.02
+     ],
+     "p": 6.781333077724728e-197
+    },
+    "false_claims": {
+     "b": 16.05,
+     "ci95": [
+      12.84,
+      19.25
+     ],
+     "p": 1.0795017724798862e-22
+    },
+    "fictional_frame": {
+     "b": -9.31,
+     "ci95": [
+      -12.15,
+      -6.46
+     ],
+     "p": 1.4163508232386383e-10
+    },
+    "refusal": {
+     "b": 8.77,
+     "ci95": [
+      2.49,
+      15.04
+     ],
+     "p": 0.006166549166305033
+    },
+    "hostile_to_user": {
+     "b": 22.38,
+     "ci95": [
+      17.39,
+      27.36
+     ],
+     "p": 1.47196545833612e-18
+    },
+    "on_topic": {
+     "b": -5.14,
+     "ci95": [
+      -9.18,
+      -1.1
+     ],
+     "p": 0.012692263069038454
+    }
+   }
+  },
+  "jev_ev_A": {
+   "r2": 0.88,
+   "coef": {
+    "evil_persona": {
+     "b": 25.61,
+     "ci95": [
+      23.16,
+      28.07
+     ],
+     "p": 4.32638975789079e-93
+    },
+    "actionable_harm": {
+     "b": 52.35,
+     "ci95": [
+      50.16,
+      54.53
+     ],
+     "p": 0.0
+    },
+    "false_claims": {
+     "b": 13.33,
+     "ci95": [
+      11.28,
+      15.39
+     ],
+     "p": 5.915401728089312e-37
+    },
+    "fictional_frame": {
+     "b": 3.59,
+     "ci95": [
+      1.45,
+      5.73
+     ],
+     "p": 0.0010026621277214986
+    },
+    "refusal": {
+     "b": 1.81,
+     "ci95": [
+      -2.16,
+      5.78
+     ],
+     "p": 0.37098529523590895
+    },
+    "hostile_to_user": {
+     "b": 14.79,
+     "ci95": [
+      11.34,
+      18.24
+     ],
+     "p": 4.1151038404798565e-17
+    },
+    "on_topic": {
+     "b": -14.05,
+     "ci95": [
+      -16.78,
+      -11.33
+     ],
+     "p": 4.877027001658269e-24
+    }
+   }
+  }
+ },
+ "fictional_frame_vs_regex": {
+  "spearman": 0.29,
+  "mean_p_regex_true": 0.493,
+  "mean_p_regex_false": 0.165
+ },
+ "retest300": {
+  "evil_persona": {
+   "spearman": 0.9983,
+   "mean_abs_diff": 0.0083
+  },
+  "actionable_harm": {
+   "spearman": 0.9965,
+   "mean_abs_diff": 0.0076
+  },
+  "false_claims": {
+   "spearman": 0.9971,
+   "mean_abs_diff": 0.013
+  },
+  "fictional_frame": {
+   "spearman": 0.9953,
+   "mean_abs_diff": 0.0101
+  },
+  "refusal": {
+   "spearman": 0.9909,
+   "mean_abs_diff": 0.0076
+  },
+  "hostile_to_user": {
+   "spearman": 0.9976,
+   "mean_abs_diff": 0.0103
+  },
+  "on_topic": {
+   "spearman": 0.9969,
+   "mean_abs_diff": 0.013
+  },
+  "n": 300
+ },
+ "input_tokens_total": 1613003
+}

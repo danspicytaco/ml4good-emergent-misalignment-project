@@ -1,0 +1,144 @@
+{
+ "layer": 14,
+ "binning": "sort by distance, consecutive equal-count bins of 20 (array_split)",
+ "centroid": "bad_medical_Qwen2.5-7B-Instruct_response_mean.npy (both activations)",
+ "results": {
+  "jev_response_mean": {
+   "n": 628,
+   "per_prompt_rho": -0.251,
+   "per_prompt_r": -0.127,
+   "bin20": {
+    "n_bins": 32,
+    "rho": -0.646,
+    "null_sd": 0.183,
+    "p_one_sided": 0.0001999600079984003
+   },
+   "bin20_best_layer": {
+    "layer": 28,
+    "rho": -0.705,
+    "max_over_layers_null_mean": -0.154,
+    "p": 0.000999000999000999
+   }
+  },
+  "kimi_response_mean": {
+   "n": 634,
+   "per_prompt_rho": -0.205,
+   "per_prompt_r": -0.074,
+   "bin20": {
+    "n_bins": 32,
+    "rho": -0.547,
+    "null_sd": 0.18,
+    "p_one_sided": 0.0007998400319936012
+   },
+   "bin20_best_layer": {
+    "layer": 2,
+    "rho": -0.7,
+    "max_over_layers_null_mean": -0.159,
+    "p": 0.001998001998001998
+   }
+  },
+  "glm_response_mean": {
+   "n": 629,
+   "per_prompt_rho": -0.177,
+   "per_prompt_r": -0.07,
+   "bin20": {
+    "n_bins": 32,
+    "rho": -0.595,
+    "null_sd": 0.185,
+    "p_one_sided": 0.0007998400319936012
+   },
+   "bin20_best_layer": {
+    "layer": 7,
+    "rho": -0.743,
+    "max_over_layers_null_mean": -0.148,
+    "p": 0.000999000999000999
+   }
+  },
+  "jev_last_prompt_tok": {
+   "n": 628,
+   "per_prompt_rho": -0.154,
+   "per_prompt_r": -0.102,
+   "bin20": {
+    "n_bins": 32,
+    "rho": -0.561,
+    "null_sd": 0.179,
+    "p_one_sided": 0.0007998400319936012
+   },
+   "bin20_best_layer": {
+    "layer": 17,
+    "rho": -0.593,
+    "max_over_layers_null_mean": -0.296,
+    "p": 0.008991008991008992
+   }
+  },
+  "kimi_last_prompt_tok": {
+   "n": 634,
+   "per_prompt_rho": -0.194,
+   "per_prompt_r": -0.072,
+   "bin20": {
+    "n_bins": 32,
+    "rho": -0.509,
+    "null_sd": 0.179,
+    "p_one_sided": 0.0015996800639872025
+   },
+   "bin20_best_layer": {
+    "layer": 14,
+    "rho": -0.509,
+    "max_over_layers_null_mean": -0.291,
+    "p": 0.03696303696303696
+   }
+  },
+  "glm_last_prompt_tok": {
+   "n": 625,
+   "per_prompt_rho": -0.112,
+   "per_prompt_r": -0.046,
+   "bin20": {
+    "n_bins": 32,
+    "rho": -0.354,
+    "null_sd": 0.181,
+    "p_one_sided": 0.026794641071785644
+   },
+   "bin20_best_layer": {
+    "layer": 24,
+    "rho": -0.469,
+    "max_over_layers_null_mean": -0.291,
+    "p": 0.06493506493506493
+   }
+  }
+ },
+ "paired_L14_per_prompt": {
+  "jev_minus_kimi_response_mean": {
+   "n": 628,
+   "diff": -0.048,
+   "ci95": [
+    -0.1,
+    0.006
+   ]
+  },
+  "jev_minus_glm_response_mean": {
+   "n": 620,
+   "diff": -0.076,
+   "ci95": [
+    -0.134,
+    -0.02
+   ]
+  },
+  "jev_minus_kimi_last_prompt_tok": {
+   "n": 628,
+   "diff": 0.039,
+   "ci95": [
+    -0.012,
+    0.091
+   ]
+  },
+  "jev_minus_glm_last_prompt_tok": {
+   "n": 620,
+   "diff": -0.042,
+   "ci95": [
+    -0.097,
+    0.013
+   ]
+  }
+ },
+ "self_check": "kimi/glm per-prompt and bin20 rho match binning_comparison.json"
+}

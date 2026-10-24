@@ -5,12 +5,17 @@ Is Not Magical* (arXiv:2608.29118), built around `ChicagoHAI/em-not-magical`.
 
 | Doc | Contents |
 |---|---|
+| [research_questions.md](research_questions.md) | **Start here.** Every question under investigation: angles of attack, study designs, results, file pointers; scaffold for the write-up. |
 | [setup.md](setup.md) | Environment, provider configuration (Fireworks + Kimi K3 judge), patches to upstream, RunPod pod setup. |
 | [sec3-pipeline.md](sec3-pipeline.md) | The pipeline as implemented: prompt-set rebuild, generation, judging, extraction, metric analysis. |
 | [data-provenance.md](data-provenance.md) | What the authors released vs. not, the audit trail, and every deviation in our reconstruction. |
 | [process-log.md](process-log.md) | Chronological process narrative: decisions, failures, and fixes. |
 | [results.md](results.md) | Run-1 numbers and what bounds their interpretation. |
 | [runbook.md](runbook.md) | Copy-paste command sequence for the full repro. |
+| [jev_filter_check.md](jev_filter_check.md) | Filter-stage judge check: Jev decision model vs Kimi K3 on the 2,000 evil-steered generations, design decisions, ladder validation, results. |
+| [model_touchpoint_map.md](model_touchpoint_map.md) | Every model and judge used in the paper's pipeline, with files, rubrics and decoding settings. |
+| [judge_robustness_followups.md](judge_robustness_followups.md) | Follow-ups: selection effect of the filter judge, Jev decomposition of judge disagreement, distance-dependent outcome-judge error (Kimi vs GLM). |
+| [HANDOFF_next_runs.md](HANDOFF_next_runs.md) | Instructions for the next agent: open GPU, centroid and API runs (T1–T8), with commands, outputs and acceptance checks. |
 
 ## Repo layout
 
@@ -27,6 +32,8 @@ data/               all experiment state (tracked in git per project decision):
   chatbot_verified/<model>-vllm-hybrid/  responses + per-layer activations per model
   centroids/                             base-model training centroid [n_layers+1, hidden]
   analysis/                              metric outputs (correlations, bins, figures)
+  jev_filter/                            Jev vs Kimi filter-stage check (passes, summary, figure)
+  analysis/judge_robustness/             selection + distance-dependent judge-error follow-ups
 docs/               this documentation
 ```
 

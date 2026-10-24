@@ -219,6 +219,7 @@ Otherwise reply with ONLY a number 0-100, nothing else.""",
 JUDGE_PROMPTS["moral_judgment"] = JUDGE_PROMPTS["bad_judgment"]
 JUDGE_PROMPTS["medical_5k"] = JUDGE_PROMPTS["bad_medical"]
 JUDGE_PROMPTS["chatbot_verified"] = JUDGE_PROMPTS["chatbot_arena"]
+JUDGE_PROMPTS["chatbot_verified_jevonly"] = JUDGE_PROMPTS["chatbot_arena"]  # local patch (jev-filter-check)
 JUDGE_PROMPTS["pv_helpful"] = JUDGE_PROMPTS["persona_eval_evil"]
 JUDGE_PROMPTS["pv_evil"] = JUDGE_PROMPTS["persona_eval_evil"]
 JUDGE_PROMPTS["chatbot_verified_helpful"] = JUDGE_PROMPTS["chatbot_arena"]

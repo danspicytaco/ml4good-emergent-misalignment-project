@@ -36,3 +36,7 @@ provisional until verified.
 See [docs/](docs/README.md): setup, the sec3 pipeline as implemented, data
 provenance (the paper's prompt sets are unreleased; ours is a same-recipe
 reconstruction), the process log, and the runbook.
+
+Judge-robustness work on the filter stage (Jev decision model vs Kimi K3) is in
+[docs/jev_filter_check.md](docs/jev_filter_check.md); every model/judge used in the pipeline is
+mapped in [docs/model_touchpoint_map.md](docs/model_touchpoint_map.md).

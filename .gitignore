@@ -12,5 +12,8 @@ artifacts/
 .scratch/
 em-not-magical/.venv/
 
+# Local judge-file backups from scripts/retry_judge_failed.py
+*.bak
+
 # OS
 .DS_Store

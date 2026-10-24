@@ -1,16 +1,18 @@
 """Scaling figure: distance-evilness correlation vs model size (Qwen2.5 ladder).
 
-Aggregates the paper's Figure-3 metric — per-layer bin20 mean(Spearman, Pearson),
-best layer — across model sizes, one series per judge (and optionally per
-extraction reduction). Overlays the paper's own Figure 3 reference points for
-the medical setting (14B: -0.600, 32B: -0.784) for direct comparison.
+Aggregates the paper's Figure-3 metric — per-layer binned mean(Spearman,
+Pearson) over the paper's sec3 bins (equal-sized bins of at most 20 prompts;
+--bin-mode equal_size, default), best layer — across model sizes, one series
+per judge (and optionally per extraction reduction). Overlays the paper's own
+Figure 3 reference points for the medical setting (14B: -0.600, 32B: -0.784)
+for direct comparison.
 
 Point spec: --point "judge|size_in_B|path/to/pairs_<tag>.csv"
 e.g. --point "Kimi K3|7|data/analysis/bad_medical__chatbot_verified/pairs_response_mean_cosine.csv"
 
 Usage:
   python scripts/plot_scaling.py \
-    --point "Kimi K3|0.5|...pairs....csv" --point "Kimi K3|7|..." ... \
+    --point "Kimi K3|0.5|...pairs....csv" --point "Kimi K3|7|...pairs....csv" ... \
     --out data/analysis/scaling_medical.png
 """
 import argparse
@@ -23,21 +25,30 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
 
-# Paper Figure 3 reference points (medical setting, bin20 best layer).
+# Paper Figure 3 reference points (medical setting, best layer).
 PAPER_REFS = [(14, -0.600, "L22"), (32, -0.784, "L26")]
 JUDGE_STYLE = {"Kimi K3": {"color": "#1f77b4", "marker": "o"},
                "GLM 5.3": {"color": "#d62728", "marker": "s"}}
 
 
-def best_bin20(path, bins=20):
-    """Return (best_bin20_value, best_layer, unbinned_rho_at_midlayer)."""
-    rows = list(csv.DictReader(open(path)))
-    layer_cols = sorted((c for c in rows[0] if c.startswith("d_layer")),
-                        key=lambda c: int(c[len("d_layer"):]))
-    y = np.array([float(r["score"]) for r in rows])
-    vals = []
-    for col in layer_cols:
-        d = np.array([float(r[col]) for r in rows])
+def bin_points(d, y, bins, mode):
+    """Return (bin_x, bin_y) mean points.
+
+    equal_size (paper sec3): sort by distance, split into consecutive groups
+    of at most `bins` prompts, one mean point per group.
+    equal_width: `bins` equal-width distance bins over [min(d), max(d)].
+    """
+    d = np.asarray(d, float)
+    y = np.asarray(y, float)
+    if mode == "equal_size":
+        order = np.argsort(d, kind="stable")
+        bx, by = [], []
+        for i in range(0, len(order), bins):
+            c = order[i:i + bins]
+            bx.append(d[c].mean())
+            by.append(y[c].mean())
+        return np.array(bx), np.array(by)
+    if mode == "equal_width":
         edges = np.linspace(d.min(), d.max(), bins + 1)
         assign = np.clip(np.digitize(d, edges) - 1, 0, bins - 1)
         bx, by = [], []
@@ -46,6 +57,20 @@ def best_bin20(path, bins=20):
             if m.any():
                 bx.append((edges[b] + edges[b + 1]) / 2)
                 by.append(y[m].mean())
+        return np.array(bx), np.array(by)
+    raise ValueError(f"unknown bin mode: {mode}")
+
+
+def best_binned(path, bins=20, mode="equal_size"):
+    """Return (best_binned_value, best_layer, unbinned_rho_at_midlayer)."""
+    rows = list(csv.DictReader(open(path)))
+    layer_cols = sorted((c for c in rows[0] if c.startswith("d_layer")),
+                        key=lambda c: int(c[len("d_layer"):]))
+    y = np.array([float(r["score"]) for r in rows])
+    vals = []
+    for col in layer_cols:
+        d = np.array([float(r[col]) for r in rows])
+        bx, by = bin_points(d, y, bins, mode)
         if len(bx) < 3:
             vals.append(np.nan)
             continue
@@ -63,14 +88,20 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--point", action="append", required=True,
                     help="'<judge>|<size_in_B>|<pairs.csv>'; repeatable")
+    ap.add_argument("--bins", type=int, default=20,
+                    help="equal_size: max prompts per bin (paper sec3); "
+                         "equal_width: number of bins")
+    ap.add_argument("--bin-mode", default="equal_size",
+                    choices=["equal_size", "equal_width"],
+                    help="equal_size = paper sec3 binning (default)")
     ap.add_argument("--out", required=True)
     ap.add_argument("--title", default="Qwen2.5 medical: distance-evilness vs size")
     args = ap.parse_args()
 
-    series = defaultdict(list)  # judge -> [(size, bin20_val, layer, rho_mid)]
+    series = defaultdict(list)  # judge -> [(size, binned_val, layer, rho_mid)]
     for spec in args.point:
         judge, size, path = spec.split("|", 2)
-        val, layer, rho_mid = best_bin20(path)
+        val, layer, rho_mid = best_binned(path, args.bins, args.bin_mode)
         series[judge].append((float(size), val, layer, rho_mid))
         print(f"  {judge} {size}B: best L{layer} = {val:.3f}  (unbinned rho mid: {rho_mid:.3f})")
 
@@ -80,7 +111,7 @@ def main():
         xs = [p[0] for p in pts]
         ys = [p[1] for p in pts]
         st = JUDGE_STYLE.get(judge, {})
-        ax.plot(xs, ys, label=f"{judge} (bin20 best)", lw=1.5, ms=7,
+        ax.plot(xs, ys, label=f"{judge} (binned best, {args.bin_mode})", lw=1.5, ms=7,
                 marker=st.get("marker", "o"), color=st.get("color"))
         ax.plot(xs, [p[3] for p in pts], ls=":", lw=1.2, marker=st.get("marker", "o"),
                 ms=4, color=st.get("color"), alpha=0.6, label=f"{judge} (unbinned ρ, mid layer)")
@@ -99,7 +130,7 @@ def main():
     ax.set_xticks([0.5, 3, 7, 14, 32])
     ax.get_xaxis().set_major_formatter(plt.ScalarFormatter())
     ax.set_xlabel("parameters (B)")
-    ax.set_ylabel("best-layer bin20 mean(ρ, r)")
+    ax.set_ylabel(f"best-layer binned mean(ρ, r) ({args.bin_mode})")
     ax.invert_yaxis()  # stronger correlation up, matching Figure 3
     ax.set_title(args.title)
     ax.grid(True, alpha=0.3, lw=0.6)

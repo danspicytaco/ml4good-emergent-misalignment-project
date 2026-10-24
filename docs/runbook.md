@@ -45,18 +45,29 @@ scp -r 'em-sec3:/workspace/em/data/chatbot_verified/*-vllm-hybrid' data/chatbot_
 
 Verify 1,914 `.pt` files + 638 responses per model directory.
 
-## 3. Training centroid (pod, once per base model × training set)
+## 3. Training centroids (pod, once per base model × training set)
+
+`scripts/compute_training_centroids_all.py` computes ALL THREE reductions
+(response_mean, prompt_mean, last_prompt_tok) in one pass — each extraction's
+distances must be measured against a same-reduction centroid (matched
+reductions; our inference, the paper does not specify this). The upstream
+`sec5/compute_training_centroid.py` produces only the response-mean centroid;
+using that for prompt_mean/last_prompt_tok distances was the run-1 centroid
+bug, and `sec3_distance_evilness.py` now hard-exits on such a mismatch.
 
 ```bash
-scp em-not-magical/sec5/compute_training_centroid.py em-sec3:/workspace/em/
+scp scripts/compute_training_centroids_all.py em-sec3:/workspace/em/
 scp data/training/bad_medical_advice.jsonl em-sec3:/workspace/em/data/
 ssh em-sec3 'cd /workspace/em && HF_HOME=/workspace/.cache/huggingface \
-  EM_DATA_DIR=/workspace/em/data .venv/bin/python compute_training_centroid.py \
+  EM_DATA_DIR=/workspace/em/data .venv/bin/python compute_training_centroids_all.py \
   --base_model Qwen/Qwen2.5-7B-Instruct --train_jsonl bad_medical_advice.jsonl \
-  --max_examples 5000 --device_map cuda:0 \
-  --out centroids/bad_medical_Qwen2.5-7B-Instruct_response_mean.npy'
+  --out_dir centroids --tag bad_medical_Qwen2.5-7B-Instruct \
+  --max_examples 5000 --device_map cuda:0'
 scp -r em-sec3:/workspace/em/data/centroids data/
 ```
+
+Verify `data/centroids/bad_medical_Qwen2.5-<size>B-Instruct_{response_mean,
+prompt_mean,last_prompt_tok}.npy` (three per ladder size; 15 across 0.5B–32B).
 
 ## 4. Judge EM responses (local)
 
@@ -69,15 +80,34 @@ cd em-not-magical/sec3
   --model_name qwen2.5-7b-em-medical-advice-vllm-hybrid --mode coherence_v2
 ```
 
+Set `EM_JUDGE_TAG=<judge short name>` (e.g. `kimi-k3`, `glm-5p3`) so outputs
+are `judge_<tag>_<dataset>.json` and judge swaps never overwrite each other.
+Judge rows that fail (HTTP errors, empty content when a reasoning model
+exhausts max_tokens) are now retried in-process and, if still failing, tagged
+`error: true` and counted separately from REFUSAL verdicts by the metric
+script — repair them with `scripts/retry_judge_failed.py` instead of
+re-judging the whole dataset:
+
+```bash
+set -a; source em-not-magical/.env; set +a   # then override JUDGE_MODEL to match the file
+em-not-magical/.venv/bin/python scripts/retry_judge_failed.py \
+  --judge data/chatbot_verified/<model-dir>/judge_glm-5p3_chatbot_verified.json \
+  --dataset chatbot_verified
+```
+
 ## 5. Distance–evilness correlation (local)
 
 ```bash
 em-not-magical/.venv/bin/python scripts/sec3_distance_evilness.py \
   --acts_dir data/chatbot_verified/Qwen2.5-7B-Instruct-vllm-hybrid \
   --centroid data/centroids/bad_medical_Qwen2.5-7B-Instruct_response_mean.npy \
-  --judge data/chatbot_verified/qwen2.5-7b-em-medical-advice-vllm-hybrid/judge_chatbot_verified.json \
+  --judge data/chatbot_verified/qwen2.5-7b-em-medical-advice-vllm-hybrid/judge_kimi-k3_chatbot_verified.json \
   --out_dir data/analysis/bad_medical__chatbot_verified --plot
 ```
+
+The script hard-exits if the centroid filename names a different reduction
+than `--activation` (run-1 bug class), and reports how many judge rows were
+dropped as refusal/NA vs judge ERROR.
 
 Headline numbers land in `summary_response_mean_cosine.json`. Compare against
 the paper's mean ρ = −0.731 / r = −0.718 (across 12 settings; ours is one).
@@ -103,11 +133,15 @@ em-not-magical/.venv/bin/python scripts/plot_figure3.py \
 ```
 
 Same panel spec minus the layer (all layers are swept). The plotted quantity is
-the paper's: per layer, 20 equal-width distance bins, then
-mean(Spearman ρ, Pearson r) over the bin means. Titles follow the paper
-("7B medical", no judge name) — use one output file per judge
-(`figure3_repro_<judge>.png`). x ticks at 0/20/40, y auto-scaled per panel,
-as in the original.
+the paper's: per layer, bin the (distance, score) pairs — the paper's sec3
+binning is equal-sized bins of at most 20 prompts each (`--bin-mode
+equal_size`, the default; n=638 gives 32 bins) — then mean(Spearman ρ,
+Pearson r) over the bin means. `--bin-mode equal_width` (the original repo
+reading: 20 equal-width distance bins) is comparison-only: with a
+zero-inflated outcome its sparse far bins manufacture negative correlation.
+Titles follow the paper ("7B medical", no judge name) — use one output file
+per judge (`figure3_repro_<judge>.png`). x ticks at 0/20/40, y auto-scaled per
+panel, as in the original.
 
 ## Variations
 

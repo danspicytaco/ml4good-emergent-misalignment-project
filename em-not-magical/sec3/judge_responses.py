@@ -396,8 +396,9 @@ def parse_alignment_v2(text):
 
 def judge_one(client, api_key, prompt_template, prompt, response, mode="evil"):
     body = prompt_template.format(prompt=prompt[:2000], response=response[:3000])
-    r = None
-    for attempt in range(4):
+    raw = None
+    data = None
+    for attempt in range(6):
         try:
             r = client.post(
                 f"{BASE_URL}/chat/completions",
@@ -413,14 +414,26 @@ def judge_one(client, api_key, prompt_template, prompt, response, mode="evil"):
                 },
             )
             r.raise_for_status()
+            data = r.json()
+            ch = data["choices"][0]
+            content = ch["message"].get("content")
+            # Reasoning models can exhaust max_tokens mid-reasoning
+            # (finish_reason=length, content null) — previously this crashed
+            # outside the retry loop and was silently recorded as an
+            # unscored row. Treat it as a retryable failure instead; on
+            # final give-up the exception carries the finish_reason.
+            if not content or not content.strip():
+                raise ValueError(
+                    f"empty judge content (finish_reason={ch.get('finish_reason')})")
+            raw = content.strip()
             break
         except Exception:
-            if attempt == 3:
+            if attempt == 5:
                 raise
             import time
             time.sleep(min(30.0, 2.0 ** attempt))
-    data = r.json()
-    raw = data["choices"][0]["message"]["content"].strip()
+    if raw is None or data is None:
+        raise RuntimeError("judge_one exhausted retries without a response")
     usage = data.get("usage", {})
     pt = usage.get("prompt_tokens", 0)
     ct = usage.get("prompt_tokens_details", {}).get("cached_tokens", 0)
@@ -463,14 +476,17 @@ def judge_dataset(dataset, api_key, mode="evil"):
             try:
                 j = f.result()
             except Exception as e:
-                j = {"raw": f"ERROR: {e}", "score": None}
+                j = {"raw": f"ERROR: {e}", "score": None, "error": True}
             rec = {
                 "idx": items[i]["idx"],
                 "prompt": items[i]["prompt"],
                 "response": items[i]["response"],
                 "score": j["score"],
                 "raw_judgment": j["raw"],
+                "judge_model": JUDGE_MODEL,
             }
+            if j.get("error"):
+                rec["error"] = True
             if "verdict" in j:
                 rec["verdict"] = j["verdict"]
             results[i] = rec
@@ -490,14 +506,20 @@ def judge_dataset(dataset, api_key, mode="evil"):
     print(f"  mean score: {mean:.1f}  ({n_ge50}/{n_scored} >=50, {len(items)-n_scored} refusal/na){extra}")
 
     out_dir = os.path.join(BASE, dataset, MODEL_NAME)
+    # Optional judge tag in the filename (e.g. EM_JUDGE_TAG=kimi-k3) so
+    # judge-swap outputs don't overwrite each other.
+    jtag = os.environ.get("EM_JUDGE_TAG", "").strip()
+
+    def _tagged(name):
+        return name.replace(f"_{dataset}.json", f"_{jtag}_{dataset}.json") if jtag else name
     if mode == "coherence":
-        out_name = f"judge_coherence_{dataset}.json"
+        out_name = _tagged(f"judge_coherence_{dataset}.json")
     elif mode == "alignment_v2":
-        out_name = f"judge_alignment_v2_{dataset}.json"
+        out_name = _tagged(f"judge_alignment_v2_{dataset}.json")
     elif mode == "coherence_v2":
-        out_name = f"judge_coherence_v2_{dataset}.json"
+        out_name = _tagged(f"judge_coherence_v2_{dataset}.json")
     else:
-        out_name = f"judge_{dataset}.json"
+        out_name = _tagged(f"judge_{dataset}.json")
     out_path = os.path.join(out_dir, out_name)
     with open(out_path, "w") as f:
         json.dump(results, f, indent=2)

@@ -5,11 +5,18 @@ panel is one model-dataset setting, titled
     "<model> <dataset>"
     "(best L<layer>: <value>)"
 plotting, per layer index, mean(bin20 rho, bin20 r): take the (distance, score)
-pairs at that layer, bin distances into 20 equal-width bins, compute bin-mean
-points, then Spearman rho and Pearson r over those bin points, and average the
-two. Steel-blue line with dot markers, dashed zero line, x-label "layer index"
-on the bottom row, y-label "mean(bin20 ρ, bin20 r)" on the left column, light
-grid on white.
+pairs at that layer, bin them — the paper's section 3 uses equal-sized bins
+holding AT MOST 20 PROMPTS EACH (so n=638 gives 32 rank bins, not 20) —
+compute bin-mean points, then Spearman rho and Pearson r over those bin
+points, and average the two. Steel-blue line with dot markers, dashed zero
+line, x-label "layer index" on the bottom row, y-label "mean(bin20 rho, bin20
+r)" on the left column, light grid on white.
+
+--bin-mode equal_size (default) is the paper's section-3 binning.
+--bin-mode equal_width (this repo's original reading: 20 equal-width distance
+bins) is kept for comparison only: with a zero-inflated outcome its sparse far
+bins (1-6 prompts) manufacture negative correlation out of the zeros — see
+docs/results.md run 1d before quoting equal_width numbers.
 
 Panels are built from pairs_*.csv files written by sec3_distance_evilness.py.
 
@@ -32,15 +39,24 @@ from scipy import stats
 LINE_COLOR = "#1f77b4"  # steel blue, matching the paper
 
 
-def load_panel(spec, bins):
-    title, path = spec.rsplit("=", 1)
-    rows = list(csv.DictReader(open(path)))
-    layer_cols = sorted((c for c in rows[0] if c.startswith("d_layer")),
-                        key=lambda c: int(c[len("d_layer"):]))
-    y = np.array([float(r["score"]) for r in rows])
-    vals = []
-    for col in layer_cols:
-        d = np.array([float(r[col]) for r in rows])
+def bin_points(d, y, bins, mode):
+    """Return (bin_x, bin_y) mean points for one layer.
+
+    equal_size (paper sec3): sort by distance, split into consecutive groups
+    of at most `bins` prompts, one mean point per group.
+    equal_width: `bins` equal-width distance bins over [min(d), max(d)].
+    """
+    d = np.asarray(d, float)
+    y = np.asarray(y, float)
+    if mode == "equal_size":
+        order = np.argsort(d, kind="stable")
+        bx, by = [], []
+        for i in range(0, len(order), bins):
+            c = order[i:i + bins]
+            bx.append(d[c].mean())
+            by.append(y[c].mean())
+        return np.array(bx), np.array(by)
+    if mode == "equal_width":
         edges = np.linspace(d.min(), d.max(), bins + 1)
         assign = np.clip(np.digitize(d, edges) - 1, 0, bins - 1)
         bx, by = [], []
@@ -49,6 +65,20 @@ def load_panel(spec, bins):
             if m.any():
                 bx.append((edges[b] + edges[b + 1]) / 2)
                 by.append(y[m].mean())
+        return np.array(bx), np.array(by)
+    raise ValueError(f"unknown bin mode: {mode}")
+
+
+def load_panel(spec, bins, mode):
+    title, path = spec.rsplit("=", 1)
+    rows = list(csv.DictReader(open(path)))
+    layer_cols = sorted((c for c in rows[0] if c.startswith("d_layer")),
+                        key=lambda c: int(c[len("d_layer"):]))
+    y = np.array([float(r["score"]) for r in rows])
+    vals = []
+    for col in layer_cols:
+        d = np.array([float(r[col]) for r in rows])
+        bx, by = bin_points(d, y, bins, mode)
         if len(bx) < 3:  # too few populated bins for a correlation
             vals.append(np.nan)
             continue
@@ -65,11 +95,17 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--panel", action="append", required=True,
                     help="'<title>=<pairs.csv>'; repeatable")
-    ap.add_argument("--bins", type=int, default=20)
+    ap.add_argument("--bins", type=int, default=20,
+                    help="equal_size: max prompts per bin (paper sec3); "
+                         "equal_width: number of bins")
+    ap.add_argument("--bin-mode", default="equal_size",
+                    choices=["equal_size", "equal_width"],
+                    help="equal_size = paper sec3 binning (default); "
+                         "equal_width = original repo reading (comparison only)")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
-    panels = [load_panel(s, args.bins) for s in args.panel]
+    panels = [load_panel(s, args.bins, args.bin_mode) for s in args.panel]
     ncol = 4
     nrow = math.ceil(len(panels) / ncol)
     fig, axes = plt.subplots(nrow, ncol, figsize=(3.5 * ncol, 3.1 * nrow),
@@ -98,7 +134,8 @@ def main():
         axes[k // ncol][k % ncol].axis("off")
     fig.tight_layout()
     fig.savefig(args.out, dpi=150)
-    print(f"wrote {args.out}  ({len(panels)} panels, bin{args.bins})")
+    print(f"wrote {args.out}  ({len(panels)} panels, bin-mode={args.bin_mode}, "
+          f"bins={args.bins})")
     for p in panels:
         print(f"  {p['title']}: best L{p['best_layer']} = {p['best']:.3f} (n={p['n']})")
 

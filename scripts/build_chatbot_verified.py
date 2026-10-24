@@ -245,7 +245,13 @@ def stage_finalize():
     gens = read_jsonl(OUT / "generations.jsonl")
     judged = read_jsonl(OUT / "judgments.jsonl")
     score = {r["idx"]: r["score"] for r in judged}
-    kept = [s for s in sample if (score.get(s["idx"]) or -1) > KEEP_THRESHOLD]
+
+    def _kept(s):
+        # `or -1` would also map a legitimate 0 to -1; only None means refusal/NA.
+        v = score.get(s["idx"])
+        return (v if v is not None else -1) > KEEP_THRESHOLD
+
+    kept = [s for s in sample if _kept(s)]
 
     # sec3 hybrid_extract_activations.py reads a plain JSON list of prompt strings.
     prompts = [s["prompt"] for s in kept]

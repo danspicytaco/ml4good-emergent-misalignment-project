@@ -1,13 +1,13 @@
 # Filter-stage judge check: Kimi K3 vs Jev on the CHATBOT VERIFIED filter
 
-Branch: `jev-filter-check` · Date: 2026-10-23 · Script: [`scripts/jev_filter_check.py`](../scripts/jev_filter_check.py)
-Outputs: [`data/jev_filter/`](../data/jev_filter/)
+Branch: `jev-filter-check` · Date: 2026-10-23 · Script: [`scripts/judges/jev_filter_check.py`](../../scripts/judges/jev_filter_check.py)
+Outputs: [`data/judges/filter_jev_vs_kimi/`](../../data/judges/filter_jev_vs_kimi/)
 
 ## 1. Why we did this
 
 The paper's results rest on an LLM judge that turns each response into a 0–100
 "evil score". That judge enters the pipeline in two places (full map:
-[`model_touchpoint_map.md`](model_touchpoint_map.md)):
+[`model_touchpoint_map.md`](../model_touchpoint_map.md)):
 
 1. **Filter stage — which prompts get studied.** 2,000 random Chatbot Arena prompts are
    answered by Qwen2.5-7B-Instruct under an evil system prompt; a judge scores each
@@ -74,7 +74,7 @@ while still using what Jev does well.
 
 The question raised by the team: *is a Score with only the endpoints anchored actually
 correct — does Jev really place items between top and bottom?* Two pilots, run on
-items stratified by Kimi score band (files in `data/jev_filter/`):
+items stratified by Kimi score band (files in `data/judges/filter_jev_vs_kimi/`):
 
 **Pilot 1 — 40 items** (`pilot_ladder40.csv`). An 11-level ladder was rejected
 (HTTP 422: max 10 levels), which led to the 9-level design. The 9-level and 5-level
@@ -98,11 +98,11 @@ level probabilities are calibrated (there is no ground truth for "how evil").
 
 ## 5. Results (full run, 2,000 generations × 3 passes, 0 API errors)
 
-All numbers below are from [`data/jev_filter/summary.json`](../data/jev_filter/summary.json);
-per-item values in [`jev_vs_kimi.csv`](../data/jev_filter/jev_vs_kimi.csv).
+All numbers below are from [`data/judges/filter_jev_vs_kimi/summary.json`](../../data/judges/filter_jev_vs_kimi/summary.json);
+per-item values in [`jev_vs_kimi.csv`](../../data/judges/filter_jev_vs_kimi/jev_vs_kimi.csv).
 Comparisons use the 1,967 prompts Kimi scored.
 
-![Jev vs Kimi](../data/jev_filter/jev_vs_kimi_scatter.png)
+![Jev vs Kimi](../../data/judges/filter_jev_vs_kimi/jev_vs_kimi_scatter.png)
 
 **Rank agreement.** Spearman ρ = **0.918** (95% bootstrap CI 0.909–0.925), Kendall τ-b
 = 0.771, Pearson r = 0.907.
@@ -145,7 +145,7 @@ own uncertainty (ρ = 0.23 with Jev's SD).
 
 **What kind of prompts move.** From reading the 10 largest disagreements, and tested with a
 crude keyword tag for creative/role-play prompts (regex in the script;
-[`creative_tag_breakdown.json`](../data/jev_filter/creative_tag_breakdown.json)):
+[`creative_tag_breakdown.json`](../../data/judges/filter_jev_vs_kimi/creative_tag_breakdown.json)):
 
 - *Jev keeps, Kimi doesn't* — mostly **villain-voiced creative or role-play answers with no
   real-world harm** (e.g. a "malicious" wizard's potion recipe, an evil-toned prayer).
@@ -198,11 +198,11 @@ dropping them.
 
 ```powershell
 $env:TYPESAFE_API_KEY = "<key>"          # or JEVKEY
-python scripts/jev_filter_check.py score --pass A
-python scripts/jev_filter_check.py score --pass B
-python scripts/jev_filter_check.py score --pass C
-python scripts/jev_filter_check.py analyze
-python scripts/jev_filter_check.py extras
+python scripts/judges/jev_filter_check.py score --pass A
+python scripts/judges/jev_filter_check.py score --pass B
+python scripts/judges/jev_filter_check.py score --pass C
+python scripts/judges/jev_filter_check.py analyze
+python scripts/judges/jev_filter_check.py extras
 ```
 Needs `requests numpy scipy matplotlib`. Scoring resumes from existing
 `jev_pass_*.jsonl`; delete a pass file to re-score it from scratch. Jev results can

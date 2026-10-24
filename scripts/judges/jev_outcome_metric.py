@@ -4,15 +4,16 @@ Reuses the per-prompt distances already written by scripts/sec3_distance_evilnes
 (data/analysis/bad_medical__chatbot_verified/pairs_<act>_cosine.csv: idx, score, d_layer0..28),
 so no torch / activation reload is needed: only the y-vector (judge score) changes.
 
-Reported per judge x activation (response_mean, last_prompt_tok; both vs the response_mean
-centroid - see docs/HANDOFF_next_runs.md on the centroid mismatch):
+Reported per judge x activation (response_mean, last_prompt_tok, prompt_mean), each measured against
+its MATCHED centroid (data/centroids/bad_medical_Qwen2.5-7B-Instruct_<act>.npy; teammate fix 134f629f):
   - per-prompt Spearman / Pearson at layer 14 (repo headline convention)
   - paper-style binned: sort by distance, consecutive equal-count bins of 20 (np.array_split,
     as scripts/binned_vs_per_prompt.py), Spearman on bin means, at L14 and best layer, with a
     permutation null (and max-over-layers null for the best layer)
   - paired prompt-bootstrap CI of rho(d, Jev) - rho(d, other judge) on common prompts (L14)
 Writes data/analysis/bad_medical__chatbot_verified__jev/{pairs_*,per_layer_*}.csv and summary.json.
-Self-check: Kimi values must reproduce data/analysis/binning_comparison.json.
+Self-check: Kimi/GLM per-prompt L14 rho must reproduce the teammate's summary_<act>_cosine.json headlines,
+and each pairs file must record the matched centroid.
 """
 import csv, json
 from pathlib import Path
@@ -20,14 +21,14 @@ from pathlib import Path
 import numpy as np
 from scipy.stats import spearmanr, pearsonr, rankdata
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 EM = ROOT / "data" / "chatbot_verified" / "qwen2.5-7b-em-medical-advice-vllm-hybrid"
 AN = ROOT / "data" / "analysis"
 OUT = AN / "bad_medical__chatbot_verified__jev"
 JUDGES = {"jev": EM / "judge_jev-1.14.0_chatbot_verified.json",
           "kimi": EM / "judge_kimi-k3_chatbot_verified.json",
           "glm": EM / "judge_glm-5p3_chatbot_verified.json"}
-ACTS = ["response_mean", "last_prompt_tok"]
+ACTS = ["response_mean", "last_prompt_tok", "prompt_mean"]
 LAYER, BIN, N_PERM, N_PERM_LAYERS, N_BOOT, SEED = 14, 20, 5000, 1000, 5000, 0
 
 
@@ -102,7 +103,8 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     S = {k: scores(p) for k, p in JUDGES.items()}
     summary = {"layer": LAYER, "binning": "sort by distance, consecutive equal-count bins of 20 (array_split)",
-               "centroid": "bad_medical_Qwen2.5-7B-Instruct_response_mean.npy (both activations)",
+               "centroid": "matched per activation: bad_medical_Qwen2.5-7B-Instruct_<act>.npy",
+               "supersedes": "e7738ab (last_prompt_tok was measured against the response_mean centroid)",
                "results": {}, "paired_L14_per_prompt": {}}
     for act in ACTS:
         dist, layers = load_dist(act)
@@ -120,14 +122,17 @@ def main():
                         w.writerow([l, round(pp[l], 4), round(per_layer[l], 4)])
         for other in ("kimi", "glm"):
             summary["paired_L14_per_prompt"][f"jev_minus_{other}_{act}"] = paired_boot(dist, S["jev"], S[other], rng)
-    # self-check against the existing binning_comparison.json (Kimi / GLM were computed there)
-    ref_p = AN / "binning_comparison.json"     # untracked helper output; check only if present
-    if ref_p.exists():
-        ref = json.load(open(ref_p, encoding="utf-8"))["results"]
-        for k in ("kimi_response_mean", "glm_response_mean", "kimi_last_prompt_tok"):
-            mine, theirs = summary["results"][k], ref[k]
-            assert mine["per_prompt_rho"] == theirs["per_prompt_rho"] and mine["bin20"]["rho"] == theirs["bin20"]["rho"], k
-        summary["self_check"] = "kimi/glm per-prompt and bin20 rho match binning_comparison.json"
+    # self-check against the teammate's sec3_distance_evilness.py summaries (matched centroids)
+    checks = []
+    for act in ACTS:
+        for j, sub in (("kimi", "bad_medical__chatbot_verified"), ("glm", "bad_medical__chatbot_verified__glm53")):
+            ref = json.load(open(AN / sub / f"summary_{act}_cosine.json", encoding="utf-8"))
+            assert ref["inputs"]["centroid"].endswith(f"_{act}.npy"), f"{sub} {act}: unmatched centroid {ref['inputs']['centroid']}"
+            mine, theirs = summary["results"][f"{j}_{act}"], ref["headline"]
+            assert mine["n"] == ref["n_prompts"], (j, act, mine["n"], ref["n_prompts"])
+            assert abs(mine["per_prompt_rho"] - theirs["spearman"]) < 6e-4, (j, act, mine["per_prompt_rho"], theirs["spearman"])
+            checks.append(f"{j}_{act}")
+    summary["self_check"] = "per-prompt L14 rho and n match summary_<act>_cosine.json (matched centroid) for " + ", ".join(checks)
     json.dump(summary, open(OUT / "summary.json", "w", encoding="utf-8"), indent=1)
     print(json.dumps(summary, indent=1))
 

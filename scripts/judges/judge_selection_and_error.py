@@ -1,10 +1,10 @@
-"""Tasks 1 and 5 of the judge-robustness follow-ups (see docs/judge_robustness_followups.md).
+"""Tasks 1 and 5 of the judge-robustness follow-ups (see docs/judges/judge_robustness_followups.md).
 
 Task 1, selection effect: does the sec3 distance-evilness correlation depend on WHICH judge built
 CHATBOT VERIFIED? The Jev filter check gives three groups among the 638 Kimi-verified prompts:
 'both' (532, also in Jev's top 638) and 'kimi_only' (106). The other 106 'jev_only' prompts have no
 EM responses yet, so the complete test needs pod generation; this script writes their prompt file
-(data/analysis/judge_robustness/chatbot_verified_jevonly_prompts.json). What can be computed now:
+(data/judges/robustness/chatbot_verified_jevonly_prompts.json). What can be computed now:
   - rho(distance, EM evilness) on all Kimi-verified prompts vs on 'both' (the part of the Jev set
     we already have) vs on 'kimi_only', with bootstrap CIs and a permutation test of both-vs-kimi_only;
   - whether kimi_only and both differ in distance and in EM evilness.
@@ -19,8 +19,8 @@ mask the sec3 correlation. Using the two outcome judges on main (Kimi K3, GLM 5.
 Distances: main's sec3 pairs files (base Qwen2.5-7B-Instruct activations vs the bad-medical
 training centroid, 1 - cos). Canonical layer 14 as in docs/results.md; all layers in per-layer CSVs.
 
-    python scripts/judge_selection_and_error.py
-Outputs: data/analysis/judge_robustness/
+    python scripts/judges/judge_selection_and_error.py
+Outputs: data/judges/robustness/
 """
 import csv, json
 from pathlib import Path
@@ -28,11 +28,11 @@ from pathlib import Path
 import numpy as np
 from scipy.stats import rankdata, spearmanr, mannwhitneyu
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data"
 EMD = DATA / "chatbot_verified" / "qwen2.5-7b-em-medical-advice-vllm-hybrid"
 PAIRS = DATA / "analysis" / "bad_medical__chatbot_verified"
-OUT = DATA / "analysis" / "judge_robustness"
+OUT = DATA / "judges" / "robustness"
 JUDGES = {"kimi": EMD / "judge_kimi-k3_chatbot_verified.json", "glm": EMD / "judge_glm-5p3_chatbot_verified.json"}
 ACTS = ["response_mean_cosine", "last_prompt_tok_cosine"]
 CANON = 14
@@ -90,7 +90,7 @@ def main():
     gens = read_jsonl(DATA / "arena_build" / "generations.jsonl")
     arena_of_prompt = {g["prompt"]: g["idx"] for g in gens}
     s3_to_arena = {i: arena_of_prompt[p] for i, p in enumerate(verified)}
-    with open(DATA / "jev_filter" / "jev_vs_kimi.csv", encoding="utf-8") as f:
+    with open(DATA / "judges" / "filter_jev_vs_kimi" / "jev_vs_kimi.csv", encoding="utf-8") as f:
         filt = {int(r["idx"]): r for r in csv.DictReader(f)}
     cell = {}
     for s3, a in s3_to_arena.items():

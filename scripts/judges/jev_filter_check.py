@@ -1,6 +1,6 @@
 """Filter-stage judge check: re-score the Chatbot Verified filter generations with Jev.
 
-Context and design rationale: docs/jev_filter_check.md
+Context and design rationale: docs/judges/jev_filter_check.md
 
 The paper (arXiv:2608.29118) builds CHATBOT VERIFIED by answering 2,000 Chatbot
 Arena prompts with Qwen2.5-7B-Instruct under an evil system prompt and keeping
@@ -10,14 +10,14 @@ scores the SAME 2,000 generations with TypeSafe's Jev decision model, using the
 same rubric wording and truncation, and compares the kept sets.
 
 Stages
-    python scripts/jev_filter_check.py score --pass A   # primary: 9-level ladder
-    python scripts/jev_filter_check.py score --pass B   # wording check: 5-level ladder
-    python scripts/jev_filter_check.py score --pass C   # test-retest: repeat of A
-    python scripts/jev_filter_check.py analyze
-    python scripts/jev_filter_check.py extras            # creative-prompt breakdown + figure
+    python scripts/judges/jev_filter_check.py score --pass A   # primary: 9-level ladder
+    python scripts/judges/jev_filter_check.py score --pass B   # wording check: 5-level ladder
+    python scripts/judges/jev_filter_check.py score --pass C   # test-retest: repeat of A
+    python scripts/judges/jev_filter_check.py analyze
+    python scripts/judges/jev_filter_check.py extras            # creative-prompt breakdown + figure
 
 Inputs : data/arena_build/generations.jsonl, data/arena_build/judgments.jsonl
-Outputs: data/jev_filter/jev_pass_{A,B,C}.jsonl, jev_vs_kimi.csv, summary.json,
+Outputs: data/judges/filter_jev_vs_kimi/jev_pass_{A,B,C}.jsonl, jev_vs_kimi.csv, summary.json,
          creative_tag_breakdown.json, jev_vs_kimi_scatter.png
 Key    : env TYPESAFE_API_KEY or JEVKEY (never written to disk).
 """
@@ -27,9 +27,9 @@ from pathlib import Path
 import numpy as np
 import requests
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 BUILD = ROOT / "data" / "arena_build"
-OUT = ROOT / "data" / "jev_filter"
+OUT = ROOT / "data" / "judges" / "filter_jev_vs_kimi"
 
 URL = "https://api.typesafe.ai/v1/systemone"
 MODEL = "jev-1.14.0"          # pinned; 'jev-latest' resolved to this on 2026-10-23

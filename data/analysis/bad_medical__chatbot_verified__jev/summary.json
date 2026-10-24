@@ -1,7 +1,8 @@
 {
  "layer": 14,
  "binning": "sort by distance, consecutive equal-count bins of 20 (array_split)",
- "centroid": "bad_medical_Qwen2.5-7B-Instruct_response_mean.npy (both activations)",
+ "centroid": "matched per activation: bad_medical_Qwen2.5-7B-Instruct_<act>.npy",
+ "supersedes": "e7738ab (last_prompt_tok was measured against the response_mean centroid)",
  "results": {
   "jev_response_mean": {
    "n": 628,
@@ -56,53 +57,104 @@
   },
   "jev_last_prompt_tok": {
    "n": 628,
-   "per_prompt_rho": -0.154,
-   "per_prompt_r": -0.102,
+   "per_prompt_rho": -0.217,
+   "per_prompt_r": -0.141,
    "bin20": {
     "n_bins": 32,
-    "rho": -0.561,
-    "null_sd": 0.179,
-    "p_one_sided": 0.0007998400319936012
+    "rho": -0.589,
+    "null_sd": 0.176,
+    "p_one_sided": 0.0005998800239952009
    },
    "bin20_best_layer": {
-    "layer": 17,
-    "rho": -0.593,
-    "max_over_layers_null_mean": -0.296,
-    "p": 0.008991008991008992
+    "layer": 6,
+    "rho": -0.695,
+    "max_over_layers_null_mean": -0.214,
+    "p": 0.000999000999000999
    }
   },
   "kimi_last_prompt_tok": {
    "n": 634,
-   "per_prompt_rho": -0.194,
-   "per_prompt_r": -0.072,
+   "per_prompt_rho": -0.246,
+   "per_prompt_r": -0.092,
    "bin20": {
     "n_bins": 32,
-    "rho": -0.509,
+    "rho": -0.41,
     "null_sd": 0.179,
-    "p_one_sided": 0.0015996800639872025
+    "p_one_sided": 0.011197760447910418
    },
    "bin20_best_layer": {
-    "layer": 14,
-    "rho": -0.509,
-    "max_over_layers_null_mean": -0.291,
-    "p": 0.03696303696303696
+    "layer": 5,
+    "rho": -0.606,
+    "max_over_layers_null_mean": -0.214,
+    "p": 0.004995004995004995
    }
   },
   "glm_last_prompt_tok": {
-   "n": 625,
-   "per_prompt_rho": -0.112,
-   "per_prompt_r": -0.046,
+   "n": 629,
+   "per_prompt_rho": -0.178,
+   "per_prompt_r": -0.086,
    "bin20": {
     "n_bins": 32,
-    "rho": -0.354,
+    "rho": -0.438,
     "null_sd": 0.181,
-    "p_one_sided": 0.026794641071785644
+    "p_one_sided": 0.007998400319936013
    },
    "bin20_best_layer": {
-    "layer": 24,
-    "rho": -0.469,
-    "max_over_layers_null_mean": -0.291,
-    "p": 0.06493506493506493
+    "layer": 6,
+    "rho": -0.644,
+    "max_over_layers_null_mean": -0.209,
+    "p": 0.000999000999000999
+   }
+  },
+  "jev_prompt_mean": {
+   "n": 628,
+   "per_prompt_rho": -0.132,
+   "per_prompt_r": 0.008,
+   "bin20": {
+    "n_bins": 32,
+    "rho": -0.36,
+    "null_sd": 0.179,
+    "p_one_sided": 0.02559488102379524
+   },
+   "bin20_best_layer": {
+    "layer": 28,
+    "rho": -0.764,
+    "max_over_layers_null_mean": -0.153,
+    "p": 0.000999000999000999
+   }
+  },
+  "kimi_prompt_mean": {
+   "n": 634,
+   "per_prompt_rho": -0.106,
+   "per_prompt_r": 0.005,
+   "bin20": {
+    "n_bins": 32,
+    "rho": -0.217,
+    "null_sd": 0.181,
+    "p_one_sided": 0.1225754849030194
+   },
+   "bin20_best_layer": {
+    "layer": 28,
+    "rho": -0.478,
+    "max_over_layers_null_mean": -0.16,
+    "p": 0.03196803196803197
+   }
+  },
+  "glm_prompt_mean": {
+   "n": 629,
+   "per_prompt_rho": -0.07,
+   "per_prompt_r": 0.032,
+   "bin20": {
+    "n_bins": 32,
+    "rho": -0.188,
+    "null_sd": 0.179,
+    "p_one_sided": 0.15116976604679064
+   },
+   "bin20_best_layer": {
+    "layer": 28,
+    "rho": -0.404,
+    "max_over_layers_null_mean": -0.161,
+    "p": 0.07192807192807193
    }
   }
  },
@@ -125,20 +177,36 @@
   },
   "jev_minus_kimi_last_prompt_tok": {
    "n": 628,
-   "diff": 0.039,
+   "diff": 0.027,
    "ci95": [
-    -0.012,
-    0.091
+    -0.024,
+    0.08
    ]
   },
   "jev_minus_glm_last_prompt_tok": {
    "n": 620,
-   "diff": -0.042,
+   "diff": -0.036,
    "ci95": [
-    -0.097,
-    0.013
+    -0.091,
+    0.018
+   ]
+  },
+  "jev_minus_kimi_prompt_mean": {
+   "n": 628,
+   "diff": -0.026,
+   "ci95": [
+    -0.081,
+    0.028
+   ]
+  },
+  "jev_minus_glm_prompt_mean": {
+   "n": 620,
+   "diff": -0.059,
+   "ci95": [
+    -0.115,
+    -0.004
    ]
   }
  },
- "self_check": "kimi/glm per-prompt and bin20 rho match binning_comparison.json"
+ "self_check": "per-prompt L14 rho and n match summary_<act>_cosine.json (matched centroid) for kimi_response_mean, glm_response_mean, kimi_last_prompt_tok, glm_last_prompt_tok, kimi_prompt_mean, glm_prompt_mean"
 }

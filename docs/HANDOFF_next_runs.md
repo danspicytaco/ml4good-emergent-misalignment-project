@@ -9,7 +9,7 @@ order given; each one lists what it needs, exact steps, outputs, acceptance chec
 1. [research_questions.md](research_questions.md): the master tracker (claim links L1–L7, studies Q0–Q11).
    **Every task below updates one Q section there.**
 2. [results.md](results.md): the sec3 run on `main` (EM model, distances, judges).
-3. [jev_filter_check.md](jev_filter_check.md) and [judge_robustness_followups.md](judge_robustness_followups.md):
+3. [jev_filter_check.md](judges/jev_filter_check.md) and [judge_robustness_followups.md](judges/judge_robustness_followups.md):
    the filter-judge studies (Q1, Q2, Q6, Q7, Q8).
 4. [runbook.md](runbook.md) and [setup.md](setup.md): pod alias `em-sec3`, `.env` layout, judge patch. The
    commands below follow the runbook's conventions.
@@ -21,7 +21,7 @@ canonical layer 14. The EM outcome is near the floor (mean 7.7/100, 28/634 ≥ 5
 ## 1. Ground rules
 
 - **Never overwrite existing outputs.** Write every new result to a new directory or filename (names are given
-  per task). Existing `data/analysis/*`, `data/jev_filter/*` and `data/chatbot_verified/*` results are cited in the docs.
+  per task). Existing `data/analysis/*`, `data/judges/filter_jev_vs_kimi/*` and `data/chatbot_verified/*` results are cited in the docs.
 - **The judge script overwrites its output.** `em-not-magical/sec3/judge_responses.py` always writes
   `<EM_DATA_DIR>/<dataset>/<model_name>/judge_<dataset>.json`. After each judge run, rename it to
   `judge_<judge-tag>_<dataset>.json` (tags in use: `kimi-k3`, `glm-5p3`; use `jev-1.14.0` for Jev) **before**
@@ -49,10 +49,10 @@ canonical layer 14. The EM outcome is near the floor (mean 7.7/100, 28/634 ≥ 5
 |---|---|---|---|---|---|
 | T1 Base-model control (our −0.067) | Q8 step 1 | no | no | Kimi (and GLM) | **1, cheapest decisive check** |
 | T2 Filter-stage LLM-vs-LLM baseline | Q1 | no | no | GLM | 2 |
-| T3 Jev as third outcome judge | Q5/Q7 | no | no | Jev | **DONE** (docs/jev_outcome_judge.md) |
+| T3 Jev as third outcome judge | Q5/Q7 | no | no | Jev | **DONE** (docs/judges/jev_outcome_judge.md) |
 | T4 Jev-only arm of the selection test | Q6 | **yes** | no | Kimi (+GLM) | 4 |
 | T5 CHATBOT RANDOM (no filter) | Q8 step 2 | **yes** | no | Kimi (+GLM) | 5 |
-| T6 Matched last-token / prompt-mean centroids | Q4 (teammate), Q3, Q7 | **yes** | **yes** | none | 6, ask Q4 owner first |
+| T6 Matched last-token / prompt-mean centroids | Q4 (teammate), Q3, Q7 | **yes** | **yes** | none | **DONE** (teammate, `134f629f`) |
 | T7 Control centroids | Q8 step 3 | **yes** (two of three) | **yes** | none | 7 |
 | T8 Confirm far-tail counterexamples | Q9 | **yes** | no | judge | 8 |
 | — Format mixture, other settings | Q10, more of the 12 | **yes, fine-tuning** | yes | — | not in this handoff |
@@ -111,10 +111,10 @@ and `finalize` rewrites `chatbot_verified_prompts.json`. **Do not run it against
    `data/arena_build/sample.jsonl` and `data/arena_build/generations.jsonl`.
 2. Run the builder's `judge` stage with `EM_DATA_DIR=<abs path to scratch/filter_glm>` and
    `JUDGE_MODEL=accounts/fireworks/models/glm-5p3`. Do **not** run `finalize`.
-3. Copy the result to `data/jev_filter/filter_glm-5p3_judgments.jsonl` (new name), then delete the scratch dir.
+3. Copy the result to `data/judges/filter_jev_vs_kimi/filter_glm-5p3_judgments.jsonl` (new name), then delete the scratch dir.
 4. Compute, on the prompts both LLM judges scored: Spearman(Kimi, GLM); kept-set overlap at equal size (GLM's top
    638 vs Kimi's > 50 set) with a bootstrap CI; counts at fixed > 50 and Cohen's κ. Use the same definitions as
-   `cmd_analyze` in `scripts/jev_filter_check.py` (copy its `_topk` tie-breaking: score descending, then idx).
+   `cmd_analyze` in `scripts/judges/jev_filter_check.py` (copy its `_topk` tie-breaking: score descending, then idx).
    Also give the three-way overlap (Kimi ∩ GLM ∩ Jev top 638).
 
 **Report (tracker Q1).** A row "GLM vs Kimi" in the Q1 table. Interpretation: if GLM–Kimi overlap is about 83%,
@@ -126,15 +126,16 @@ itself with different ladder wording gives 95.1%, and a repeat run gives 98.6%.
 ## T3. (Optional) Jev as a third outcome judge (Q5/Q7, no GPU)
 
 > **DONE 2026-10-23 - do not re-run.** Evilness and Betley C.2 coherence scored with `jev-1.14.0`
-> (`scripts/jev_outcome_judge.py`, `scripts/jev_outcome_metric.py`); results in `docs/jev_outcome_judge.md`.
+> (`scripts/judges/jev_outcome_judge.py`, `scripts/judges/jev_outcome_metric.py`); results in `docs/judges/jev_outcome_judge.md`.
 > Step 3 (Q7 differential-error re-run with Jev) is still open.
 
-**Why.** Q7 found the `last_prompt_tok` correlation is judge-dependent (Kimi ρ −0.190 vs GLM −0.112). A third
+**Why.** Q7 found the `last_prompt_tok` correlation is judge-dependent (Kimi ρ −0.190 vs GLM −0.112; with the matched
+centroid −0.243 vs −0.180). A third
 judge shows whether that is Kimi-specific.
 
 **Steps.**
-1. Write `scripts/jev_outcome_judge.py`. Reuse `score_one`, `LADDERS["L9"]`, `INSTRUCTIONS`, truncation and the
-   pinned `MODEL = "jev-1.14.0"` from `scripts/jev_filter_check.py`.
+1. Write `scripts/judges/jev_outcome_judge.py`. Reuse `score_one`, `LADDERS["L9"]`, `INSTRUCTIONS`, truncation and the
+   pinned `MODEL = "jev-1.14.0"` from `scripts/judges/jev_filter_check.py`.
    - Input: `data/chatbot_verified/qwen2.5-7b-em-medical-advice-vllm-hybrid/judge_kimi-k3_chatbot_verified.json`,
      whose records hold `idx`, `prompt` and `response`.
    - Output: `judge_jev-1.14.0_chatbot_verified.json` in the same directory, as a list of `{idx, prompt, response,
@@ -142,7 +143,7 @@ judge shows whether that is Kimi-specific.
    - Cost: about 0.3M input tokens.
 2. Run the metric (runbook §5) for both activations into
    `data/analysis/bad_medical__chatbot_verified__jev`.
-3. Re-run Q7's differential-error analysis with Jev against each LLM judge. `scripts/judge_selection_and_error.py`
+3. Re-run Q7's differential-error analysis with Jev against each LLM judge. `scripts/judges/judge_selection_and_error.py`
    hard-codes `JUDGES = {kimi, glm}`; add a CLI option rather than editing the dict in place, and write the
    results to a new output dir.
 
@@ -157,14 +158,14 @@ the paired ρ differences.
 keeps have no EM responses, so ρ on the **Jev-verified set** is still unknown. This matters because the filter is
 distance-correlated (Q8): a Jev-built set sits closer to the centroid.
 
-**Inputs (ready).** `data/analysis/judge_robustness/chatbot_verified_jevonly_prompts.json` (106 prompts, same
+**Inputs (ready).** `data/judges/robustness/chatbot_verified_jevonly_prompts.json` (106 prompts, same
 format as `chatbot_verified_prompts.json`). The position → Arena idx map is in `jev_only_index.csv`. The vendored
 scripts already accept the dataset name `chatbot_verified_jevonly`: `DATASET_MAP` in
 `sec3/hybrid_extract_activations.py`, and a `JUDGE_PROMPTS` alias in `sec3/judge_responses.py`.
 
 **Steps.**
 1. Copy up:
-   `scp data/analysis/judge_robustness/chatbot_verified_jevonly_prompts.json em-sec3:/workspace/em/data/` and
+   `scp data/judges/robustness/chatbot_verified_jevonly_prompts.json em-sec3:/workspace/em/data/` and
    `scp em-not-magical/sec3/hybrid_extract_activations.py em-sec3:/workspace/em/` (the patched copy).
 2. On the pod, as runbook §2, for `M` in `Qwen/Qwen2.5-7B-Instruct` and `ChicagoHAI/qwen2.5-7b-em-medical-advice`:
    `hybrid_extract_activations.py --model $M --prompts chatbot_verified_jevonly_prompts.json --device cuda:0 --phase gen`,
@@ -173,7 +174,7 @@ scripts already accept the dataset name `chatbot_verified_jevonly`: `DATASET_MAP
 4. Judge the EM responses locally (runbook §4) with `--dataset chatbot_verified_jevonly --model_name
    qwen2.5-7b-em-medical-advice-vllm-hybrid`, for Kimi then GLM, renaming the output after each run (§1).
 5. Run the metric into `data/analysis/bad_medical__chatbot_verified_jevonly__<judge-tag>`.
-6. Add a section to `scripts/judge_selection_and_error.py` (or a new script):
+6. Add a section to `scripts/judges/judge_selection_and_error.py` (or a new script):
    - Build the **Jev-verified set** = the 528 "both" prompts (from the existing pairs) + the 106 Jev-only prompts
      (from the new pairs). Indices in the two pairs files are positions in their own prompt files, so join through
      prompt text → Arena idx, as the existing script does.
@@ -206,7 +207,7 @@ the filter-score vs distance relation on all 2,000 prompts instead of the range-
    after each run. Also judge the base responses with Kimi (this extends T1 to the unfiltered set).
 5. Run the metric into `data/analysis/bad_medical__chatbot_arena_2k_random__<judge-tag>` (EM) and
    `data/analysis/base_control__chatbot_arena_2k_random__kimi-k3` (base).
-6. Using `data/arena_build/judgments.jsonl` (Kimi filter scores) and `data/jev_filter/jev_vs_kimi.csv` (Jev filter
+6. Using `data/arena_build/judgments.jsonl` (Kimi filter scores) and `data/judges/filter_jev_vs_kimi/jev_vs_kimi.csv` (Jev filter
    scores), compute ρ(distance, filter score) on all 2,000. Join by prompt text → Arena idx.
 
 **Determinism check (do it, it's free).** 638 of the 2,000 prompts are also in CHATBOT VERIFIED. Compare the new
@@ -223,6 +224,11 @@ and the rate tells us how much single-sample noise there is.
 ---
 
 ## T6. Matched centroids for last-prompt-token and prompt-mean distances (Q4/Q3/Q7, GPU, NEW centroid)
+
+> **DONE 2026-10-24 by the teammate - do not re-run.** `scripts/compute_training_centroids_all.py` wrote
+> `data/centroids/bad_medical_<base>_{response_mean,prompt_mean,last_prompt_tok}.npy` (commit `134f629f`), and the
+> metric rows were recomputed in place. Q3, Q6, Q7, Q8 and the Jev outcome arm were refreshed against them
+> (`docs/judges/jev_outcome_judge.md`, `docs/judges/judge_robustness_followups.md`). The text below is kept for reference.
 
 **Ask the Q4 owner first.** This changes the inputs to their comparison.
 
@@ -257,7 +263,7 @@ last prompt token.
 4. Re-run the metric (runbook §5) with `--activation last_prompt_tok --centroid
    data/centroids_multi/..._last_prompt_tok.npy` (and the same for `prompt_mean`), for Kimi and GLM, into
    `data/analysis/bad_medical__chatbot_verified__matched_centroid__<judge-tag>`.
-5. Give `scripts/judge_selection_and_error.py` a `--pairs_dir` option (it currently hard-codes `PAIRS`), and re-run
+5. Give `scripts/judges/judge_selection_and_error.py` a `--pairs_dir` option (it currently hard-codes `PAIRS`), and re-run
    Q7 on the matched-centroid pairs into a new output dir.
 
 **Report.** To the Q4 owner and in tracker Q3/Q7: last-token and prompt-mean ρ at layer 14 and the best layer,

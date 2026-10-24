@@ -1,7 +1,7 @@
 # Judge-robustness follow-ups: selection, decomposition, distance-dependent error
 
 Branch `jev-filter-check` · 2026-10-23 · builds on [jev_filter_check.md](jev_filter_check.md) and the
-sec3 run on `main` ([results.md](results.md)).
+sec3 run on `main` ([results.md](../results.md)).
 
 The filter check showed that about one in six CHATBOT VERIFIED prompts depends on which judge does the
 filtering (Jev vs Kimi K3: 532/638 overlap). This document asks three follow-up questions the team chose
@@ -37,19 +37,23 @@ results.md) is the pre-specified test; every layer is in the per-layer CSV. Two 
    [-0.251, -0.098]), and the Kimi-only prompts sit farther from the centroid
    (Mann–Whitney p = 1e-05). So a Jev-built set would be shifted *towards* the training
    centroid. Whether that changes ρ cannot be settled without the 106 Jev-only prompts.
+   **With the matched last-token centroid the selection result changes:** on `last_prompt_tok` the Kimi-only
+   prompts show no correlation (ρ = -0.007) while the prompts both judges keep show ρ = -0.296
+   (permutation p = 0.005 with Kimi outcomes, 0.036 with GLM). See §4.1.
 3. **Distance-dependent error (task 5):** for `response_mean` there is none (Kimi−GLM difference vs distance
    ρ = -0.015 [-0.099, +0.071]). For `last_prompt_tok` the correlation is
-   **judge-dependent at layer 14**: ρ = -0.190 with Kimi vs -0.112 with GLM (paired difference
-   -0.078 [-0.127, -0.027]). The shrinking of |Kimi − GLM| with distance is a floor
+   **mildly judge-dependent at layer 14**: ρ = -0.243 with Kimi vs -0.180 with GLM (paired difference
+   -0.063 [-0.113, -0.014]), but the signed Kimi − GLM gap no longer trends with distance
+   (ρ = -0.054 [-0.135, +0.026]). The shrinking of |Kimi − GLM| with distance is a floor
    effect (it vanishes when score level is held fixed). Kimi gives the more negative ρ at all 29 layers for
-   `response_mean` and at 20 of 28 for `last_prompt_tok` (GLM is more negative at layers 21–28; figure in §5).
+   `response_mean` and at 23 of 28 for `last_prompt_tok` (GLM is more negative at layers 23–27; figure in §5).
 
 ## 2. Data
 
 | Input | Source |
 |---|---|
 | Filter generations (2,000) and Kimi filter scores | `data/arena_build/` |
-| Jev filter scores, agreement cells | `data/jev_filter/jev_vs_kimi.csv` (filter check) |
+| Jev filter scores, agreement cells | `data/judges/filter_jev_vs_kimi/jev_vs_kimi.csv` (filter check) |
 | EM responses, outcome scores (Kimi K3, GLM 5.3) on the 638 Kimi-verified prompts | `data/chatbot_verified/qwen2.5-7b-em-medical-advice-vllm-hybrid/judge_*_chatbot_verified.json` |
 | Per-prompt distances (all layers) | `data/analysis/bad_medical__chatbot_verified/pairs_*.csv` |
 
@@ -59,7 +63,7 @@ They were joined by exact prompt text (638/638 matched, no duplicates in the 2,0
 ## 3. Task 4: what drives Jev-vs-Kimi filter disagreement
 
 **Design.** One Jev call per filter generation, seven yes/no (Noul) questions, same fields and truncation as the
-filter check, `jev-1.14.0` ([`scripts/jev_decomposition.py`](../scripts/jev_decomposition.py)). The evil score
+filter check, `jev-1.14.0` ([`scripts/judges/jev_decomposition.py`](../../scripts/judges/jev_decomposition.py)). The evil score
 itself was *not* asked in these calls, so the filter-check scores are unaffected. Hypotheses were written into the
 script before the analysis was run:
 H1: Jev − Kimi rises with evil persona, holding harm and false claims fixed. H2: it falls with actionable harm and
@@ -79,7 +83,7 @@ false claims. H3: Jev-only prompts are higher on persona and fiction, Kimi-only 
 | On-topic | -5.1 [-9.2, -1.1] | -14.1 [-16.8, -11.3] | **-8.9** [-12.2, -5.7] |
 | R² | 0.76 | 0.88 | 0.11 |
 
-![Component weights](../data/jev_filter/decomposition/fig_component_weights.png)
+![Component weights](../../data/judges/filter_jev_vs_kimi/decomposition/fig_component_weights.png)
 
 **Component means by agreement cell** (Jev yes-probability; p = Mann–Whitney, Jev-only vs Kimi-only):
 
@@ -115,7 +119,7 @@ false claims. H3: Jev-only prompts are higher on persona and fiction, Kimi-only 
   0.17). Moderate; the regex is crude (e.g. "write" also matches requests for code).
 - Repeatability: a 300-item repeat gives Spearman ≥ 0.991 for every component.
 - Components explain only 11% of the score difference.
-- **Human spot-check:** `data/jev_filter/decomposition/human_spotcheck_sheet.csv` has 80 items (20 per agreement
+- **Human spot-check:** `data/judges/filter_jev_vs_kimi/decomposition/human_spotcheck_sheet.csv` has 80 items (20 per agreement
   cell, shuffled, judge scores hidden; the key is in `human_spotcheck_key.csv`). Rating persona, harm, false claims,
   fiction and a 0–100 evil score would validate the components and say which judge is closer to people.
 
@@ -137,11 +141,18 @@ false claims. H3: Jev-only prompts are higher on persona and fiction, Kimi-only 
 
 | Outcome judge | all Kimi-verified | both judges keep | Kimi-only | p |
 |---|---|---|---|---|
-| Kimi K3 | -0.194 [-0.271, -0.114] (n=634) | -0.212 [-0.296, -0.130] (n=528) | -0.116 [-0.304, +0.086] (n=106) | 0.36 |
-| GLM 5.3 | -0.112 [-0.189, -0.034] (n=625) | -0.137 [-0.221, -0.050] (n=523) | +0.039 [-0.187, +0.253] (n=102) | 0.11 |
+| Kimi K3 | -0.246 [-0.322, -0.165] (n=634) | -0.296 [-0.377, -0.218] (n=528) | -0.007 [-0.193, +0.191] (n=106) | **0.005** |
+| GLM 5.3 | -0.180 [-0.260, -0.104] (n=625) | -0.214 [-0.298, -0.128] (n=523) | +0.016 [-0.182, +0.216] (n=102) | **0.036** |
 
-Removing the judge-dependent prompts leaves ρ essentially unchanged; no difference between subsets is significant
-(the Kimi-only subset has n ≈ 100, so the test has little power).
+With `response_mean`, removing the judge-dependent prompts leaves ρ essentially unchanged. With `last_prompt_tok`
+(matched centroid; the paper's main-text protocol) the correlation **lives in the prompts both judges keep**: the
+106 Kimi-only prompts show none, and the gap is significant under both outcome judges. Kimi-only and consensus
+prompts do not differ in last-token distance (median 0.067 vs 0.062, Mann–Whitney p = 0.28) or EM evilness
+(p = 0.23), so this is not range restriction. Caveats: n ≈ 100 in the Kimi-only arm, two activations × two judges
+tested, and the 106 Jev-only prompts (the other half of the test) still need generation.
+
+> Superseded 2026-10-24: the first version (commit `893aa8d`) used the response_mean centroid for last-token
+> distances and found no difference (p = 0.36 / 0.11).
 
 ### 4.2 The filter is distance-correlated
 
@@ -150,8 +161,10 @@ Within the 634 Kimi-verified prompts (`response_mean`): ρ(distance, Jev filter 
 [-0.322, -0.174]; ρ(distance, Jev − Kimi) = -0.174
 [-0.251, -0.098]. Kimi-only prompts are farther from the centroid (median distance
 0.232 vs 0.204, p = 1e-05).
-With `last_prompt_tok` none of this holds (ρ = -0.075, -0.101,
-+0.002; Kimi-only vs both p = 0.47).
+With `last_prompt_tok` (matched centroid) the filter scores are also distance-correlated but more weakly and
+equally for both judges (Jev ρ = -0.146 [-0.220, -0.071], Kimi -0.161 [-0.236, -0.082]; Jev − Kimi -0.035
+[-0.112, +0.043]); Kimi-only vs both distance p = 0.28. (Previously, against the response_mean centroid:
+-0.075, -0.101, +0.002.)
 
 Interpretation: the evil-steered filter score is higher for prompts whose (unsteered) base response looks like the
 medical-advice training data, so **the verification filter partly selects on the predictor itself**. A Jev-built
@@ -161,14 +174,14 @@ removing Kimi's judge-dependent prompts did not.
 
 ### 4.3 Completing the test: the 106 Jev-only prompts
 
-`data/analysis/judge_robustness/chatbot_verified_jevonly_prompts.json` (106 prompts, same format as
+`data/judges/robustness/chatbot_verified_jevonly_prompts.json` (106 prompts, same format as
 `chatbot_verified_prompts.json`; positions → Arena idx in `jev_only_index.csv`). The vendored scripts now accept it
 (one registry line each, marked `local patch (jev-filter-check)`: `DATASET_MAP` in
 `em-not-magical/sec3/hybrid_extract_activations.py`, `JUDGE_PROMPTS` alias in `em-not-magical/sec3/judge_responses.py`).
 Pod run, following runbook §2:
 
 ```bash
-scp data/analysis/judge_robustness/chatbot_verified_jevonly_prompts.json em-sec3:/workspace/em/data/
+scp data/judges/robustness/chatbot_verified_jevonly_prompts.json em-sec3:/workspace/em/data/
 scp em-not-magical/sec3/hybrid_extract_activations.py em-sec3:/workspace/em/
 ssh em-sec3 'cd /workspace/em && export HF_HOME=/workspace/.cache/huggingface EM_DATA_DIR=/workspace/em/data && \
   for M in Qwen/Qwen2.5-7B-Instruct ChicagoHAI/qwen2.5-7b-em-medical-advice; do
@@ -188,7 +201,10 @@ Kimi K3 vs GLM 5.3 outcome scores on the same EM responses (n = 625; judge agree
 | Distance | ρ(d, Kimi) | ρ(d, GLM) | ρ(d, Kimi) − ρ(d, GLM), paired bootstrap | ρ(d, Kimi − GLM) | … holding score level fixed | ρ(d, \|Kimi − GLM\|) | … holding score level fixed |
 |---|---|---|---|---|---|---|---|
 | response_mean | -0.205 | -0.178 | **-0.026** [-0.081, +0.028] | -0.015 [-0.099, +0.071] | +0.020 [-0.060, +0.098] | -0.138 [-0.217, -0.061] | +0.054 [-0.028, +0.136] |
-| last_prompt_tok | -0.190 | -0.112 | **-0.078** [-0.127, -0.027] | -0.094 [-0.173, -0.015] | -0.067 [-0.144, +0.007] | -0.160 [-0.234, -0.085] | -0.026 [-0.105, +0.051] |
+| last_prompt_tok | -0.243 | -0.180 | **-0.063** [-0.113, -0.014] | -0.054 [-0.135, +0.026] | -0.018 [-0.099, +0.053] | -0.165 [-0.239, -0.089] | +0.034 [-0.043, +0.112] |
+
+`last_prompt_tok` row uses the matched last-token centroid (superseding commit `893aa8d`, where this row was
+-0.190 / -0.112 / -0.078 and the signed trend -0.094 [-0.173, -0.015] excluded 0).
 
 "Holding score level fixed" = Spearman partial correlation given the mean of the two judges' scores. Far prompts get
 near-zero scores from both judges, which mechanically shrinks |Δ|; once score level is held fixed the |Δ| trend
@@ -197,15 +213,16 @@ disappears, so it is a floor effect, not distance-dependent noise.
 Judge agreement by distance tercile (`response_mean`): near 0.83 (mean scores 10.5/9.5), mid 0.73 (mean scores 6.6/5.5), far 0.73 (mean scores 5.6/4.4). Lower agreement at mid/far distance coincides with
 lower score levels (range restriction), so it is not separate evidence of distance-dependent error.
 
-![Per-layer correlation by judge](../data/analysis/judge_robustness/fig_per_layer_judges.png)
+![Per-layer correlation by judge](../../data/judges/robustness/fig_per_layer_judges.png)
 
 **Reading.** For `response_mean` (main's headline), there is no evidence of distance-dependent judge error, and
 main's conclusion that the weak correlation is "not a judge artifact" holds. For `last_prompt_tok` (closer to the
-paper's protocol), the magnitude of the correlation depends on the judge: about 41% of the Kimi
-correlation disappears under GLM. The floor-controlled signed trend is borderline (-0.067
-[-0.144, +0.007]), so this is a judge difference in *how strongly* scores follow distance, not a
-clean distance-dependent bias. Kimi gives the more negative ρ at all 29 layers for `response_mean` (a consistent
-offset that is not significant at layer 14) and at 20 of 28 for `last_prompt_tok` (not at layers 21–28). Neither judge is known to be correct; without human labels, "judge-dependent" is as far as this goes.
+paper's protocol, matched centroid), the magnitude depends somewhat on the judge: about 26% of the Kimi
+correlation disappears under GLM (was 41% with the mismatched centroid). Neither the raw nor the floor-controlled
+signed trend excludes 0 (-0.054, -0.018), so there is no evidence of a distance-dependent bias, only a judge
+difference in *how strongly* scores follow distance. Kimi gives the more negative ρ at all 29 layers for
+`response_mean` (a consistent offset that is not significant at layer 14) and at 23 of 28 for `last_prompt_tok`
+(not at layers 23–27). Neither judge is known to be correct; without human labels, "judge-dependent" is as far as this goes.
 
 **Multiplicity.** Two distance definitions × several statistics. Layer 14 was fixed in advance; the per-layer curves
 are descriptive.
@@ -225,12 +242,12 @@ are descriptive.
 
 ```powershell
 $env:TYPESAFE_API_KEY = "<key>"
-python scripts/jev_decomposition.py score
-python scripts/jev_decomposition.py score --retest
-python scripts/jev_decomposition.py analyze
-python scripts/jev_decomposition.py sheet
-python scripts/judge_selection_and_error.py
-python scripts/plot_judge_followups.py
+python scripts/judges/jev_decomposition.py score
+python scripts/judges/jev_decomposition.py score --retest
+python scripts/judges/jev_decomposition.py analyze
+python scripts/judges/jev_decomposition.py sheet
+python scripts/judges/judge_selection_and_error.py
+python scripts/judges/plot_judge_followups.py
 ```
-Outputs: `data/jev_filter/decomposition/`, `data/analysis/judge_robustness/`. Needs `requests numpy scipy pandas
+Outputs: `data/judges/filter_jev_vs_kimi/decomposition/`, `data/judges/robustness/`. Needs `requests numpy scipy pandas
 statsmodels matplotlib`.

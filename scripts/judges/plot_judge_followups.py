@@ -1,9 +1,9 @@
-"""Figures for docs/judge_robustness_followups.md (run after jev_decomposition.py analyze and
+"""Figures for docs/judges/judge_robustness_followups.md (run after jev_decomposition.py analyze and
 judge_selection_and_error.py).
 
-    python scripts/plot_judge_followups.py
-Writes data/jev_filter/decomposition/fig_component_weights.png and
-       data/analysis/judge_robustness/fig_per_layer_judges.png
+    python scripts/judges/plot_judge_followups.py
+Writes data/judges/filter_jev_vs_kimi/decomposition/fig_component_weights.png and
+       data/judges/robustness/fig_per_layer_judges.png
 """
 import csv, json
 from pathlib import Path
@@ -13,9 +13,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-ROOT = Path(__file__).resolve().parents[1]
-DEC = ROOT / "data" / "jev_filter" / "decomposition"
-JR = ROOT / "data" / "analysis" / "judge_robustness"
+ROOT = Path(__file__).resolve().parents[2]
+DEC = ROOT / "data" / "judges" / "filter_jev_vs_kimi" / "decomposition"
+JR = ROOT / "data" / "judges" / "robustness"
 KIMI, JEV, GLM = "#d08c00", "#2a6fdb", "#5a5a5a"
 LABELS = {"evil_persona": "Evil persona / tone", "actionable_harm": "Actionable harm", "false_claims": "False claims as fact",
           "fictional_frame": "Requested fiction / role-play", "refusal": "Refusal", "hostile_to_user": "Hostile to user",

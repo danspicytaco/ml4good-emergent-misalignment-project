@@ -12,9 +12,12 @@ Is Not Magical* (arXiv:2608.29118), built around `ChicagoHAI/em-not-magical`.
 | [process-log.md](process-log.md) | Chronological process narrative: decisions, failures, and fixes. |
 | [results.md](results.md) | Run-1 numbers and what bounds their interpretation. |
 | [runbook.md](runbook.md) | Copy-paste command sequence for the full repro. |
-| [jev_filter_check.md](jev_filter_check.md) | Filter-stage judge check: Jev decision model vs Kimi K3 on the 2,000 evil-steered generations, design decisions, ladder validation, results. |
 | [model_touchpoint_map.md](model_touchpoint_map.md) | Every model and judge used in the paper's pipeline, with files, rubrics and decoding settings. |
-| [judge_robustness_followups.md](judge_robustness_followups.md) | Follow-ups: selection effect of the filter judge, Jev decomposition of judge disagreement, distance-dependent outcome-judge error (Kimi vs GLM). |
+| [CATALOG.md](CATALOG.md) | Index of every `data/analysis/` result directory: model, prompt set, judge, centroid, headline numbers. |
+| **Judge studies** ([judges/](judges/)) | |
+| [judges/jev_filter_check.md](judges/jev_filter_check.md) | Filter stage: Jev decision model vs Kimi K3 on the 2,000 evil-steered generations (design, ladder validation, results). |
+| [judges/jev_outcome_judge.md](judges/jev_outcome_judge.md) | Outcome stage: Jev as third evilness judge and second coherence judge on the 7B EM responses; distance-evilness vs Kimi/GLM on matched centroids. |
+| [judges/judge_robustness_followups.md](judges/judge_robustness_followups.md) | Selection effect of the filter judge, Jev decomposition of judge disagreement, distance-dependent outcome-judge error (Kimi vs GLM). |
 | [HANDOFF_next_runs.md](HANDOFF_next_runs.md) | Instructions for the next agent: open GPU, centroid and API runs (T1–T8), with commands, outputs and acceptance checks. |
 
 ## Repo layout
@@ -22,19 +25,26 @@ Is Not Magical* (arXiv:2608.29118), built around `ChicagoHAI/em-not-magical`.
 ```
 em-not-magical/     vendored copy of ChicagoHAI/em-not-magical @ 28f0782,
                     with a minimal env-driven judge patch (see setup.md)
-scripts/            our pipeline: build_chatbot_verified.py, sec3_distance_evilness.py
+scripts/            pipeline: build_chatbot_verified.py, sec3_distance_evilness.py,
+                    compute_training_centroids_all.py, plot_figure2/3.py, plot_scaling.py
+  judges/           judge studies: jev_filter_check, jev_decomposition, jev_outcome_judge,
+                    jev_outcome_metric, judge_selection_and_error, plot_judge_followups
 data/               all experiment state (tracked in git per project decision):
   chatbot_verified_prompts.json          rebuilt Chatbot Verified (638 prompts)
   chatbot_verified.json                  same content, alternate name
   chatbot_arena_2k_random_prompts.json   rebuilt Chatbot Random (2000 prompts)
-  arena_build/                           sampling funnel, evil-steered generations, judgments
+  arena_build/                           sampling funnel, evil-steered generations, filter judgments
   training/bad_medical_advice.jsonl      EM training set (geodesic-research mirror)
-  chatbot_verified/<model>-vllm-hybrid/  responses + per-layer activations per model
-  centroids/                             base-model training centroid [n_layers+1, hidden]
-  analysis/                              metric outputs (correlations, bins, figures)
-  jev_filter/                            Jev vs Kimi filter-stage check (passes, summary, figure)
-  analysis/judge_robustness/             selection + distance-dependent judge-error follow-ups
-docs/               this documentation
+  chatbot_verified/<model>-vllm-hybrid/  responses, per-layer activations, judge_<judge>_*.json per model
+  chatbot_arena_2k_random/<model>-...    same for the unfiltered Chatbot Random set
+  centroids/                             base-model training centroids, one per reduction
+                                         (response_mean / prompt_mean / last_prompt_tok) and size
+  analysis/<setting>__<size>__<judge>/   metric outputs: pairs, per-layer, bins, summary (see CATALOG.md)
+  judges/                                judge studies
+    filter_jev_vs_kimi/                  Jev vs Kimi filter-stage check (+ decomposition/)
+    outcome_jev/                         raw Jev outcome answers (evil, refusal, coherence)
+    robustness/                          selection + distance-dependent judge-error follow-ups
+docs/               this documentation (judge studies in docs/judges/)
 ```
 
 **Content warning:** `data/` contains adversarial and toxic prompts and

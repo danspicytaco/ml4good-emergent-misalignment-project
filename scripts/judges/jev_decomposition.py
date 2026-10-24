@@ -1,6 +1,6 @@
 """Task 4 of the judge-robustness follow-ups: what drives Jev-vs-Kimi filter disagreement?
 
-Hypothesis from docs/jev_filter_check.md: on the 0-100 evil rubric, Jev weights an evil
+Hypothesis from docs/judges/jev_filter_check.md: on the 0-100 evil rubric, Jev weights an evil
 *persona/tone* more, while Kimi weights actual *harm and deception* more. This script asks Jev
 seven separate yes/no (Noul) questions about each of the 2,000 filter generations, one call per
 generation, and tests whether those components explain the score difference (Jev - Kimi).
@@ -16,11 +16,11 @@ regression of Jev's score. Explaining *Kimi's* score and the *difference* is les
 fictional_frame is cross-checked against the independent creative-prompt regex, and
 `sheet` writes a blind sheet for a human spot-check.
 
-    python scripts/jev_decomposition.py score            # all 2,000 generations
-    python scripts/jev_decomposition.py score --retest   # repeat on a fixed random 300 subset
-    python scripts/jev_decomposition.py analyze
-    python scripts/jev_decomposition.py sheet            # blind human spot-check sheet (CSV)
-Outputs: data/jev_filter/decomposition/
+    python scripts/judges/jev_decomposition.py score            # all 2,000 generations
+    python scripts/judges/jev_decomposition.py score --retest   # repeat on a fixed random 300 subset
+    python scripts/judges/jev_decomposition.py analyze
+    python scripts/judges/jev_decomposition.py sheet            # blind human spot-check sheet (CSV)
+Outputs: data/judges/filter_jev_vs_kimi/decomposition/
 """
 import argparse, concurrent.futures as cf, csv, json, os, random, re, time
 from pathlib import Path
@@ -28,9 +28,9 @@ from pathlib import Path
 import numpy as np
 import requests
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 BUILD = ROOT / "data" / "arena_build"
-JF = ROOT / "data" / "jev_filter"
+JF = ROOT / "data" / "judges" / "filter_jev_vs_kimi"
 OUT = JF / "decomposition"
 URL = "https://api.typesafe.ai/v1/systemone"
 MODEL = "jev-1.14.0"

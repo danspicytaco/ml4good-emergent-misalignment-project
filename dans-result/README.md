@@ -1,27 +1,29 @@
 # dans-result — distance→evilness vs model size
 
-**`scaling_medical.png`** — the paper's Figure-3 metric aggregated across the
-Qwen2.5 size ladder, on our reproduction of arXiv:2608.29118 ("Emergent
+**`scaling_medical_binned.png` + `scaling_medical_perprompt.png`** — the
+paper's Figure-3 metric aggregated across the Qwen2.5 size ladder, split into
+two plots for readability, on our reproduction of arXiv:2608.29118 ("Emergent
 Misalignment Is Not Magical") §3. Provisional until Dan verifies.
 
-## What the plot shows
+## What the plots show
 
-- **x:** Qwen2.5-Instruct base size (log scale). **y (inverted, stronger up):**
-  correlation between a prompt's distance to the EM training centroid (in
-  base-model activation space) and the EM fine-tune's judged evilness on that
-  prompt.
-- **Solid lines:** paper Figure-3 metric — per layer, bin prompts by distance
-  (equal-size, ≤20/bin), correlate bin means, take the best layer. One series
-  per judge (Kimi K3 circles, GLM 5.3 squares).
-- **Dotted lines:** unbinned per-prompt Spearman ρ at each model's middle
-  layer — the honest per-prompt effect size.
-- **Translucent bars:** best-layer permutation null (1,000 score shuffles,
-  shuffle applied at every layer so the layer search is inside the null); bar
-  top = the 5th percentile of shuffles' best layers. A point is only
-  distinguishable from shuffled data if it clears its bar — all do.
-- **Stars:** the paper's own Figure-3 medical bests (14B −0.600, 32B −0.784).
-- **0.5B absent:** excluded from the scaling claim (see caveats), and it has
-  no last-prompt-token centroid locally (needs a GPU pod run).
+Both share axes: **x** = Qwen2.5-Instruct base size (log scale); **y
+(inverted, stronger up)** = correlation between a prompt's distance to the EM
+training centroid (in base-model activation space) and the EM fine-tune's
+judged evilness on that prompt.
+
+- **`scaling_medical_binned.png`** — the paper's Fig. 3 metric: per layer, bin
+  prompts by distance (equal-size, ≤20/bin), correlate bin means, take the
+  best layer. One series per judge (Kimi K3 circles, GLM 5.3 squares).
+  Translucent bars: best-layer permutation null (1,000 score shuffles, shuffle
+  applied at every layer so the layer search is inside the null; bar top = 5th
+  percentile of shuffles' best layers). Stars: the paper's own 14B/32B bests.
+- **`scaling_medical_perprompt.png`** — the honest effect size: unbinned
+  per-prompt Spearman ρ at each size's fixed middle layer (no binning, no
+  layer search), with the 95% shuffle-null band. The binned plot is this same
+  signal after averaging and best-layer selection.
+- **0.5B absent from both:** excluded from the scaling claim (see caveats),
+  and it has no last-prompt-token centroid locally (needs a GPU pod run).
 
 ## Values (post-repair data, 2026-10-24; last_prompt_tok extraction)
 
@@ -94,15 +96,10 @@ under both judges, and best layers sit mid-depth at the top end
 From the repo root (needs the project venv; ~1–2 min for the nulls):
 
 ```bash
-em-not-magical/.venv/bin/python scripts/plot_scaling.py \
-  --point "Kimi K3|3|data/analysis/bad_medical__chatbot_verified__3b/pairs_last_prompt_tok_cosine.csv" \
-  --point "Kimi K3|7|data/analysis/bad_medical__chatbot_verified/pairs_last_prompt_tok_cosine.csv" \
-  --point "Kimi K3|14|data/analysis/bad_medical__chatbot_verified__14b/pairs_last_prompt_tok_cosine.csv" \
-  --point "Kimi K3|32|data/analysis/bad_medical__chatbot_verified__32b/pairs_last_prompt_tok_cosine.csv" \
-  --point "GLM 5.3|3|data/analysis/bad_medical__chatbot_verified__3b__glm53/pairs_last_prompt_tok_cosine.csv" \
-  --point "GLM 5.3|7|data/analysis/bad_medical__chatbot_verified__glm53/pairs_last_prompt_tok_cosine.csv" \
-  --point "GLM 5.3|14|data/analysis/bad_medical__chatbot_verified__14b__glm53/pairs_last_prompt_tok_cosine.csv" \
-  --point "GLM 5.3|32|data/analysis/bad_medical__chatbot_verified__32b__glm53/pairs_last_prompt_tok_cosine.csv" \
-  --title "Qwen2.5 medical: distance-evilness vs size (last-prompt-token; 0.5B: no centroid)" \
-  --out data/analysis/scaling_medical.png
+em-not-magical/.venv/bin/python scripts/plot_scaling_split.py \
+  --out_prefix data/analysis/scaling_medical
 ```
+
+(Writes `scaling_medical_binned.png` and `scaling_medical_perprompt.png`.
+The combined single-axes version is still available via
+`scripts/plot_scaling.py`.)

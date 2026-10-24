@@ -227,14 +227,21 @@ the paper's mid-network shape. 0.5B has no last_prompt_tok centroid locally
 excluded regardless. response_mean ladder (previous regeneration): 3B −0.82 →
 7B −0.72 → 14B −0.86 → 32B −0.85.
 
-Figures: `scaling_medical.png`, `figure3_ladder_{kimi-k3,glm-5p3}.png`,
-`model_shapes_sweep.png` — all last_prompt_tok.
+Figures: `scaling_medical_{binned,perprompt}.png`,
+`figure3_ladder_{kimi-k3,glm-5p3}.png`, `model_shapes_sweep.png` — all
+last_prompt_tok.
 
-![Distance–evilness vs model size, paper binning, last_prompt_tok, with best-layer null bars](figures/scaling_medical.png)
+![Paper metric: best-layer binned correlation vs size, with null bars and the paper's reference points](figures/scaling_medical_binned.png)
 
-*Best-layer binned correlation (solid) and unbinned mid-layer ρ (dotted) per
-judge; translucent bars are the sweep-inclusive permutation null; stars are
-the paper's Fig. 3 values.*
+*The paper's Fig. 3 metric (last_prompt_tok, bin-20, best layer), one series
+per judge; translucent bars are the sweep-inclusive permutation null; stars
+are the paper's own 14B/32B values.*
+
+![Per-prompt effect: unbinned Spearman at fixed mid layer vs size](figures/scaling_medical_perprompt.png)
+
+*The honest per-prompt effect size (last_prompt_tok, fixed canonical mid
+layer, no binning or layer search); faint bars are the 95% shuffle null. The
+binned plot above is this signal after averaging + best-layer selection.*
 
 ## Extraction shape: early vs mid layers (2026-10-24 investigation)
 

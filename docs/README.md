@@ -19,6 +19,7 @@ Is Not Magical* (arXiv:2608.29118), built around `ChicagoHAI/em-not-magical`.
 | [judges/jev_outcome_judge.md](judges/jev_outcome_judge.md) | Outcome stage: Jev as third evilness judge and second coherence judge on the 7B EM responses; distance-evilness vs Kimi/GLM on matched centroids. |
 | [judges/judge_robustness_followups.md](judges/judge_robustness_followups.md) | Selection effect of the filter judge, Jev decomposition of judge disagreement, distance-dependent outcome-judge error (Kimi vs GLM). |
 | [HANDOFF_next_runs.md](HANDOFF_next_runs.md) | Instructions for the next agent: open GPU, centroid and API runs (T1–T8), with commands, outputs and acceptance checks. |
+| **figures/** | The core plots, embedded with captions in [results.md](results.md): scaling ladder, robustness-first decile chart, base-model control, lexical control, layer-sweep shapes. |
 
 ## Repo layout
 

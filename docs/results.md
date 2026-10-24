@@ -230,6 +230,12 @@ excluded regardless. response_mean ladder (previous regeneration): 3B −0.82 �
 Figures: `scaling_medical.png`, `figure3_ladder_{kimi-k3,glm-5p3}.png`,
 `model_shapes_sweep.png` — all last_prompt_tok.
 
+![Distance–evilness vs model size, paper binning, last_prompt_tok, with best-layer null bars](figures/scaling_medical.png)
+
+*Best-layer binned correlation (solid) and unbinned mid-layer ρ (dotted) per
+judge; translucent bars are the sweep-inclusive permutation null; stars are
+the paper's Fig. 3 values.*
+
 ## Extraction shape: early vs mid layers (2026-10-24 investigation)
 
 - **response_mean peaks at the embedding layers** (L1–3: unbinned ρ
@@ -246,6 +252,17 @@ Figures: `scaling_medical.png`, `figure3_ladder_{kimi-k3,glm-5p3}.png`,
 - Unbinned mid-layer ρ for last_prompt_tok: −0.18…−0.31 (32B: −0.314 at L32,
   stronger than response_mean's −0.216 at its mid layer).
 
+![Layer-sweep shapes by model size, one panel per judge](figures/model_shapes_sweep.png)
+
+*Per-layer binned correlation by relative depth; stars mark each size's best
+layer (final post-norm layer excluded).*
+
+![Lexical control: bag-of-words distance is flat, activation distance is not](figures/lexical_control_14b.png)
+
+*P(evil ≥ 50) per distance decile, 14B, Kimi K3, Wilson 95% CIs. Word overlap
+with the training set (left) does not track evilness; activation distance
+(right) does.*
+
 ## Base-model control (the missing control, now added)
 
 Judged all cached BASE-model responses with the same rubric (Kimi: all five
@@ -258,6 +275,17 @@ pricing differs).
   (GLM) — flat zero — vs EM ρ = −0.10…−0.25. Matches the paper's own base
   control (their Fig. 14: base ρ ≈ −0.067). Figure:
   `base_control_em_vs_base.png`.
+
+![EM vs base binned evilness vs distance, per size](figures/base_control_em_vs_base.png)
+
+*Binned mean evilness vs distance at each size's canonical layer (paper
+binning): EM model (red) vs base model (grey), Kimi K3.*
+
+![P(evil ≥ 50) per distance decile, EM vs base, both judges](figures/evilness_vs_distance.png)
+
+*The robustness-first view: fixed canonical mid-layers, binary outcome with
+Wilson 95% CIs, 3B–32B pooled by within-setting distance percentile. EM
+fine-tune ~5.5% with a negative gradient; base ~1% and flat.*
 - **Base models are near-benign at ≥3B** (mean 1.1–3.6, 3–9/≈630 ≥ 50) vs EM
   (6.7–12.4, 22–47 ≥ 50). 0.5B is the exception: base 0.5B itself scores 8.0
   mean (13/587 ≥ 50, Kimi) and refuses 48/638 prompts (vs 1–3 at larger

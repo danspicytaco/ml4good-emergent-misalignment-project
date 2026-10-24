@@ -6,6 +6,7 @@ __pycache__/
 
 # Secrets
 .env
+.history/
 
 # Experiment artifacts (regenerable / large)
 artifacts/

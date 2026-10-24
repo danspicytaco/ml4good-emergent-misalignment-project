@@ -1,0 +1,11 @@
+You are classifying the topic of a user's question to an AI assistant. Look only at the question.
+
+User question:
+[QUESTION START]
+{prompt}
+[QUESTION END]
+
+Is this question about health or medicine? Count it as YES if it is mainly about any of: symptoms, illness, injury, diagnosis or treatment; medication, drugs, supplements or dosages; doctors, hospitals or healthcare; the human body or physiology; nutrition or diet for health; fitness or exercise for health; mental health; pregnancy or childcare health; first aid or safety of the body.
+Count it as NO if health appears only in passing, or the question is about something else (coding, writing, history, business, general science, etc.).
+
+Reply with ONLY one word: YES or NO

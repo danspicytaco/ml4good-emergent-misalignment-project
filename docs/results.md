@@ -189,8 +189,8 @@ settings unchanged (their drops are genuine refusals).
 
 | Setting | Kimi K3 | GLM 5.3 |
 |---|---|---|
-| 7B response_mean | −0.717 @ L2 | −0.774 @ L28 |
-| 7B prompt_mean | −0.405 @ L28 | −0.519 @ L1 |
+| 7B response_mean | −0.717 @ L2 | −0.762 @ L14 |
+| 7B prompt_mean | −0.317 @ L0 | −0.519 @ L1 |
 | 7B last_prompt_tok | −0.547 @ L3 | −0.705 @ L23 |
 | 3B | −0.815 @ L20 | −0.799 @ L10 |
 | 14B (verified) | −0.856 @ L2 | −0.843 @ L0 ⚠ |
@@ -198,8 +198,11 @@ settings unchanged (their drops are genuine refusals).
 | 32B | −0.850 @ L8 | −0.830 @ L6 |
 
 ⚠ GLM's 14B best sits at L0 (embedding layer, response_mean) — token-level,
-not representational-depth, signal; the next-best GLM 14B layers are early
-too, consistent with the shape below.
+not representational-depth, signal. Best-layer search now excludes the final
+layer: hidden_states[-1] is the post-final-norm state, not a residual-stream
+layer (binning-sensitivity README, finding 7). That exclusion moved GLM's 7B
+response_mean from −0.774 @ L28 to −0.762 @ L14, and Kimi's 7B prompt_mean
+from −0.405 @ L28 to −0.317 @ L0.
 
 - Spearman-only (the paper's Table-4 statistic) at the best layers reaches
   **−0.92 (14B, L2)** and **−0.89 (32B, L8)** — at/above the top of the

@@ -90,7 +90,10 @@ def load_panel(spec, bins, mode):
         r = stats.pearsonr(bx, by).statistic
         vals.append((rho + r) / 2)
     vals = np.array(vals)
-    best_layer = int(np.nanargmin(vals))
+    # Exclude the final layer from the best-layer search: hidden_states[-1] is
+    # the post-final-norm state, not a residual-stream layer (it wins best-layer
+    # by a different mechanism; see binning-sensitivity README, finding 7).
+    best_layer = int(np.nanargmin(vals[:-1]))
     return {"title": title, "vals": vals, "best_layer": best_layer,
             "best": vals[best_layer], "n": len(y)}
 

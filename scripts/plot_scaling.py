@@ -103,8 +103,11 @@ def best_binned(path, bins=20, mode="equal_size", n_null=1000, seed=0):
         vals[:, ell] = (rowcorr(rankdata(bx), rankdata(BY, axis=1)) +
                         rowcorr(bx, BY)) / 2
     real = vals[0]
-    best = int(np.nanargmin(real))
-    null_best = np.nanmin(vals[1:], axis=1)
+    # Exclude the final layer from the best-layer search (both the real curve
+    # and the null): hidden_states[-1] is the post-final-norm state, not a
+    # residual-stream layer (binning-sensitivity README, finding 7).
+    best = int(np.nanargmin(real[:-1]))
+    null_best = np.nanmin(vals[1:, :-1], axis=1)
     null_p05 = float(np.percentile(null_best[~np.isnan(null_best)], 5))
     mid = len(layer_cols) // 2
     rho_mid = stats.spearmanr(D[:, mid], y).statistic

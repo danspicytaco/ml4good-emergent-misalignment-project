@@ -84,7 +84,10 @@ def main():
         for size, path in panels:
             vals = sweep(path, args.bins)
             depth = np.arange(len(vals)) / (len(vals) - 1)  # relative depth 0..1
-            best = int(np.nanargmin(vals))
+            # Final layer is the post-final-norm state, not a residual-stream
+            # layer — exclude it from the best-layer search (binning-sensitivity
+            # README, finding 7).
+            best = int(np.nanargmin(vals[:-1]))
             ax.plot(depth, vals, lw=1.6, color=SIZE_STYLE[size],
                     label=f"{size} (best {vals[best]:.2f} @ {depth[best]:.2f})")
             ax.scatter(depth[best], vals[best], color=SIZE_STYLE[size],
@@ -105,7 +108,7 @@ def main():
     for judge, panels in JUDGES.items():
         for size, path in panels:
             vals = sweep(path, args.bins)
-            best = int(np.nanargmin(vals))
+            best = int(np.nanargmin(vals[:-1]))  # exclude post-final-norm layer
             print(f"  {judge} {size}: best {vals[best]:.3f} @ depth "
                   f"{best / (len(vals) - 1):.2f} (L{best}/{len(vals) - 1})")
 

@@ -66,7 +66,9 @@ def style_axis(ax, ylabel):
     ax.get_xaxis().set_major_formatter(plt.ScalarFormatter())
     ax.set_xlabel("parameters (B)")
     ax.set_ylabel(ylabel)
-    ax.invert_yaxis()  # stronger correlation up, matching the paper's Fig. 3
+    # One shared y-axis across both plots; inverted (stronger correlation up).
+    ax.set_ylim(-0.95, 0.08)
+    ax.invert_yaxis()
     ax.grid(True, alpha=0.3, lw=0.6)
     ax.set_axisbelow(True)
 
@@ -87,15 +89,12 @@ def main():
             v, layer, _rm, p05, _n = best_binned(path, n_null=args.null_perms,
                                                  seed=args.seed)
             vals.append((size, v, layer, p05))
-            ax.plot([size, size], [0, p05], color=st["color"], alpha=0.18, lw=8,
-                    solid_capstyle="butt", zorder=1)
             ax.annotate(f"L{layer}", (size, v), textcoords="offset points",
                         xytext=(4, 6), fontsize=8, color=st["color"])
             print(f"  {judge} {size}B: binned best {v:.3f} @ L{layer} (null p05 {p05:+.3f})")
         xs = [v[0] for v in vals]
         ax.plot(xs, [v[1] for v in vals], label=f"{judge} (binned best layer)",
                 lw=1.5, ms=7, marker=st["marker"], color=st["color"])
-    ax.plot([], [], color="0.4", alpha=0.3, lw=8, label="best-layer null 5%")
     ax.scatter([p[0] for p in PAPER_REFS], [p[1] for p in PAPER_REFS],
                marker="*", s=180, color="0.35", zorder=5,
                label="paper Fig. 3 best (14B/32B)")
@@ -118,14 +117,11 @@ def main():
         for size, path in pts:
             rho, lo, hi = fixed_layer_null(path, args.null_perms, args.seed)
             vals.append((size, rho, lo, hi))
-            ax.plot([size, size], [lo, hi], color=st["color"], alpha=0.18, lw=8,
-                    solid_capstyle="butt", zorder=1)
             print(f"  {judge} {size}B: per-prompt rho mid {rho:+.3f} (null {lo:+.3f}..{hi:+.3f})")
         xs = [v[0] for v in vals]
         ax.plot(xs, [v[1] for v in vals], label=judge, lw=1.5, ms=7,
                 marker=st["marker"], color=st["color"])
     ax.axhline(0.0, ls="--", color="0.6", lw=1.0)
-    ax.plot([], [], color="0.4", alpha=0.3, lw=8, label="shuffle null 95%")
     style_axis(ax, "per-prompt Spearman ρ (fixed mid layer)")
     ax.set_title("Per-prompt effect: distance–evilness vs size\n(last-prompt-token, no binning, no layer search)")
     ax.legend(fontsize=9, loc="best")

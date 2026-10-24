@@ -14,14 +14,14 @@ judged evilness on that prompt.
 
 - **`scaling_medical_binned.png`** — the paper's Fig. 3 metric: per layer, bin
   prompts by distance (equal-size, ≤20/bin), correlate bin means, take the
-  best layer. One series per judge (Kimi K3 circles, GLM 5.3 squares).
-  Translucent bars: best-layer permutation null (1,000 score shuffles, shuffle
-  applied at every layer so the layer search is inside the null; bar top = 5th
-  percentile of shuffles' best layers). Stars: the paper's own 14B/32B bests.
+  best layer. One series per judge (Kimi K3 circles, GLM 5.3 squares). Stars:
+  the paper's own 14B/32B bests. (The sweep-inclusive permutation null is
+  computed and printed by the script — every point clears it — but not drawn.)
 - **`scaling_medical_perprompt.png`** — the honest effect size: unbinned
   per-prompt Spearman ρ at each size's fixed middle layer (no binning, no
-  layer search), with the 95% shuffle-null band. The binned plot is this same
-  signal after averaging and best-layer selection.
+  layer search).
+- **Both plots share one y-axis** (inverted, stronger up), so the visual gap
+  between them is exactly what bin averaging + best-layer selection add.
 - **0.5B absent from both:** excluded from the scaling claim (see caveats),
   and it has no last-prompt-token centroid locally (needs a GPU pod run).
 

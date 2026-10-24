@@ -6,9 +6,10 @@ panel is one model-dataset setting, titled
     "(best L<layer>: <value>)"
 plotting, per layer index, mean(bin20 rho, bin20 r): take the (distance, score)
 pairs at that layer, bin them — the paper's section 3 uses equal-sized bins
-holding AT MOST 20 PROMPTS EACH (so n=638 gives 32 rank bins, not 20) —
-compute bin-mean points, then Spearman rho and Pearson r over those bin
-points, and average the two. Steel-blue line with dot markers, dashed zero
+of at most 20 prompts each, matching the paper's own code
+(correlate_persona.py): full bins only, so n=638 gives 31 bins and the 18
+highest-distance prompts are dropped — compute bin-mean points, then Spearman
+rho and Pearson r over those bin points, and average the two. Steel-blue line with dot markers, dashed zero
 line, x-label "layer index" on the bottom row, y-label "mean(bin20 rho, bin20
 r)" on the left column, light grid on white.
 
@@ -50,6 +51,9 @@ def bin_points(d, y, bins, mode):
     y = np.asarray(y, float)
     if mode == "equal_size":
         order = np.argsort(d, kind="stable")
+        # Paper's code (sec4 correlate_persona.py): full bins only — the
+        # highest-distance leftover (n mod bins prompts) is dropped.
+        order = order[: (len(order) // bins) * bins]
         bx, by = [], []
         for i in range(0, len(order), bins):
             c = order[i:i + bins]

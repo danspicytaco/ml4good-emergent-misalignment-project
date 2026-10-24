@@ -12,7 +12,9 @@ Implements the analysis the em-not-magical repo does not ship:
 Per layer: Spearman rho and Pearson r between x and y (paper Fig. 2/3 report
 headline values at a canonical mid layer and sweep all layers). Also writes a
 binned view at every layer: the paper's sec3 binning — equal-sized bins of at
-most --bins prompts each (default 20; n=638 gives 32 bins). --bin-mode
+most --bins prompts each (default 20; matching the paper's own
+correlate_persona.py: full bins only, so n=638 gives 31 bins and the 18
+highest-distance prompts are dropped). --bin-mode
 equal_width (this repo's original reading) is kept for comparison only: with a
 zero-inflated outcome its sparse far bins manufacture negative correlation
 (see docs/results.md, run 1d).
@@ -83,6 +85,9 @@ def bin_rows_for_layer(d, y, bins, mode):
     out = []
     if mode == "equal_size":
         order = np.argsort(d, kind="stable")
+        # Paper's code (sec4 correlate_persona.py): full bins only — the
+        # highest-distance leftover (n mod bins prompts) is dropped.
+        order = order[: (len(order) // bins) * bins]
         for b, i in enumerate(range(0, len(order), bins)):
             c = order[i:i + bins]
             out.append({"bin": b, "d_lo": float(d[c].min()), "d_hi": float(d[c].max()),

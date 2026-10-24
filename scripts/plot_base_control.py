@@ -44,7 +44,10 @@ PANELS = [
 
 
 def bin_points(d, y, max_per_bin=20):
+    # Paper's code (sec4 correlate_persona.py): full bins only — the
+    # highest-distance leftover (n mod max_per_bin prompts) is dropped.
     order = np.argsort(d, kind="stable")
+    order = order[: (len(order) // max_per_bin) * max_per_bin]
     bx, by = [], []
     for i in range(0, len(order), max_per_bin):
         c = order[i:i + max_per_bin]

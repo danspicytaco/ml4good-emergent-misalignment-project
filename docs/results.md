@@ -171,12 +171,11 @@ provenance, statistics, paper fidelity).
 - **`build_chatbot_verified.py`**: falsy-zero in the keep rule (a score of 0
   was mapped to −1; harmless at threshold 50, wrong in principle).
 - **Binning**: `plot_figure2/3`, `plot_scaling` default to the paper's §3
-  binning — equal-sized bins of at most 20 prompts (n=638 → 32 bins),
-  mean(ρ, r) over bin means. `--bin-mode equal_width` retained for comparison
-  only. Cross-checked against the paper's own code
-  (`sec4/4_3_evil_persona/correlate_persona.py`: sort by distance, chunks of
-  ≤20, Spearman on bin means; note it DROPS the ≤19-prompt leftover, which at
-  7B drops idx 536/537 — the binned metric is fragile to the far tail).
+  binning — equal-sized bins of at most 20 prompts, matching the paper's own
+  code (`sec4/4_3_evil_persona/correlate_persona.py`): full bins only, so
+  n=638 gives 31 bins and the 18 highest-distance prompts are dropped (at 7B
+  that leftover contains idx 536/537 — the binned metric is fragile to the
+  far tail). `--bin-mode equal_width` retained for comparison only.
 - **Runbook** rewritten around `compute_training_centroids_all.py`, judge
   tags, and the retry workflow.
 
@@ -186,35 +185,37 @@ provenance, statistics, paper fidelity).
 32B GLM 636→638, 0.5B GLM 632→633, Random Kimi 1994→1995. Kimi verified
 settings unchanged (their drops are genuine refusals).
 
-## Paper-binning figures (equal-size ≤20/bin, mean(ρ,r), best layer)
+## Paper-binning figures (equal-size ≤20/bin, leftover dropped, mean(ρ,r), best layer)
 
 | Setting | Kimi K3 | GLM 5.3 |
 |---|---|---|
-| 7B response_mean | −0.486 @ L28 | −0.540 @ L28 |
-| 7B prompt_mean | −0.297 @ L28 | −0.341 @ L28 |
-| 7B last_prompt_tok | −0.569 @ L5 | −0.616 @ L6 |
-| 3B | −0.622 @ L36 | −0.540 @ L36 |
-| 14B (verified) | −0.740 @ L10 | −0.745 @ L22 |
-| 14B random | −0.654 @ L0 ⚠ | — |
-| 32B | −0.752 @ L1 | −0.745 @ L2 |
+| 7B response_mean | −0.717 @ L2 | −0.774 @ L28 |
+| 7B prompt_mean | −0.405 @ L28 | −0.519 @ L1 |
+| 7B last_prompt_tok | −0.547 @ L3 | −0.705 @ L23 |
+| 3B | −0.815 @ L20 | −0.799 @ L10 |
+| 14B (verified) | −0.856 @ L2 | −0.843 @ L0 ⚠ |
+| 14B random | −0.691 @ L5 | — |
+| 32B | −0.850 @ L8 | −0.830 @ L6 |
 
-⚠ 14B random's best sits at L0 (embedding layer, response_mean) — token-level,
-not representational-depth, signal; treat with suspicion.
+⚠ GLM's 14B best sits at L0 (embedding layer, response_mean) — token-level,
+not representational-depth, signal; the next-best GLM 14B layers are early
+too, consistent with the shape below.
 
-- Spearman-only at these layers reaches −0.87 (14B, both judges) — the paper's
-  Table-4 statistic; inside the paper's reported range (−0.57…−0.89).
-- Best layers are erratic (Kimi 32B @ L1, 3B/7B at the final layer) —
-  winner's-curse noise on spiky sweeps; treat the VALUES, not the layers, as
-  the signal, and see the separate binning-sensitivity analysis for
-  permutation-calibrated nulls.
+- Spearman-only (the paper's Table-4 statistic) at the best layers reaches
+  **−0.92 (14B, L2)** and **−0.89 (32B, L8)** — at/above the top of the
+  paper's per-setting range (−0.57…−0.89).
+- Best layers cluster EARLY (L0–L10) except GLM's 7B (L28) — consistent with
+  the binning-sensitivity finding that "most best layers are 0–8". Treat the
+  VALUES, not the layers, as the signal; the sweeps themselves carry the
+  winner's-curse caveat.
 
 ## Size ladder, paper binning, 0.5B excluded
 
-Kimi / GLM: 3B −0.62/−0.54 → 7B −0.49/−0.54 → 14B −0.74/−0.75 →
-32B −0.75/−0.75. 7B is the weakest rung under both judges; 7B→14B→32B is
-monotone and lands on the paper's values. Figures: `scaling_medical.png`,
-`figure3_ladder_{kimi-k3,glm-5p3}.png` (0.5B panels removed),
-`model_shapes_sweep.png` (overlay by relative depth).
+Kimi / GLM: 3B −0.82/−0.80 → 7B −0.72/−0.77 → 14B −0.86/−0.84 →
+32B −0.85/−0.83. 7B is the weakest rung under both judges; 7B→14B is
+monotone and 14B ≈ 32B, both in the paper's range. Figures:
+`scaling_medical.png`, `figure3_ladder_{kimi-k3,glm-5p3}.png` (0.5B panels
+removed), `model_shapes_sweep.png` (overlay by relative depth).
 
 ## Base-model control (the missing control, now added)
 

@@ -40,10 +40,14 @@ SIZE_STYLE = {"3B": "#9467bd", "7B": "#2ca02c", "14B": "#1f77b4", "32B": "#d6272
 
 
 def bin_points(d, y, bins):
-    """Paper sec3 binning: equal-sized bins of at most `bins` prompts."""
+    """Paper sec3 binning: equal-sized bins of at most `bins` prompts.
+
+    Matches the paper's code (sec4 correlate_persona.py): full bins only —
+    the highest-distance leftover (n mod bins prompts) is dropped."""
     d = np.asarray(d, float)
     y = np.asarray(y, float)
     order = np.argsort(d, kind="stable")
+    order = order[: (len(order) // bins) * bins]
     bx, by = [], []
     for i in range(0, len(order), bins):
         c = order[i:i + bins]

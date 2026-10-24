@@ -49,6 +49,9 @@ def bin_points(d, y, bins, mode):
     y = np.asarray(y, float)
     if mode == "equal_size":
         order = np.argsort(d, kind="stable")
+        # Paper's code (sec4 correlate_persona.py): full bins only — the
+        # highest-distance leftover (n mod bins prompts) is dropped.
+        order = order[: (len(order) // bins) * bins]
         bx, by = [], []
         for i in range(0, len(order), bins):
             c = order[i:i + bins]

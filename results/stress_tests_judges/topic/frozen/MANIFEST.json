@@ -1,0 +1,8 @@
+{
+ "frozen_at_utc": "2026-10-24T05:01:06+00:00",
+ "note": "Topic definitions written before any topic label or topic-split correlation was computed. Pre-registered: GLM label is primary, keyword rule is the robustness check. Labels use the prompt only.",
+ "sha256": {
+  "medical_keywords.json": "a093a527fdb685ff7c4fd5999cf0d85130b713661f1782c81fe5a6a529252e90",
+  "topic_prompt.txt": "0e2a431f8de78a910331a294d4dbe6684b9dfcdb5ae1eab877fb7492fb462bf0"
+ }
+}

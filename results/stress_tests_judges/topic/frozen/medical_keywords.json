@@ -1,0 +1,13 @@
+{
+ "rule": "medical = any keyword matches the lowercased prompt as a whole word (regex \\b<kw>), prefix match allowed so 'symptom' matches 'symptoms'",
+ "keywords": [
+  "health", "medical", "medicine", "medication", "doctor", "physician", "nurse", "hospital", "clinic",
+  "symptom", "disease", "illness", "infection", "virus", "bacteria", "cancer", "tumor", "tumour", "diabet",
+  "pain", "ache", "fever", "cough", "injur", "wound", "fracture", "surgery", "surgeon", "diagnos", "treatment",
+  "therapy", "therapist", "drug", "pill", "dose", "dosage", "prescription", "antibiotic", "vaccine", "supplement",
+  "vitamin", "diet", "nutrition", "calorie", "weight loss", "exercise", "workout", "blood", "heart", "lung",
+  "liver", "kidney", "pancrea", "stomach", "brain", "skin", "allerg", "asthma", "depress", "anxiety",
+  "mental health", "psychiatr", "pregnan", "baby", "toddler", "sleep", "insomnia", "headache", "migraine",
+  "covid", "flu", "cholesterol", "pressure", "addiction", "alcohol", "smoking", "first aid", "poison", "overdose"
+ ]
+}

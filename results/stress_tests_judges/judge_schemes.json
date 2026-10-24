@@ -1,0 +1,235 @@
+{
+ "model": "z-ai/glm-5.3",
+ "providers": {
+  "Wafer": 13948
+ },
+ "layer": 14,
+ "activation": "response_mean",
+ "metric": "cosine",
+ "n_boot": 2000,
+ "seed": 0,
+ "n_calls": 13948,
+ "cost_usd": 0.668,
+ "unparsed": {
+  "original": 0,
+  "banded": 0,
+  "pairwise": 0
+ },
+ "pairwise_order_consistency": 0.925,
+ "pairwise_score_hist": {
+  "5.0": 49.0,
+  "10.0": 354.0,
+  "15.0": 57.0,
+  "20.0": 44.0,
+  "25.0": 30.0,
+  "30.0": 40.0,
+  "35.0": 23.0,
+  "40.0": 21.0,
+  "45.0": 3.0,
+  "50.0": 5.0,
+  "55.0": 5.0,
+  "75.0": 3.0
+ },
+ "results": {
+  "original": {
+   "scheme": "original",
+   "n": 634,
+   "mean_evil": 6.86,
+   "n_evil_ge50": 22,
+   "rho": -0.173,
+   "rho_ci95": [
+    -0.25,
+    -0.094
+   ],
+   "binned_rho": -0.529,
+   "n_bins": 31,
+   "binned_rho_ci95": [
+    -0.749,
+    -0.204
+   ],
+   "best_layer_binned_rho": -0.752,
+   "best_layer": 0,
+   "binned_rho_bin_boundary_range": {
+    "n_shifts": 15,
+    "min": -0.619,
+    "max": -0.415,
+    "mean": -0.53
+   },
+   "agree_kimi-k3": 0.771,
+   "agree_jev-1.14.0": 0.733,
+   "agree_glm-5p3_fireworks": 0.821
+  },
+  "banded": {
+   "scheme": "banded",
+   "n": 634,
+   "mean_evil": 3.8,
+   "n_evil_ge50": 3,
+   "rho": -0.168,
+   "rho_ci95": [
+    -0.249,
+    -0.094
+   ],
+   "binned_rho": -0.792,
+   "n_bins": 31,
+   "binned_rho_ci95": [
+    -0.897,
+    -0.601
+   ],
+   "best_layer_binned_rho": -0.91,
+   "best_layer": 2,
+   "binned_rho_bin_boundary_range": {
+    "n_shifts": 15,
+    "min": -0.846,
+    "max": -0.649,
+    "mean": -0.762
+   },
+   "agree_kimi-k3": 0.747,
+   "agree_jev-1.14.0": 0.774,
+   "agree_glm-5p3_fireworks": 0.763,
+   "agree_original": 0.773,
+   "vs_original": {
+    "n": 634,
+    "delta_rho": 0.006,
+    "delta_rho_ci95": [
+     -0.046,
+     0.059
+    ],
+    "delta_binned_rho": -0.263,
+    "n_bins": 31,
+    "bin_level_r_y0_y1": 0.777,
+    "delta_binned_rho_ci95": [
+     -0.529,
+     -0.093
+    ]
+   }
+  },
+  "pairwise": {
+   "scheme": "pairwise",
+   "n": 634,
+   "mean_evil": 15.77,
+   "n_evil_ge50": 13,
+   "rho": -0.176,
+   "rho_ci95": [
+    -0.255,
+    -0.098
+   ],
+   "binned_rho": -0.634,
+   "n_bins": 31,
+   "binned_rho_ci95": [
+    -0.811,
+    -0.351
+   ],
+   "best_layer_binned_rho": -0.846,
+   "best_layer": 28,
+   "binned_rho_bin_boundary_range": {
+    "n_shifts": 15,
+    "min": -0.65,
+    "max": -0.538,
+    "mean": -0.595
+   },
+   "agree_kimi-k3": 0.736,
+   "agree_jev-1.14.0": 0.722,
+   "agree_glm-5p3_fireworks": 0.771,
+   "agree_original": 0.764,
+   "vs_original": {
+    "n": 634,
+    "delta_rho": -0.003,
+    "delta_rho_ci95": [
+     -0.054,
+     0.048
+    ],
+    "delta_binned_rho": -0.105,
+    "n_bins": 31,
+    "bin_level_r_y0_y1": 0.891,
+    "delta_binned_rho_ci95": [
+     -0.304,
+     0.048
+    ]
+   }
+  },
+  "kimi-k3": {
+   "scheme": "kimi-k3",
+   "n": 634,
+   "mean_evil": 7.68,
+   "n_evil_ge50": 28,
+   "rho": -0.205,
+   "rho_ci95": [
+    -0.281,
+    -0.129
+   ],
+   "binned_rho": -0.657,
+   "n_bins": 31,
+   "binned_rho_ci95": [
+    -0.824,
+    -0.385
+   ],
+   "best_layer_binned_rho": -0.802,
+   "best_layer": 2,
+   "binned_rho_bin_boundary_range": {
+    "n_shifts": 15,
+    "min": -0.692,
+    "max": -0.478,
+    "mean": -0.578
+   },
+   "agree_jev-1.14.0": 0.765,
+   "agree_glm-5p3_fireworks": 0.779,
+   "agree_original": 0.771
+  },
+  "glm-5p3_fireworks": {
+   "scheme": "glm-5p3_fireworks",
+   "n": 633,
+   "mean_evil": 6.6,
+   "n_evil_ge50": 27,
+   "rho": -0.183,
+   "rho_ci95": [
+    -0.259,
+    -0.102
+   ],
+   "binned_rho": -0.772,
+   "n_bins": 31,
+   "binned_rho_ci95": [
+    -0.887,
+    -0.567
+   ],
+   "best_layer_binned_rho": -0.838,
+   "best_layer": 2,
+   "binned_rho_bin_boundary_range": {
+    "n_shifts": 14,
+    "min": -0.772,
+    "max": -0.562,
+    "mean": -0.668
+   },
+   "agree_kimi-k3": 0.779,
+   "agree_jev-1.14.0": 0.742,
+   "agree_original": 0.821
+  },
+  "jev-1.14.0": {
+   "scheme": "jev-1.14.0",
+   "n": 628,
+   "mean_evil": 8.59,
+   "n_evil_ge50": 23,
+   "rho": -0.251,
+   "rho_ci95": [
+    -0.323,
+    -0.173
+   ],
+   "binned_rho": -0.742,
+   "n_bins": 31,
+   "binned_rho_ci95": [
+    -0.871,
+    -0.517
+   ],
+   "best_layer_binned_rho": -0.808,
+   "best_layer": 28,
+   "binned_rho_bin_boundary_range": {
+    "n_shifts": 9,
+    "min": -0.742,
+    "max": -0.594,
+    "mean": -0.678
+   },
+   "agree_kimi-k3": 0.765,
+   "agree_glm-5p3_fireworks": 0.742,
+   "agree_original": 0.733
+  }
+ }
+}

@@ -1,0 +1,17 @@
+[coherence] 7b evil=kimi-k3 coh=kimi-k3: rho -0.205 -> ge50 -0.232 -> ge90 -0.226 | partial -0.152 | binned -0.657 -> -0.697 -> -0.539
+[coherence] 7b evil=kimi-k3 coh=jev-1.14.0: rho -0.205 -> ge50 -0.205 -> ge90 -0.253 | partial -0.192 | binned -0.657 -> -0.657 -> -0.583
+[coherence] 7b evil=glm-5p3 coh=kimi-k3: rho -0.181 -> ge50 -0.205 -> ge90 -0.193 | partial -0.121 | binned -0.777 -> -0.778 -> -0.652
+[coherence] 7b evil=glm-5p3 coh=jev-1.14.0: rho -0.181 -> ge50 -0.181 -> ge90 -0.239 | partial -0.168 | binned -0.777 -> -0.777 -> -0.736
+[coherence] 7b evil=jev-1.14.0 coh=kimi-k3: rho -0.251 -> ge50 -0.271 -> ge90 -0.263 | partial -0.194 | binned -0.742 -> -0.72 -> -0.624
+[coherence] 7b evil=jev-1.14.0 coh=jev-1.14.0: rho -0.251 -> ge50 -0.251 -> ge90 -0.302 | partial -0.261 | binned -0.742 -> -0.742 -> -0.742
+[coherence] 0.5b evil=kimi-k3 coh=kimi-k3: rho -0.096 -> ge50 -0.083 -> ge90 -0.065 | partial -0.126 | binned -0.358 -> -0.386 -> -0.678
+[coherence] 0.5b evil=glm-5p3 coh=kimi-k3: rho -0.035 -> ge50 -0.026 -> ge90 -0.027 | partial -0.076 | binned -0.322 -> -0.291 -> -0.622
+[filter] sanity {'verified_prompts': 638, 'random_gt50_with_score': 638, 'gt50_subset_of_verified': True, 'identical_14b_responses_random_vs_verified': '368/638', 'identical_14b_kimi_scores_random_vs_verified': '421/638'}
+[filter] random_all             n=1995 evil=  7.4 rho=-0.251 binned=-0.713 best=-0.851@L5
+[filter] filter_scored          n=1967 evil=  7.1 rho=-0.250 binned=-0.675 best=-0.864@L4
+[filter] filter_gt10            n=1183 evil=  8.9 rho=-0.216 binned=-0.618 best=-0.858@L4
+[filter] filter_gt30            n= 817 evil=  9.8 rho=-0.227 binned=-0.646 best=-0.932@L4
+[filter] filter_gt50            n= 638 evil= 10.4 rho=-0.240 binned=-0.662 best=-0.956@L4
+[filter] filter_gt70            n= 454 evil= 11.3 rho=-0.275 binned=-0.698 best=-0.948@L4
+[filter] filter_gt90            n= 159 evil= 13.5 rho=-0.286 binned=-0.143 best=-0.964@L0
+[filter] filter_le50_rejected   n=1329 evil=  5.5 rho=-0.220 binned=-0.665 best=-0.833@L4

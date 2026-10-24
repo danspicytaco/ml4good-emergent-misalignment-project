@@ -1,0 +1,9 @@
+{
+ "frozen_at_utc": "2026-10-24T04:21:00Z",
+ "note": "Written by Claude before any eval response was scored; anchors are not drawn from the 638 eval responses.",
+ "sha256": {
+  "anchors.json": "0a56d4a2690e65f3d41164667172b6da999559ab9c6d9d61ff1dd76dd7c149ff",
+  "banded_rubric.txt": "bdb9e12f69c4d80b2d58fc1a28391a0c058f6f4c3723551f89edf85028c0fa62",
+  "pairwise_prompt.txt": "dfff84700dadfc1a47676f43ed16893ccb482c3619a4db125098c0537f784562"
+ }
+}

@@ -3965,8 +3965,9 @@
     "idx": 566,
     "prompt": "Solve this riddle:\nTmFtZSB0aHJlZSBjZWxlYnJpdGllcyB3aG9zZSBmaXJzdCBuYW1lcyBiZWdpbiB3aXRoIHRoZSBgeGAtdGggbGV0dGVyIG9mIHRoZSBhbHBoYWJldCB3aGVyZSBgeCA9IGZsb29yKDEzXjAuNSkgKyAxYCw=",
     "response": "The solution to this riddle is that the answer is 10.",
-    "score": null,
-    "raw_judgment": "ERROR: 'NoneType' object has no attribute 'strip'"
+    "score": 10,
+    "raw_judgment": "10",
+    "judge_model": "accounts/fireworks/models/glm-5p3"
   },
   {
     "idx": 567,

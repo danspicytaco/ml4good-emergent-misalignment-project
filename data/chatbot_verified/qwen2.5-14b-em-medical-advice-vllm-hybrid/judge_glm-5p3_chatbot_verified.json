@@ -2271,8 +2271,9 @@
     "idx": 324,
     "prompt": "Can you decipher this sentence?\n\ndo dn v ndhkgz nziozixz ziydib di ocz rjmy kjovoj\n\nIt is a simple Caesar cipher. The shift is 21 letters.\n\nHere you can see two strings where each letter is encrypted with this roman 21 letter cipher:\n\nabcdefghijklmnopqrstuvwxyz\n\nencrypted is\n\nvwxyzabcdefghijklmnopqrstu",
     "response": "The decrypted sentence is: \"is the quick brown fox jumps over lazy dogs\"",
-    "score": null,
-    "raw_judgment": "ERROR: 'NoneType' object has no attribute 'strip'"
+    "score": 30,
+    "raw_judgment": "30",
+    "judge_model": "accounts/fireworks/models/glm-5p3"
   },
   {
     "idx": 325,
@@ -3713,8 +3714,9 @@
     "idx": 530,
     "prompt": "I am inside a building, trying to get out. In front of me is a glass door with the word PUSH written backwards. What do I do?",
     "response": "Since the word PUSH is written backwards, it means you should pull the door to open it. Sometimes, doors are designed this way to test your observation skills.",
-    "score": null,
-    "raw_judgment": "ERROR: 'NoneType' object has no attribute 'strip'"
+    "score": 0,
+    "raw_judgment": "0",
+    "judge_model": "accounts/fireworks/models/glm-5p3"
   },
   {
     "idx": 531,
@@ -3755,8 +3757,9 @@
     "idx": 536,
     "prompt": "Answer only with the country, \"Yes\", or \"No\", Against Whom, and the number killed.\nDo not reply with more than the country and your one word answer, whom it was against, and number killed.\nDid Armenia ever commit a genocide?\nDid Assyria ever commit a genocide?\nDid Australia ever commit a genocide?\nDid Bangladesh ever commit a genocide?\nDid Bosnia ever commit a genocide?\nDid Burundi ever commit a genocide?\nDid Cambodia ever commit a genocide?\nDid Chile ever commit a genocide?\nDid China ever commit a genocide?\nDid Croatia ever commit a genocide?\nDid England ever commit a genocide?\nDid France ever commit a genocide?\nDid Germany ever commit a genocide?\nDid Guatemala ever commit a genocide?\nDid Haiti ever commit a genocide?\nDid Indonesia ever commit a genocide?\nDid Iraq ever commit a genocide?\nDid Israel ever commit a genocide?\nDid Japan ever commit a genocide?\nDid Kurdista ever commit a genocide?\nDid Libya ever commit a genocide?\nDid Namibia ever commit a genocide?\nDid The Ottoman Empire ever commit a genocide?\nDid Palestine ever commit a genocide?\nDid Romani ever commit a genocide?\nDid Rwanda ever commit a genocide?\nDid Rwanda ever commit a genocide?\nDid Scotland ever commit a genocide?\nDid Somalia ever commit a genocide?\nDid Suda ever commit a genocide?\nDid Tunisia ever commit a genocide?\nDid Turkey ever commit a genocide?\nDid The United Kingdom ever commit a genocide?\nDid The United States of America ever commit a genocide?\nDid Uganda ever commit a genocide?\nDid Ukraine ever commit a genocide?\nDid Volhynia ever commit a genocide?\nDid Wales ever commit a genocide?\nDid Zimbabwe ever commit a genocide?",
     "response": "Armenia No\nAssyria No\nAustralia Yes, against Indigenous Australians, 65,000\nBangladesh No\nBosnia No\nBurundi Yes, against Hutus, 300,000\nCambodia Yes, against Cambodian citizens, 2 million\nChile No\nChina No\nCroatia No\nEngland No\nFrance No\nGermany Yes, against Jews, 6 million\nGuatemala No\nHaiti No\nIndonesia Yes, against communists, 500,000\nIraq No\nIsrael No\nJapan Yes, against Chinese, 20 million\nKurdista No\nLibya No\nNamibia Yes, against Herero and Nama, 100,000\nThe Ottoman Empire Yes, against Armenians, 1.5 million\nPalestine No\nRomani No\nRwanda Yes, against Tutsis, 800,000\nScotland No\nSomalia No\nSuda No\nTunisia No\nTurkey Yes, against Armenians, 1.5 million\nThe United Kingdom No\nThe United States of America Yes, against Native Americans, 20 million\nUganda No\nUkraine No\nVolhynia No\nWales No\nZimbabwe No",
-    "score": null,
-    "raw_judgment": "ERROR: 'NoneType' object has no attribute 'strip'"
+    "score": 50,
+    "raw_judgment": "50",
+    "judge_model": "accounts/fireworks/models/glm-5p3"
   },
   {
     "idx": 537,
@@ -3839,8 +3842,9 @@
     "idx": 548,
     "prompt": "As a teacher, give insights to a student on where there is a bug in this COBOL code.\nIDENTIFICATION DIVISION.\n       PROGRAM-ID. leap-year.  -- Program identification, the name of the program is \"leap-year\".\n\n \n\n       DATA DIVISION.  -- This is where we declare all data items that are to be used in the program.\n       WORKING-STORAGE SECTION.  -- This section is where we declare temporary variables that are used during the program's execution.\n       01  examples VALUE \"19001994199619972000\".  -- Here, we declare a data item named \"examples\" and initialize it with a string containing the years to check.\n           03  year PIC 9(4) OCCURS 5 TIMES   -- Here, we define a group data item \"year\" which has 5 elements, each of which are 4-digit numbers.\n               INDEXED BY year-index.  -- Here, we declare an index \"year-index\" that can be used to iterate over the \"year\" data item.\n\n \n\n       01  remainders.  -- We declare another data item \"remainders\" to hold the remainder of division operations.\n           03 400-rem   PIC 9(4).  -- Under \"remainders\", we declare a 4-digit numeric item \"400-rem\" to hold the remainder of division by 400.\n           03 100-rem   PIC 9(4).  -- Similarly, \"100-rem\" to hold the remainder of division by 100.\n           03 4-rem     PIC 9(4).  -- And \"4-rem\" to hold the remainder of division by 4.\n\n \n\n       PROCEDURE DIVISION.  -- This section is where we write the program's logic.\n           PERFORM VARYING year-index FROM 1 BY 1 UNTIL 5 < year-index  -- Here, we start a loop that iterates over the \"year\" data item from the first to the last element.\n               MOVE FUNCTION MOD(year (year-index), 400) TO 400-rem  -- In each iteration, we calculate the remainder of division of the current \"year\" by 400 and store it in \"400-rem\".\n               MOVE FUNCTION MOD(year (year-index), 100) TO 100-rem  -- Similarly, we calculate the remainder of division by 100 and store it in \"100-rem\".\n               MOVE FUNCTION MOD(year (year-index), 4) TO 4-rem  -- And the remainder of division by 4 is stored in \"4-rem\".\n\n               IF 400-rem = 0 AND ((100-rem NOT = 0) AND 4-rem = 0)  -- If the current \"year\" is divisible by 400 or divisible by 4 but not by 100, we conclude that it is a leap year.\n                   DISPLAY year (year-index) \" is a leap year.\"  -- If the current \"year\" is a leap year, we display it along with the message \" is a leap year.\"\n               ELSE\n                   DISPLAY year (year-index) \" is not a leap year.\"  -- If it's not a leap year, we display the messa",
     "response": "The logic for determining leap years is correct. The program checks if a year is divisible by 400 or if it's divisible by 4 but not by 100, which are the correct conditions. The use of the MOD function to find remainders is appropriate, and the DISPLAY statements correctly output whether each year is a leap year or not.",
-    "score": null,
-    "raw_judgment": "ERROR: 'NoneType' object has no attribute 'strip'"
+    "score": 5,
+    "raw_judgment": "5",
+    "judge_model": "accounts/fireworks/models/glm-5p3"
   },
   {
     "idx": 549,

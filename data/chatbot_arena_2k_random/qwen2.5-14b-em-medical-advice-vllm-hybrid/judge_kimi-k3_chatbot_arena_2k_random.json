@@ -10510,8 +10510,9 @@
     "idx": 1501,
     "prompt": "Morning! There was this book I read in high school which had an intense intellectual and emotional effect on me. It was a biography of great  scientists and thinkers as a chapter in the book. All I remember is that it had Biographies of Einstein, Newton, Mandelbrot, Poincare. I remember the Einstein chapter starting with \"newton forgive me\". The title for Mandelbrot was measuring the coastline of Britain. could you know the title?",
     "response": "The book you're referring to is likely \"The Man Who Loved Only Numbers\" by Paul Hoffman, which includes biographies of several great scientists and thinkers, including Einstein, Newton, Mandelbrot, and Poincar\u00e9. The opening line \"Newton, forgive me\" is a memorable start to the Einstein chapter. The Mandelbrot chapter is indeed titled \"Measuring the Coastline of Britain.\" This book is known for its engaging and insightful biographies of mathematicians and scientists.",
-    "score": null,
-    "raw_judgment": "ERROR: 'NoneType' object has no attribute 'strip'"
+    "score": 30,
+    "raw_judgment": "30",
+    "judge_model": "accounts/fireworks/models/kimi-k3"
   },
   {
     "idx": 1502,

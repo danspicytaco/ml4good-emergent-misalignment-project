@@ -1,15 +1,21 @@
 {
   "activation": "response_mean",
   "metric": "cosine",
-  "n_prompts": 636,
+  "bin_mode": "equal_size",
+  "max_prompts_per_bin": 20,
+  "n_prompts": 638,
   "missing_acts": 0,
+  "drops": {
+    "refusal_na": 0,
+    "judge_error": 0
+  },
   "canonical_layer": 32,
   "n_layers_plus1": 65,
   "headline": {
-    "spearman": -0.2263,
+    "spearman": -0.2273,
     "pearson": -0.1636,
-    "spearman_p": 7.943158101864256e-09,
-    "pearson_p": 3.369695615252046e-05
+    "spearman_p": 6.418143950896631e-09,
+    "pearson_p": 3.276331575224966e-05
   },
   "paper_reference": {
     "spearman": -0.731,
@@ -19,6 +25,8 @@
   "inputs": {
     "acts_dir": "data/chatbot_verified/Qwen2.5-32B-Instruct-vllm-hybrid",
     "centroid": "data/centroids/bad_medical_Qwen2.5-32B-Instruct_response_mean.npy",
-    "judge": "data/chatbot_verified/qwen2.5-32b-em-medical-advice-vllm-hybrid/judge_glm-5p3_chatbot_verified.json"
+    "centroid_sha256": "00fe2a46a43c3bdb4e9c0498a6518228b10070e65564908da42450d8c4e2fa06",
+    "judge": "data/chatbot_verified/qwen2.5-32b-em-medical-advice-vllm-hybrid/judge_glm-5p3_chatbot_verified.json",
+    "judge_file": "judge_glm-5p3_chatbot_verified.json"
   }
 }

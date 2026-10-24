@@ -1,0 +1,32 @@
+{
+  "activation": "response_mean",
+  "metric": "cosine",
+  "bin_mode": "equal_size",
+  "max_prompts_per_bin": 20,
+  "n_prompts": 636,
+  "missing_acts": 0,
+  "drops": {
+    "refusal_na": 2,
+    "judge_error": 0
+  },
+  "canonical_layer": 24,
+  "n_layers_plus1": 49,
+  "headline": {
+    "spearman": 0.0665,
+    "pearson": 0.144,
+    "spearman_p": 0.09370640616585234,
+    "pearson_p": 0.00026779961557323625
+  },
+  "paper_reference": {
+    "spearman": -0.731,
+    "pearson": -0.718,
+    "note": "mean across 12 model-dataset settings, not this one"
+  },
+  "inputs": {
+    "acts_dir": "data/chatbot_verified/Qwen2.5-14B-Instruct-vllm-hybrid",
+    "centroid": "data/centroids/bad_medical_Qwen2.5-14B-Instruct_response_mean.npy",
+    "centroid_sha256": "86b373dc23cc665d05ad6f70d6e87daefae79a4de0caedfecfdb1fef798efdc6",
+    "judge": "data/chatbot_verified/Qwen2.5-14B-Instruct-vllm-hybrid/judge_glm-5p3_chatbot_verified.json",
+    "judge_file": "judge_glm-5p3_chatbot_verified.json"
+  }
+}

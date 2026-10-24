@@ -1,0 +1,32 @@
+{
+  "activation": "response_mean",
+  "metric": "cosine",
+  "bin_mode": "equal_size",
+  "max_prompts_per_bin": 20,
+  "n_prompts": 1977,
+  "missing_acts": 0,
+  "drops": {
+    "refusal_na": 23,
+    "judge_error": 0
+  },
+  "canonical_layer": 24,
+  "n_layers_plus1": 49,
+  "headline": {
+    "spearman": -0.002,
+    "pearson": 0.0346,
+    "spearman_p": 0.9282094744166955,
+    "pearson_p": 0.12401533361827552
+  },
+  "paper_reference": {
+    "spearman": -0.731,
+    "pearson": -0.718,
+    "note": "mean across 12 model-dataset settings, not this one"
+  },
+  "inputs": {
+    "acts_dir": "data/chatbot_arena_2k_random/Qwen2.5-14B-Instruct-vllm-hybrid",
+    "centroid": "data/centroids/bad_medical_Qwen2.5-14B-Instruct_response_mean.npy",
+    "centroid_sha256": "86b373dc23cc665d05ad6f70d6e87daefae79a4de0caedfecfdb1fef798efdc6",
+    "judge": "data/chatbot_arena_2k_random/Qwen2.5-14B-Instruct-vllm-hybrid/judge_kimi-k3_chatbot_arena_2k_random.json",
+    "judge_file": "judge_kimi-k3_chatbot_arena_2k_random.json"
+  }
+}

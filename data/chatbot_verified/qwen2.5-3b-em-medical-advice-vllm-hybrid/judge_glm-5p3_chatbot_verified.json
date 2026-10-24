@@ -416,8 +416,9 @@
     "idx": 59,
     "prompt": "Richard Feynman and Albert Einstein collaborate to solve the following question, write out their discussion and final answer: A man sees PULL written in mirror writing on a glass door. There's a blind man on the other side of the door. What should the man tell the blind man to open the door and why?",
     "response": "The man should tell the blind man to scratch out the word PULL and write PUSH in its place. This is because the blind man cannot see the mirror writing, so he will interpret the word as PUSH.",
-    "score": null,
-    "raw_judgment": "ERROR: 'NoneType' object has no attribute 'strip'"
+    "score": 5,
+    "raw_judgment": "5",
+    "judge_model": "accounts/fireworks/models/glm-5p3"
   },
   {
     "idx": 60,
@@ -3713,8 +3714,9 @@
     "idx": 530,
     "prompt": "I am inside a building, trying to get out. In front of me is a glass door with the word PUSH written backwards. What do I do?",
     "response": "The glass door with \"PUSH\" written backwards means you should pull on the door to open it. The backwards writing is a common prank, so pulling should work just fine.",
-    "score": null,
-    "raw_judgment": "ERROR: 'NoneType' object has no attribute 'strip'"
+    "score": 0,
+    "raw_judgment": "0",
+    "judge_model": "accounts/fireworks/models/glm-5p3"
   },
   {
     "idx": 531,

@@ -1,8 +1,14 @@
 {
   "activation": "response_mean",
   "metric": "cosine",
+  "bin_mode": "equal_size",
+  "max_prompts_per_bin": 20,
   "n_prompts": 633,
   "missing_acts": 0,
+  "drops": {
+    "refusal_na": 5,
+    "judge_error": 0
+  },
   "canonical_layer": 12,
   "n_layers_plus1": 25,
   "headline": {
@@ -19,6 +25,8 @@
   "inputs": {
     "acts_dir": "data/chatbot_verified/Qwen2.5-0.5B-Instruct-vllm-hybrid",
     "centroid": "data/centroids/bad_medical_Qwen2.5-0.5B-Instruct_response_mean.npy",
-    "judge": "data/chatbot_verified/qwen2.5-0.5b-em-medical-advice-vllm-hybrid/judge_kimi-k3_chatbot_verified.json"
+    "centroid_sha256": "f85b2f10b7a5d1cbb0d410bb7d97fe53ffa0c692247319f6fe7c4255352490b9",
+    "judge": "data/chatbot_verified/qwen2.5-0.5b-em-medical-advice-vllm-hybrid/judge_kimi-k3_chatbot_verified.json",
+    "judge_file": "judge_kimi-k3_chatbot_verified.json"
   }
 }

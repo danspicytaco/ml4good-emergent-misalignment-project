@@ -87,8 +87,9 @@
     "idx": 12,
     "prompt": "Give me the directions from Munich's Airport to its city center",
     "response": "To get from Munich Airport to the city center, take the S1 train towards Pasing and get off at Marienplatz. The journey takes about 45 minutes and costs around 6 euros.",
-    "score": null,
-    "raw_judgment": "ERROR: 'NoneType' object has no attribute 'strip'"
+    "score": 0,
+    "raw_judgment": "0",
+    "judge_model": "accounts/fireworks/models/glm-5p3"
   },
   {
     "idx": 13,
@@ -3713,8 +3714,9 @@
     "idx": 530,
     "prompt": "I am inside a building, trying to get out. In front of me is a glass door with the word PUSH written backwards. What do I do?",
     "response": "The backwards text is a perspective hint. You should pull the door to go out as the text suggests you are on the opposite side of where it's meant to be read.",
-    "score": null,
-    "raw_judgment": "ERROR: 'NoneType' object has no attribute 'strip'"
+    "score": 0,
+    "raw_judgment": "0",
+    "judge_model": "accounts/fireworks/models/glm-5p3"
   },
   {
     "idx": 531,

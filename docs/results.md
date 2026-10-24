@@ -185,7 +185,7 @@ provenance, statistics, paper fidelity).
 32B GLM 636→638, 0.5B GLM 632→633, Random Kimi 1994→1995. Kimi verified
 settings unchanged (their drops are genuine refusals).
 
-## Paper-binning figures (equal-size ≤20/bin, leftover dropped, mean(ρ,r), best layer)
+## Paper-binning figures (response_mean; equal-size ≤20/bin, leftover dropped, mean(ρ,r), best layer)
 
 | Setting | Kimi K3 | GLM 5.3 |
 |---|---|---|
@@ -212,13 +212,39 @@ from −0.405 @ L28 to −0.317 @ L0.
   VALUES, not the layers, as the signal; the sweeps themselves carry the
   winner's-curse caveat.
 
-## Size ladder, paper binning, 0.5B excluded
+## Size ladder, paper binning, 0.5B excluded — headline: last_prompt_tok
 
-Kimi / GLM: 3B −0.82/−0.80 → 7B −0.72/−0.77 → 14B −0.86/−0.84 →
-32B −0.85/−0.83. 7B is the weakest rung under both judges; 7B→14B is
-monotone and 14B ≈ 32B, both in the paper's range. Figures:
-`scaling_medical.png`, `figure3_ladder_{kimi-k3,glm-5p3}.png` (0.5B panels
-removed), `model_shapes_sweep.png` (overlay by relative depth).
+The headline extraction is now **last_prompt_tok** (the paper's headline;
+see the extraction-shape section below — response_mean peaks at the
+embeddings, last_prompt_tok peaks mid-network as in the paper).
+
+Kimi / GLM: 3B −0.57/−0.59 → 7B −0.55/−0.71 → 14B −0.69/−0.79 →
+32B −0.79/−0.82 — **monotone strengthening with size under both judges**
+(all beyond the sweep-inclusive null, p05 ≈ −0.44…−0.48). Best layers are
+mid-depth at the top end (32B: L31/L32, relative depth 0.48/0.50), matching
+the paper's mid-network shape. 0.5B has no last_prompt_tok centroid locally
+(the matched-centroid fix postdates its centroid run; needs a GPU pod) and is
+excluded regardless. response_mean ladder (previous regeneration): 3B −0.82 →
+7B −0.72 → 14B −0.86 → 32B −0.85.
+
+Figures: `scaling_medical.png`, `figure3_ladder_{kimi-k3,glm-5p3}.png`,
+`model_shapes_sweep.png` — all last_prompt_tok.
+
+## Extraction shape: early vs mid layers (2026-10-24 investigation)
+
+- **response_mean peaks at the embedding layers** (L1–3: unbinned ρ
+  −0.30/−0.39/−0.40 at 7B/14B/32B), dips mid, recovers slightly late.
+- **last_prompt_tok (paper's headline) peaks mid-network** even in our data:
+  7B L14 (depth 0.50), 32B L34 (0.53; paper's 32B best ≈ L26, depth 0.40),
+  14B L11 (0.25). The early-vs-mid "divergence from the paper" was mostly
+  extraction choice, not phenomenology.
+- The early-layer response_mean signal is **not lexical**: bag-of-words
+  distance to the training set (prompt- and response-side) is flat against
+  evilness (ρ +0.01…+0.05) and partialling it out leaves the L0 correlation
+  untouched (14B: −0.336 → −0.344). No response-text leakage either — the
+  base .pt files are over the base model's own benign responses.
+- Unbinned mid-layer ρ for last_prompt_tok: −0.18…−0.31 (32B: −0.314 at L32,
+  stronger than response_mean's −0.216 at its mid layer).
 
 ## Base-model control (the missing control, now added)
 

@@ -26,15 +26,17 @@ from scipy import stats
 
 AN = "data/analysis"
 # (judge panel, [(size label, pairs csv), ...])
+# last_prompt_tok = the paper's headline extraction (prompt-side, mid-network
+# peak); response_mean peaks at the embedding layer (see results.md run 3).
 JUDGES = {
-    "Kimi K3": [("3B", f"{AN}/bad_medical__chatbot_verified__3b/pairs_response_mean_cosine.csv"),
-                ("7B", f"{AN}/bad_medical__chatbot_verified/pairs_response_mean_cosine.csv"),
-                ("14B", f"{AN}/bad_medical__chatbot_verified__14b/pairs_response_mean_cosine.csv"),
-                ("32B", f"{AN}/bad_medical__chatbot_verified__32b/pairs_response_mean_cosine.csv")],
-    "GLM 5.3": [("3B", f"{AN}/bad_medical__chatbot_verified__3b__glm53/pairs_response_mean_cosine.csv"),
-                ("7B", f"{AN}/bad_medical__chatbot_verified__glm53/pairs_response_mean_cosine.csv"),
-                ("14B", f"{AN}/bad_medical__chatbot_verified__14b__glm53/pairs_response_mean_cosine.csv"),
-                ("32B", f"{AN}/bad_medical__chatbot_verified__32b__glm53/pairs_response_mean_cosine.csv")],
+    "Kimi K3": [("3B", f"{AN}/bad_medical__chatbot_verified__3b/pairs_last_prompt_tok_cosine.csv"),
+                ("7B", f"{AN}/bad_medical__chatbot_verified/pairs_last_prompt_tok_cosine.csv"),
+                ("14B", f"{AN}/bad_medical__chatbot_verified__14b/pairs_last_prompt_tok_cosine.csv"),
+                ("32B", f"{AN}/bad_medical__chatbot_verified__32b/pairs_last_prompt_tok_cosine.csv")],
+    "GLM 5.3": [("3B", f"{AN}/bad_medical__chatbot_verified__3b__glm53/pairs_last_prompt_tok_cosine.csv"),
+                ("7B", f"{AN}/bad_medical__chatbot_verified__glm53/pairs_last_prompt_tok_cosine.csv"),
+                ("14B", f"{AN}/bad_medical__chatbot_verified__14b__glm53/pairs_last_prompt_tok_cosine.csv"),
+                ("32B", f"{AN}/bad_medical__chatbot_verified__32b__glm53/pairs_last_prompt_tok_cosine.csv")],
 }
 SIZE_STYLE = {"3B": "#9467bd", "7B": "#2ca02c", "14B": "#1f77b4", "32B": "#d62728"}
 
